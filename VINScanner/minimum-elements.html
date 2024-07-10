@@ -8,11 +8,6 @@
     <title>Dynamsoft Capture Vision - VIN Scanner</title>
   </head>
   <body>
-    <style>
-      #result-image-container {
-        width: 80vw;
-      }
-    </style>
     <h1>Hello World (Decode via Camera) - Scan VIN</h1>
     <h3 id="scan-title"></h3>
     <div style="margin-bottom: 2rem">
@@ -51,21 +46,19 @@
         const cameraView = await Dynamsoft.DCE.CameraView.createInstance(
           document.getElementById("camera-view-container")
         );
-        // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView);
+        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView); // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance(); // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
 
         cameraView.setVideoFit("cover");
         cameraView.setScanLaserVisible(true);
         await cameraEnhancer.setScanRegion({
           x: 10,
-          y: 40,
+          y: 35,
           width: 80,
           height: 20,
           isMeasuredInPercentage: true,
         });
 
-        // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
         cvRouter.setInput(cameraEnhancer);
 
         // Filter out unchecked and duplicate results.
@@ -74,10 +67,9 @@
         filter.enableResultDeduplication("barcode", true); // Filter out duplicate barcodes within 3 seconds.
         filter.enableResultCrossVerification("text_line", true); // Filter out unchecked text lines
         filter.enableResultDeduplication("text_line", true); // Filter out duplicate text lines within 3 seconds
-
         await cvRouter.addResultFilter(filter);
 
-        // Set parameters to read VIN through DLR and DBR
+        // Set parameters to read VIN through DLR, DBR, and DCP
         await cvRouter.initSettings("./resources/VIN_Template.json");
 
         // Define a callback for results.
@@ -102,7 +94,6 @@
 
               const resultType =
                 item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? "barcode" : "text";
-
               // Parse Code from CodeParser
               const parsedVIN = parseVinInfo(
                 result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
@@ -117,22 +108,12 @@
               const imageData = result.items.find(
                 (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
               )?.imageData;
-
               if (imageData) {
-                // Get Scanned VIN Image as a canvas
-                const imageCanvas = imageData.toCanvas();
-                // Resize the Scanned VIN canvas
-                const resizedCanvas = document.createElement("canvas");
-                resizedCanvas.width = resultImageContainer.clientWidth;
-                // Calculate the new height to maintain the aspect ratio
-                const aspectRatio = imageCanvas.height / imageCanvas.width;
-                resizedCanvas.height = resultImageContainer.clientWidth * aspectRatio;
-
-                // Get context of resizedCanvas to draw original image
-                const ctx = resizedCanvas.getContext("2d");
-                ctx.drawImage(imageCanvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
-
-                resultImageContainer.append(resizedCanvas);
+                const imageCanvas = imageData.toCanvas(); // Get Scanned VIN Image as a canvas
+                imageCanvas.style.width = "100%";
+                imageCanvas.style.height = "100%";
+                imageCanvas.style.objectFit = "contain";
+                resultImageContainer.append(imageCanvas);
               }
             }
           },
@@ -140,6 +121,7 @@
 
         return {
           cameraEnhancer,
+          cameraView,
           cvRouter,
         };
       };
@@ -148,28 +130,27 @@
       const scanTitle = document.getElementById("scan-title");
       const SCAN_MODES = ["barcode", "text", "both"];
       const SCAN_TEMPLATES = {
-        [SCAN_MODES[0]]: "ReadVINBarcode",
-        [SCAN_MODES[1]]: "ReadVINText",
-        [SCAN_MODES[2]]: "ReadVIN",
+        barcode: "ReadVINBarcode",
+        text: "ReadVINText",
+        both: "ReadVIN",
       };
       const SCAN_MODE_TITLES = {
-        [SCAN_MODES[0]]: "Scan by Barcode",
-        [SCAN_MODES[1]]: "Scan by Text",
-        [SCAN_MODES[2]]: "Scan Text and Barcode",
+        barcode: "Scan by Barcode",
+        text: "Scan by Text",
+        both: "Scan Text and Barcode",
       };
 
       // Create event listener for each scan modes
-      SCAN_MODES.map((mode) =>
-        document.getElementById(`scan-${mode}-button`).addEventListener("click", async function (event) {
+      SCAN_MODES.forEach((mode) =>
+        document.getElementById(`scan-${mode}-button`).addEventListener("click", async (event) => {
           try {
-            const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
-
-            // Change Page Title
+            const { cameraEnhancer, cameraView, cvRouter } = await (pInit = pInit || init());
             scanTitle.innerText = SCAN_MODE_TITLES[mode];
 
-            if (cvRouter) {
+            if (cameraEnhancer.isOpen()) {
               await cvRouter.stopCapturing();
               await cameraEnhancer.close();
+              await cameraView.clearAllInnerDrawingItems();
             }
 
             // Open camera and start scanning single barcode.
@@ -186,33 +167,30 @@
       function extractVinDetails(result) {
         if (result.exception) return {};
 
-        const parseResultInfo = {
+        return {
           Region: result.getFieldValue("region"),
           "Check Digit": result.getFieldValue("checkDigit"),
           "Model Year": result.getFieldValue("modelYear"),
           "Plant Code": result.getFieldValue("plantCode"),
           VIS: result.getFieldValue("VIS"),
         };
-
-        return parseResultInfo;
       }
 
       function parseVinInfo(result) {
-        let parsedDetails = extractVinDetails(result);
+        const parsedDetails = extractVinDetails(result);
         if (Object.keys(parsedDetails).length === 0) {
           console.error("Parse Failed!");
           return "";
         }
 
-        let formattedVIN = Object.entries(parsedDetails)
+        return Object.entries(parsedDetails)
           .map(([key, value]) => (value ? `${key}: ${value}` : ""))
-          .filter((x) => x) // Filter empty values
+          .filter(Boolean) // Filter empty values
           .join("\n");
-        return formattedVIN;
       }
 
       // Trigger "Scan Both" button click event once DOM is ready
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", () => {
         scanTitle.innerText = SCAN_MODE_TITLES["both"];
         document.getElementById("scan-both-button").click();
       });
