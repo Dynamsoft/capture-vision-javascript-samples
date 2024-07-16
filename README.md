@@ -2,9 +2,9 @@
 
 ## Samples
 
-| Sample Name  | Description                                                                          |
-| ------------ | ------------------------------------------------------------------------------------ |
-| `VINScanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
+| Sample Name   | Description                                                                          |
+| ------------  | ------------------------------------------------------------------------------------ |
+| `VIN Scanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
 
 ## License
 
