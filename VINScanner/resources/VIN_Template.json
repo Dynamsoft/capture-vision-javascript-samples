@@ -59,6 +59,46 @@
       ],
       "BarcodeTextRegExPattern": "[0-9A-HJ-NPR-Z]{9}[1-9A-HJ-NPR-TV-Y][0-9A-HJ-NPR-Z]{2}[0-9]{5}",
       "Name": "FP_1_BF_QR_CODE"
+    },
+    {
+      "BarcodeBytesLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "BarcodeFormatIds": [
+        "BF_CODE_128"
+      ],
+      "BarcodeHeightRangeArray": null,
+      "BarcodeTextLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "BarcodeTextRegExPattern": "[0-9A-HJ-NPR-Z]{9}[1-9A-HJ-NPR-TV-Y][0-9A-HJ-NPR-Z]{2}[0-9]{5}",
+      "Name": "FP_1_BF_CODE_128"
+    },
+    {
+      "BarcodeBytesLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "BarcodeFormatIds": [
+        "BF_PDF417"
+      ],
+      "BarcodeHeightRangeArray": null,
+      "BarcodeTextLengthRangeArray": [
+        {
+          "MaxValue": 2147483647,
+          "MinValue": 0
+        }
+      ],
+      "BarcodeTextRegExPattern": "[0-9A-HJ-NPR-Z]{9}[1-9A-HJ-NPR-TV-Y][0-9A-HJ-NPR-Z]{2}[0-9]{5}",
+      "Name": "FP_1_BF_PDF417"
     }
   ],
   "BarcodeReaderTaskSettingOptions": [
@@ -79,7 +119,9 @@
       "BarcodeFormatSpecificationNameArray": [
         "FP_1_BF_CODE_39_EXTENDED",
         "FP_1_BF_QR_CODE",
-        "FP_1_BF_DATAMATRIX"
+        "FP_1_BF_DATAMATRIX",
+        "FP_1_BF_CODE_128",
+        "FP_1_BF_PDF417"
       ],
       "DeformationResistingModes": [
         {
