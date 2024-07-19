@@ -298,8 +298,9 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/dlr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407182017/dist/dip.wasm"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -470,6 +471,9 @@
             }
 
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
+            // By default, cameraEnhancer captures grayscale images to optimize performance.
+            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ARGB_8888
+            cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ARGB_8888);
 
             // Update button styles to show selected and close modal
             document.querySelectorAll(".settings-option-button").forEach((button) => {
@@ -560,6 +564,9 @@
           const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
           await cameraEnhancer.open();
           await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
+          // By default, cameraEnhancer captures grayscale images to optimize performance.
+          // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ARGB_8888
+          cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ARGB_8888);
         } catch (ex) {
           showError(ex);
         } finally {

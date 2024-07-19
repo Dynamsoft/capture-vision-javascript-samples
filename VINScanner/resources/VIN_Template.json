@@ -213,6 +213,12 @@
       "StringLengthRange": [
         17,
         17
+      ],
+      "BinarizationModes": [
+        {
+          "Mode": "BM_AUTO",
+          "EnableFillBinaryVacancy": 0
+        }
       ]
     }
   ],
@@ -324,8 +330,8 @@
       ],
       "BinarizationModes": [
         {
-          "EnableFillBinaryVacancy": 1,
-          "Mode": "BM_LOCAL_BLOCK"
+          "EnableFillBinaryVacancy": 0,
+          "Mode": "BM_AUTO"
         }
       ]
     }
