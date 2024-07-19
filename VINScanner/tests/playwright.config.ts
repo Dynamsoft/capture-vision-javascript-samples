@@ -11,7 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -28,9 +28,7 @@ export default defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    /* Camera permission */
-    permissions: ['camera'],
+    trace: 'on-first-retry'
   },
 
   /* Configure projects for major browsers */
@@ -44,18 +42,37 @@ export default defineConfig({
             '--use-fake-ui-for-media-stream',
             '--use-fake-device-for-media-stream'
           ]          
-        }
+        },
+        contextOptions: {
+          /* Camera permission */
+          permissions: ['camera'],
+        },
       },
     },
-
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+        launchOptions: {
+          args: ['--disable-web-security',
+            '--enable-web-rtc'
+          ],
+          firefoxUserPrefs: {
+            'permissions.default.camera': 1, // Allow camera access automatically
+            // 'permissions.default.microphone': 1, // Allow microphone access automatically
+            'media.navigator.streams.fake': true, // Use fake streams if needed
+          },       
+        },
+       },
     },
-
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'],
+        launchOptions: {
+          args: ['--disable-web-security',
+            '--enable-web-rtc'
+          ]          
+        },
+       },
     },
 
     /* Test against mobile viewports. */
