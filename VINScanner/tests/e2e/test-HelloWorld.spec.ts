@@ -16,7 +16,7 @@ const availableResolutions:{width: number, height: number}[] = [
   { width: 3840, height: 2160 },
 ]
 
-test.describe("Vanilla Hellow World Page", () => {
+test.describe("VanillaJS Hellow World Page", () => {
   // Start the browser for each test case
   test.beforeEach(async ({ page }) => {
     // Mock the camera
@@ -47,9 +47,7 @@ test.describe("Vanilla Hellow World Page", () => {
     const currentResolution = await helloWorldPage.getResolution();
 
     // DEBUG log
-    console.log(
-      `Current Resolution: ${currentResolution.height} x ${currentResolution.width} `
-    );
+    console.log(`Current Resolution: ${currentResolution.height} x ${currentResolution.width} `);
 
     // Verify the current resolution exists in the available resolutions list.
     await expect(availableResolutions).toContainEqual(currentResolution);
@@ -67,7 +65,6 @@ test.describe("Vanilla Hellow World Page", () => {
       // Verify the returned resolutions are as expected
       expect(allResolutions).toEqual(availableResolutions);
     });
-    
   
 });
 
