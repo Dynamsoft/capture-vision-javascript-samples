@@ -475,7 +475,7 @@
 
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
             // By default, cameraEnhancer captures grayscale images to optimize performance.
-            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ARGB_8888
+            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
             cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
 
             // Update button styles to show selected and close modal
@@ -568,8 +568,8 @@
           await cameraEnhancer.open();
           await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
           // By default, cameraEnhancer captures grayscale images to optimize performance.
-          // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ARGB_8888
-          cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ARGB_8888);
+          // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
+          cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
         } catch (ex) {
           showError(ex);
         } finally {

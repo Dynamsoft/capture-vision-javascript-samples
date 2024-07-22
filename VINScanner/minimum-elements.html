@@ -161,7 +161,7 @@
             await cameraEnhancer.open();
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
             // By default, cameraEnhancer captures grayscale images to optimize performance.
-            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ARGB_8888
+            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
             cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
           } catch (ex) {
             let errMsg = ex.message || ex;
