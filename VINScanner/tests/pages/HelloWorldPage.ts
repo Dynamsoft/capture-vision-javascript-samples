@@ -1,7 +1,5 @@
-// helloWorldPage.ts
 import { Page } from '@playwright/test';
 
-// URL for the test site
 const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
 
 export class HelloWorldPage {
@@ -25,6 +23,7 @@ export class HelloWorldPage {
   }
 
   async getResolution() {
+    await this.hasCameraEnhancer();
     const res = await this.page.evaluate(() => {
       return cameraEnhancer.getResolution();
     });
@@ -32,12 +31,11 @@ export class HelloWorldPage {
   }
 
   async getAllResolutions() {
-
-    // Initialize availableResolutions and start polling in a while loop
-    let availableResolutions: { width: number; height: number;}[] | null = null;
-    const maxAttempts = 10; // Maximum number of attempts
+    await this.hasCameraEnhancer();
+    let availableResolutions: { width: number; height: number; }[] | null = null;
+    const maxAttempts = 10;
     let attempts = 0;
-    const delay = 500; // Delay between attempts in milliseconds
+    const delay = 500;
 
     while (attempts < maxAttempts && !availableResolutions) {
       availableResolutions = await this.page.evaluate(async () => {
