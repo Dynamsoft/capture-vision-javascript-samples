@@ -1,16 +1,34 @@
 import { Page } from '@playwright/test';
 
+// TODO: Update the URL when we upload the page to live server.
 const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
 
-export class HelloWorldPage {
+export class MinElementPage {
   private page: Page;
 
   constructor(page: Page) {
     this.page = page;
   }
+  async grantCameraPermission() {
+    await this.page.addScriptTag({
+      content: `
+        navigator.mediaDevices.getUserMedia = async () => {
+          return {
+            getVideoTracks: () => [{
+              applyConstraints: () => {},
+              stop: () => {},
+            }],
+            getAudioTracks: () => [],
+          };
+        };
+      `,
+    });
+  }
 
-  async navigateToHome() {
+  async navigateTo() {
+    await this.grantCameraPermission();
     await this.page.goto(URL);
+    
   }
 
   async getTitle() {
