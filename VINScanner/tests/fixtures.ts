@@ -1,15 +1,24 @@
 import { test as baseTest } from '@playwright/test';
-import { HelloWorldPage } from './pages/helloWorldPage';
+import { MinElementPage } from './pages/MinElementPage';
+import { VinScannerPage } from './pages/VinScannerPage';
 
 type MyFixtures = {
-  helloWorldPage: HelloWorldPage;
+  minElementPage: MinElementPage;
+  vinScannerPage: VinScannerPage;
 };
 
 export const test = baseTest.extend<MyFixtures>({
-  helloWorldPage: async ({ page }, use) => {
-    const helloWorldPage = new HelloWorldPage(page);
-    await use(helloWorldPage);
+  
+  
+  minElementPage: async ({ page }, use) => {
+    const minElementPage = new MinElementPage(page);
+    await use(minElementPage);
   },
+  vinScannerPage: async ({ page }, use) => {
+    const vinScannerPage = new VinScannerPage(page);
+    await use(vinScannerPage);
+  },
+  
 });
 
 export { expect } from '@playwright/test';
