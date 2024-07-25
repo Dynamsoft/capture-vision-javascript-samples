@@ -37,7 +37,8 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
         launchOptions: {
-          args: ['--disable-web-security',
+          args: [
+            '--disable-web-security',
             '--enable-web-rtc',
             '--use-fake-ui-for-media-stream',
             '--use-fake-device-for-media-stream'
@@ -51,18 +52,19 @@ export default defineConfig({
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
+      use: {
+        ...devices['Desktop Firefox'],
         launchOptions: {
-          args: ['--disable-web-security',
-            '--enable-web-rtc'
+          args: [
+            '--use-fake-device-for-media-stream',
+            '--use-fake-ui-for-media-stream'
           ],
           firefoxUserPrefs: {
             'permissions.default.camera': 1, // Allow camera access automatically
-            // 'permissions.default.microphone': 1, // Allow microphone access automatically
-            'media.navigator.streams.fake': true, // Use fake streams if needed
-          },       
-        },
-       },
+            'media.navigator.streams.fake': true // Use fake streams if needed
+          }
+        }
+      }
     },
     {
       name: 'webkit',
