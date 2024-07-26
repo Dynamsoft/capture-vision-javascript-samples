@@ -21,14 +21,14 @@
     <div id="result-image-container"></div>
     <div id="results"></div>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30/dist/dlr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/dlr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
        */
 
-      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", true);
+      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
        * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
@@ -36,6 +36,10 @@
        * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
+
+      // Dynamsoft Image Processing resource path optimized for VIN Scanning
+      Dynamsoft.Core.CoreModule.engineResourcePaths.dip =
+        "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407211855/dist";
 
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
@@ -156,6 +160,9 @@
             // Open camera and start scanning single barcode.
             await cameraEnhancer.open();
             await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
+            // By default, cameraEnhancer captures grayscale images to optimize performance.
+            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
+            cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
           } catch (ex) {
             let errMsg = ex.message || ex;
             console.error(errMsg);
