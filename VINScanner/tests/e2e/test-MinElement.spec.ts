@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures';
+import { MinElementPage } from '../pages/MinElementPage';
 
 // available resolutions
 const availableResolutions:{width: number, height: number}[] = [
@@ -37,5 +38,11 @@ test.describe('Minimum Element Page Tests', () => {
   test('should get all available resolutions', async ({ minElementPage }) => {
     const resolutions = await minElementPage.getAllResolutions();
     expect(resolutions).toEqual(availableResolutions);
+  });
+
+  test('should be able to select different resolutions', async ({ minElementPage }) => {
+    expect(minElementPage.selectResolution)
+    minElementPage.selectResolution();
+    
   });
 });
