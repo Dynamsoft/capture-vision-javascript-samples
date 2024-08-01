@@ -414,7 +414,7 @@ img {
 
   /* Fade in animation */
   opacity: 0;
-  display: block;
+  display: none;
   transition: opacity 300ms;
 }
 

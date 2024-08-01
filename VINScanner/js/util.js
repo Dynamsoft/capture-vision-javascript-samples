@@ -111,8 +111,10 @@ export function getVisibleRegionOfVideo() {
 export function showNotification(message, className) {
   notification.className = className;
   notification.innerText = message;
+  notification.style.display = "block";
   notification.style.opacity = 1;
   setTimeout(() => {
     notification.style.opacity = 0;
+    notification.style.display = "none";
   }, 2000);
 }
