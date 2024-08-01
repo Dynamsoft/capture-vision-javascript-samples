@@ -65,6 +65,7 @@ img {
   background-color: #323234;
   margin: 0 auto;
   padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .home-page .description .title {
@@ -91,6 +92,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .home-page .description .start-btn:hover {
@@ -326,6 +328,7 @@ img {
   justify-content: center;
   align-items: center;
   margin-top: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .result-container .restart-video .btn-restart-video {
@@ -357,6 +360,7 @@ img {
   color: #ffffff;
   font-family: Oswald-Light;
   font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .settings-modal-top {
@@ -382,6 +386,7 @@ img {
 
 .selected {
   background-color: #fe8e14;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close-settings-btn {
@@ -451,6 +456,7 @@ img {
 
   .home-page .description {
     width: 80%;
+    box-shadow: none;
   }
 
   .home-page .description .start-btn {
