@@ -3,212 +3,83 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Scan VINs instantly from a live camera stream with Dynamsoft Capture Vision." />
+    <meta
+      name="description"
+      content="Dynamsoft VIN Scanner accurately identifies a vehicle's unique VIN through its barcode and text lines, extracting the vehicle's information and converting it into human-readable fields."
+    />
     <meta name="keywords" content="vin, scan vin, read vin, ocr, barcode, camera, capture vision" />
-    <title>Dynamsoft Capture Vision - VIN Scanner</title>
+    <title>VIN Scanner</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.2.3000/dist/dcv.bundle.js"></script>
   </head>
   <body>
-    <style>
-      @keyframes dce-scanlight {
-        from {
-          top: 0;
-        }
-        to {
-          top: 97%;
-        }
-      }
-      @keyframes dce-rotate {
-        from {
-          transform: rotate(0turn);
-        }
-        to {
-          transform: rotate(1turn);
-        }
-      }
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", sans-serif;
-        color: #ddd;
-        overscroll-behavior-y: none;
-        overflow: hidden;
-        margin: 0;
-      }
-      #camera-view-container {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-      #camera-view-header {
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-      }
-      #top-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.5rem;
-        background-color: rgb(34, 34, 34, 0.4);
-      }
-      #top-header-center {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-      #top-header-right {
-        margin-left: auto;
-      }
-      #camera-view-title {
-        margin: 0;
-      }
-      #scan-title {
-        margin: 0;
-        margin-top: 1rem;
-        text-align: center;
-        font-weight: normal;
-      }
-      button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: white;
-      }
-      #settings-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-        z-index: 1;
-        justify-content: center;
-        align-items: center;
-      }
-      #settings-modal-content {
-        background-color: rgb(68, 68, 68);
-        padding: 2rem;
-      }
-      #settings-modal-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      .settings-option-button {
-        background-color: rgb(34, 34, 34);
-        padding: 0.5rem;
-        color: white;
-      }
-      #close-settings-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .selected {
-        background-color: #fe8e14;
-      }
-      #result-container {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgb(34, 34, 34);
-        display: none;
-        justify-content: center;
-        align-items: center;
-      }
-      #result-content {
-        background-color: rgb(68, 68, 68);
-        padding: 2rem;
-        margin: auto;
-        width: 50%;
-      }
-      #result-content-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-      }
-      #close-result-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      #save-image-button,
-      #copy-result-button {
-        background-color: #fe8e14;
-        padding: 1rem;
-        margin-top: 1rem;
-      }
-      #select-camera-dropdown {
-        color: white;
-        background-color: rgb(34, 34, 34, 0.4);
-        border: 0;
-        padding: 0.5rem;
-        font-size: 1rem;
-        overflow: hidden;
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-      #notification {
-        text-align: center;
-        font-weight: normal;
-        text-align: center;
-        border-radius: 0.2rem;
-        padding: 0.5rem;
-        margin: 0;
-        margin-top: 1rem;
-        width: -moz-fit-content;
-        width: fit-content;
-        z-index: 2;
-
-        /* Fade in animation */
-        opacity: 0;
-        transition: opacity 300ms;
-      }
-      .banner-default {
-        background-color: rgb(254, 142, 20, 0.4);
-        border: 1px solid #fe8e14;
-      }
-      .banner-error {
-        background-color: rgb(252, 2, 0, 0.4);
-        border: 1px solid #fc0200;
-      }
-      .banner-success {
-        background-color: rgb(124, 252, 0, 0.4);
-        border: 1px solid #7cfc00;
-      }
-      @media screen and (max-width: 600px) {
-        #result-content {
-          padding: 2rem;
+    <div class="home-page">
+      <img class="logo" src="./assets/logo-dynamsoft-blackBg-190x47.png" alt="dynamsoft" />
+      <div class="description">
+        <div class="title">VIN Scanner</div>
+        <div class="content">
+          Dynamsoft VIN Scanner accurately identifies a vehicle's unique VIN through its barcode and text lines,
+          extracting the vehicle's information and converting it into human-readable fields.
+        </div>
+        <button class="start-btn">Scan a VIN</button>
+      </div>
+      <div class="powered-by-msg">Powered by Dynamsoft</div>
+    </div>
+    <div class="scanner-container">
+      <div class="header">
+        <div class="camera-selector">
+          <svg data-v-10660718="" viewBox="0 0 29.308 17" class="camera-svg">
+            <g data-v-10660718="" transform="translate(-346.925 -627.702)">
+              <g data-v-10660718="" transform="translate(347.425 628.202)">
+                <g data-v-10660718="">
+                  <path
+                    data-v-10660718=""
+                    d="M365.791,644.2H348.656a1.231,1.231,0,0,1-1.231-1.231V629.433a1.231,1.231,0,0,1,1.231-1.231h16a1.231,1.231,0,0,1,1.231,1.231v14.733"
+                    transform="translate(-347.425 -628.202)"
+                    fill="none"
+                    stroke="#aaa"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  ></path>
+                  <path
+                    data-v-10660718=""
+                    d="M371.81,640.606a1.23,1.23,0,0,1-1.781,1.1l-4.923-2.462a1.229,1.229,0,0,1-.681-1.1v-4.633a1.232,1.232,0,0,1,.681-1.1l4.923-2.462a1.231,1.231,0,0,1,1.781,1.1Z"
+                    transform="translate(-343.502 -627.828)"
+                    fill="none"
+                    stroke="#aaa"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  ></path>
+                </g>
+              </g>
+            </g>
+          </svg>
+          <img class="down" src="./assets/arrow-down 1.svg" alt="down" />
+          <img class="up" src="./assets/arrow-up 1.svg" alt="up" />
+        </div>
+        <div class="camera-list"></div>
+        <div class="music-container">
+          <img class="music" src="./assets/music-selected.svg" alt="music" />
+          <img class="no-music" src="./assets/music-unselected.svg" alt="no-music" />
+        </div>
+        <span id="notification"></span>
+      </div>
+      <div
+        class="camera-view-container"
+        style="
+          position: relative;
           width: 100%;
-          height: 100%;
-        }
-        #settings-modal-content {
-          width: 100%;
-          height: 100%;
-          margin-top: 4rem;
-        }
-        #notification {
-          position: absolute;
-          bottom: 10rem;
-        }
-      }
-    </style>
-    <div id="camera-view-container">
-      <div style="position: relative; width: 100%; height: 100%">
-        <!-- DCE loading component -->
+          height: calc(100% - 46px);
+          min-width: 100px;
+          min-height: 100px;
+          background: #6f6f6f;
+        "
+      >
         <svg
-          class="dce-bg-loading"
+          class="dce-bg-loading-self"
           style="
-            display: none;
             position: absolute;
             left: 0;
             top: 0;
@@ -226,11 +97,36 @@
             d="M1760 896q0 176-68.5 336t-184 275.5-275.5 184-336 68.5-336-68.5-275.5-184-184-275.5-68.5-336q0-213 97-398.5t265-305.5 374-151v228q-221 45-366.5 221t-145.5 406q0 130 51 248.5t136.5 204 204 136.5 248.5 51 248.5-51 204-136.5 136.5-204 51-248.5q0-230-145.5-406t-366.5-221v-228q206 31 374 151t265 305.5 97 398.5z"
           />
         </svg>
+        <svg
+          class="dce-bg-camera"
+          style="
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 40%;
+            height: 40%;
+            fill: #aaa;
+          "
+          viewBox="0 0 2048 1792"
+        >
+          <path
+            d="M1024 672q119 0 203.5 84.5t84.5 203.5-84.5 203.5-203.5 84.5-203.5-84.5-84.5-203.5 84.5-203.5 203.5-84.5zm704-416q106 0 181 75t75 181v896q0 106-75 181t-181 75h-1408q-106 0-181-75t-75-181v-896q0-106 75-181t181-75h224l51-136q19-49 69.5-84.5t103.5-35.5h512q53 0 103.5 35.5t69.5 84.5l51 136h224zm-704 1152q185 0 316.5-131.5t131.5-316.5-131.5-316.5-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5z"
+          />
+        </svg>
         <div class="dce-video-container" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%"></div>
         <div
           class="dce-scanarea"
           style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden"
         >
+          <div class="scan-help-msg">Align the frame within the VIN number and start scanning</div>
+          <div class="scan-mode-container">
+            <span class="scan-mode"></span>
+            <img class="settings-btn" src="./assets/settings.svg" alt="no-music" />
+          </div>
           <div
             class="dce-scanlight"
             hidden
@@ -246,416 +142,158 @@
             "
           ></div>
         </div>
-        <div id="camera-view-header">
-          <div id="top-header">
-            <div id="top-header-center">
-              <h3 id="camera-view-title">VIN Scanner</h3>
-            </div>
-            <div id="top-header-right">
-              <button id="settings-button" type="button" title="Settings">
-                <img src="./resources/icons/settings.svg" alt="settings" style="width: 2rem; height: 2rem" />
-              </button>
-            </div>
-          </div>
-          <h3 id="scan-title"></h3>
-          <div style="display: flex; justify-content: center">
-            <h3 id="notification"></h3>
-          </div>
-        </div>
-      </div>
-      <div id="settings-modal">
-        <div id="settings-modal-content">
-          <div id="settings-modal-top">
-            <h3 style="margin: 0; text-align: left">Settings</h3>
-            <button id="close-settings-button" type="button">
-              <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
-            </button>
-          </div>
-          <!-- [Optional - Custom UI to select camera and resolution -->
-          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Select Camera</h4>
-          <select type="button" id="select-camera-dropdown"></select>
-          <h4 style="margin: 0; margin-bottom: 1rem; font-weight: normal">Scan Mode</h4>
-          <div style="display: flex; gap: 1rem">
-            <button type="button" class="settings-option-button" id="scan-both-button">Scan Text & Barcode</button>
-            <button type="button" class="settings-option-button" id="scan-text-button">Scan Text Only</button>
-            <button type="button" class="settings-option-button" id="scan-barcode-button">Scan Barcode Only</button>
-          </div>
+        <!-- The "Powered by Dynamsoft" logo can be easily removed by eliminating the following line. -->
+        <div
+          class="dce-msg-poweredby"
+          style="position: absolute; left: 50%; bottom: 10%; transform: translateX(-50%); pointer-events: none"
+        >
+          <svg viewBox="0 0 94 17" style="height: max(3vmin, 17px); fill: #ffffff">
+            <g>
+              <path
+                d="M0.9,14V4.3h2.3c0.6,0,1,0.1,1.4,0.3c0.3,0.2,0.6,0.5,0.7,0.9s0.2,0.8,0.2,1.4c0,0.5-0.1,0.9-0.2,1.3
+                C5.1,8.5,4.9,8.8,4.5,9.1C4.2,9.3,3.7,9.4,3.2,9.4H1.8V14H0.9z M1.8,8.7h1.2c0.4,0,0.7-0.1,1-0.2S4.3,8.2,4.4,8
+                c0.1-0.3,0.2-0.6,0.2-1.1c0-0.5,0-0.9-0.1-1.2C4.3,5.4,4.2,5.2,3.9,5.1S3.4,5,2.9,5H1.8V8.7z"
+              />
+              <path
+                d="M8.1,14.1c-0.5,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9s-0.2-0.9-0.2-1.4V9.6c0-0.6,0.1-1,0.2-1.4
+                C6.5,7.8,6.7,7.5,7,7.3S7.6,7,8.1,7C8.6,7,9,7.1,9.2,7.3s0.5,0.5,0.6,0.9C9.9,8.5,9.9,9,9.9,9.6v1.9c0,0.6-0.1,1-0.2,1.4
+                c-0.1,0.4-0.3,0.7-0.6,0.9S8.6,14.1,8.1,14.1z M8.1,13.4c0.3,0,0.5-0.1,0.7-0.2C8.9,13,9,12.8,9,12.5c0-0.3,0-0.6,0-1v-2
+                c0-0.4,0-0.7,0-1C9,8.2,8.9,8,8.8,7.9C8.6,7.7,8.4,7.6,8.1,7.6c-0.3,0-0.5,0.1-0.7,0.2C7.3,8,7.2,8.2,7.2,8.5c0,0.3-0.1,0.6-0.1,1
+                v2c0,0.4,0,0.7,0.1,1c0,0.3,0.1,0.5,0.3,0.7C7.6,13.4,7.8,13.4,8.1,13.4z"
+              />
+              <path d="M12,14l-1.1-6.9h0.7l0.9,5.8l1.1-5.8h0.8l1.1,5.8l0.8-5.8H17L15.9,14H15l-1.1-5.6L12.8,14H12z" />
+              <path
+                d="M19.8,14.1c-0.4,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9c-0.1-0.4-0.2-0.9-0.2-1.6V9.6c0-0.7,0.1-1.2,0.2-1.6
+                c0.1-0.4,0.3-0.7,0.6-0.8C19,7,19.3,7,19.8,7c0.5,0,0.9,0.1,1.1,0.3c0.3,0.2,0.4,0.5,0.5,0.9c0.1,0.4,0.1,1,0.1,1.6v0.6h-2.8v1.2
+                c0,0.4,0,0.8,0.1,1.1c0.1,0.3,0.2,0.4,0.3,0.6s0.3,0.2,0.6,0.2c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.3-0.4s0.1-0.5,0.1-0.8v-0.5
+                h0.9V12c0,0.6-0.1,1.1-0.4,1.5S20.4,14.1,19.8,14.1z M18.8,9.9h1.9V9.4c0-0.4,0-0.7-0.1-0.9c0-0.3-0.1-0.5-0.3-0.6S20,7.6,19.8,7.6
+                c-0.2,0-0.4,0.1-0.6,0.2c-0.1,0.1-0.3,0.3-0.3,0.6c-0.1,0.3-0.1,0.7-0.1,1.1V9.9z"
+              />
+              <path
+                d="M22.8,14V7.1h0.9V8c0.2-0.4,0.5-0.6,0.8-0.8C24.8,7.1,25,7,25.3,7c0,0,0,0,0.1,0s0.1,0,0.1,0v0.9
+                c-0.1,0-0.1,0-0.2-0.1c-0.1,0-0.2,0-0.2,0c-0.3,0-0.5,0.1-0.7,0.2c-0.2,0.1-0.4,0.3-0.6,0.6V14H22.8z"
+              />
+              <path
+                d="M28,14.1c-0.4,0-0.8-0.1-1.1-0.3s-0.5-0.5-0.6-0.9c-0.1-0.4-0.2-0.9-0.2-1.6V9.6c0-0.7,0.1-1.2,0.2-1.6
+                c0.1-0.4,0.3-0.7,0.6-0.8C27.3,7,27.6,7,28,7c0.5,0,0.9,0.1,1.1,0.3c0.3,0.2,0.4,0.5,0.5,0.9c0.1,0.4,0.1,1,0.1,1.6v0.6H27v1.2
+                c0,0.4,0,0.8,0.1,1.1c0.1,0.3,0.2,0.4,0.3,0.6s0.3,0.2,0.6,0.2c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.3-0.4s0.1-0.5,0.1-0.8v-0.5
+                h0.9V12c0,0.6-0.1,1.1-0.4,1.5S28.7,14.1,28,14.1z M27,9.9H29V9.4c0-0.4,0-0.7-0.1-0.9c0-0.3-0.1-0.5-0.3-0.6S28.3,7.6,28,7.6
+                c-0.2,0-0.4,0.1-0.6,0.2c-0.1,0.1-0.3,0.3-0.3,0.6C27.1,8.6,27,9,27,9.5V9.9z"
+              />
+              <path
+                d="M32.6,14.1c-0.6,0-1-0.2-1.3-0.7c-0.3-0.4-0.4-1.2-0.4-2.2V9.9c0-0.6,0-1.1,0.1-1.6c0.1-0.4,0.2-0.8,0.5-1
+                c0.2-0.2,0.6-0.4,1-0.4C32.8,7,33,7,33.2,7.1c0.2,0.1,0.4,0.3,0.5,0.4V4.3h0.9V14h-0.9v-0.5c-0.1,0.2-0.3,0.3-0.5,0.4
+                C33,14,32.8,14.1,32.6,14.1z M32.7,13.4c0.2,0,0.4,0,0.5-0.1c0.2-0.1,0.3-0.2,0.5-0.3V8.1c-0.1-0.1-0.3-0.2-0.4-0.3
+                c-0.2-0.1-0.4-0.2-0.6-0.2c-0.4,0-0.6,0.2-0.8,0.5S31.8,9,31.8,9.6v1.6c0,0.5,0,0.9,0.1,1.2c0.1,0.3,0.1,0.6,0.3,0.7
+                C32.3,13.3,32.5,13.4,32.7,13.4z"
+              />
+              <path
+                d="M40.5,14.1c-0.3,0-0.5-0.1-0.7-0.2c-0.2-0.1-0.4-0.3-0.5-0.4V14h-0.9V4.3h0.9v3.4c0.1-0.2,0.3-0.3,0.5-0.5
+                C40.1,7,40.3,7,40.6,7C41,7,41.2,7,41.4,7.2c0.2,0.2,0.4,0.4,0.5,0.6c0.1,0.3,0.2,0.6,0.2,0.9s0.1,0.7,0.1,1v1.5
+                c0,0.6,0,1.1-0.1,1.5c-0.1,0.4-0.3,0.8-0.5,1C41.3,14,41,14.1,40.5,14.1z M40.4,13.4c0.3,0,0.5-0.1,0.6-0.3
+                c0.1-0.2,0.2-0.4,0.3-0.8s0.1-0.7,0.1-1.2V9.7c0-0.5,0-0.8-0.1-1.1S41.1,8,41,7.9c-0.1-0.2-0.3-0.2-0.6-0.2c-0.2,0-0.4,0.1-0.6,0.2
+                c-0.2,0.1-0.3,0.2-0.5,0.4v4.7c0.1,0.1,0.3,0.3,0.5,0.4C40,13.4,40.2,13.4,40.4,13.4z"
+              />
+              <path
+                d="M43.2,15.7V15c0.4,0,0.7,0,0.9-0.1c0.2-0.1,0.3-0.1,0.4-0.3c0.1-0.1,0.1-0.2,0.1-0.4c0-0.1,0-0.3-0.1-0.5
+                c0-0.2-0.1-0.4-0.2-0.6L43,7.1h0.9l1.2,5.9l1.2-5.9h0.9l-1.7,7.4c-0.1,0.3-0.2,0.5-0.3,0.7c-0.2,0.2-0.4,0.3-0.6,0.4
+                c-0.3,0.1-0.6,0.1-1,0.1H43.2z"
+              />
+              <path
+                d="M50.6,14V4.3h2.1c0.7,0,1.2,0.1,1.6,0.4c0.4,0.2,0.6,0.6,0.8,1c0.2,0.4,0.2,0.9,0.2,1.5V11
+                c0,0.6-0.1,1.1-0.2,1.6s-0.4,0.8-0.8,1S53.5,14,52.8,14H50.6z M51.5,13.3h1.2c0.5,0,0.9-0.1,1.1-0.3s0.4-0.5,0.5-0.9
+                s0.1-0.8,0.1-1.3V7.2c0-0.5,0-0.9-0.1-1.2s-0.2-0.6-0.5-0.8S53.2,5,52.7,5h-1.2V13.3z"
+              />
+              <path
+                d="M56.5,15.7V15c0.4,0,0.7,0,0.9-0.1c0.2-0.1,0.3-0.1,0.4-0.3c0.1-0.1,0.1-0.2,0.1-0.4c0-0.1,0-0.3-0.1-0.5
+                c0-0.2-0.1-0.4-0.2-0.6l-1.4-6.1h0.9l1.2,5.9l1.2-5.9h0.9l-1.7,7.4c-0.1,0.3-0.2,0.5-0.3,0.7s-0.4,0.3-0.6,0.4s-0.6,0.1-1,0.1H56.5
+                z"
+              />
+              <path
+                d="M61.3,14V7.1h0.9v0.7c0.2-0.2,0.5-0.4,0.8-0.6C63.2,7,63.5,7,63.8,7C64,7,64.2,7,64.4,7.1s0.3,0.3,0.4,0.5
+                c0.1,0.2,0.1,0.5,0.1,0.8V14H64V8.6c0-0.4-0.1-0.6-0.2-0.8c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.6,0.2s-0.4,0.3-0.6,0.5V14
+                H61.3z"
+              />
+              <path
+                d="M67.4,14.1c-0.3,0-0.5-0.1-0.7-0.2c-0.2-0.1-0.4-0.3-0.5-0.6C66,13.1,66,12.8,66,12.6c0-0.4,0.1-0.7,0.2-0.9
+                s0.3-0.5,0.5-0.7c0.2-0.2,0.5-0.4,0.9-0.6c0.4-0.2,0.8-0.4,1.3-0.6V9.3c0-0.4,0-0.8-0.1-1c-0.1-0.2-0.1-0.4-0.3-0.5
+                c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.3,0-0.5,0.1c-0.1,0.1-0.3,0.2-0.3,0.4c-0.1,0.2-0.1,0.4-0.1,0.7V9l-0.9,0
+                c0-0.7,0.2-1.2,0.5-1.6C66.8,7.1,67.3,7,68,7c0.6,0,1.1,0.2,1.3,0.6c0.3,0.4,0.4,1,0.4,1.7v3.4c0,0.1,0,0.3,0,0.5
+                c0,0.2,0,0.4,0,0.5c0,0.2,0,0.3,0,0.4h-0.8c0-0.2-0.1-0.3-0.1-0.5c0-0.2,0-0.3-0.1-0.5c-0.1,0.3-0.3,0.5-0.5,0.7
+                S67.7,14.1,67.4,14.1z M67.6,13.4c0.2,0,0.3,0,0.5-0.1c0.1-0.1,0.3-0.2,0.4-0.3s0.2-0.3,0.3-0.4v-2.2c-0.3,0.2-0.6,0.3-0.9,0.5
+                c-0.2,0.1-0.4,0.3-0.6,0.4c-0.2,0.1-0.3,0.3-0.3,0.5s-0.1,0.4-0.1,0.6c0,0.4,0.1,0.6,0.2,0.8C67.2,13.3,67.4,13.4,67.6,13.4z"
+              />
+              <path
+                d="M70.9,14V7.1h0.8v0.7c0.2-0.3,0.5-0.5,0.8-0.6c0.3-0.1,0.6-0.2,0.9-0.2c0.2,0,0.5,0.1,0.7,0.2s0.3,0.4,0.4,0.7
+                c0.2-0.3,0.5-0.5,0.8-0.7c0.3-0.2,0.6-0.2,0.9-0.2c0.2,0,0.4,0,0.6,0.1s0.3,0.3,0.4,0.5c0.1,0.2,0.2,0.5,0.2,0.9V14h-0.8V8.6
+                c0-0.4-0.1-0.7-0.2-0.8s-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.7,0.2S74.7,8,74.5,8.3c0,0,0,0.1,0,0.1s0,0.1,0,0.1V14h-0.8V8.6
+                c0-0.4-0.1-0.7-0.2-0.8c-0.1-0.1-0.3-0.2-0.5-0.2c-0.2,0-0.4,0.1-0.7,0.2c-0.2,0.1-0.4,0.3-0.6,0.5V14H70.9z"
+              />
+              <path
+                d="M80.2,14.1c-0.6,0-1-0.2-1.3-0.5c-0.3-0.4-0.5-0.8-0.6-1.4l0.7-0.2c0,0.5,0.2,0.9,0.4,1.2
+                c0.2,0.2,0.5,0.4,0.8,0.4c0.3,0,0.5-0.1,0.7-0.3c0.2-0.2,0.2-0.4,0.2-0.7c0-0.2-0.1-0.5-0.2-0.7c-0.1-0.2-0.4-0.5-0.6-0.7l-0.9-0.8
+                c-0.3-0.3-0.5-0.5-0.7-0.8c-0.2-0.3-0.2-0.6-0.2-0.9c0-0.3,0.1-0.6,0.2-0.8c0.1-0.2,0.3-0.4,0.6-0.5C79.5,7,79.8,7,80.2,7
+                c0.5,0,0.9,0.2,1.2,0.5c0.3,0.3,0.4,0.8,0.4,1.3L81.2,9c0-0.3-0.1-0.6-0.1-0.8s-0.2-0.4-0.3-0.5c-0.1-0.1-0.3-0.1-0.5-0.1
+                c-0.3,0-0.5,0.1-0.6,0.2c-0.2,0.1-0.2,0.4-0.2,0.6c0,0.2,0,0.4,0.1,0.6c0.1,0.2,0.2,0.3,0.4,0.5l1,0.9c0.2,0.2,0.4,0.3,0.6,0.5
+                c0.2,0.2,0.3,0.4,0.4,0.6c0.1,0.2,0.2,0.5,0.2,0.8c0,0.4-0.1,0.7-0.2,0.9c-0.1,0.2-0.4,0.4-0.6,0.6C80.9,14,80.6,14.1,80.2,14.1z"
+              />
+              <path
+                d="M84.7,14.1c-0.5,0-0.8-0.1-1.1-0.3c-0.3-0.2-0.5-0.5-0.6-0.9s-0.2-0.9-0.2-1.4V9.6c0-0.6,0.1-1,0.2-1.4
+                c0.1-0.4,0.3-0.7,0.6-0.9C83.9,7.1,84.3,7,84.7,7c0.5,0,0.9,0.1,1.1,0.3s0.5,0.5,0.6,0.9c0.1,0.4,0.2,0.9,0.2,1.4v1.9
+                c0,0.6-0.1,1-0.2,1.4s-0.3,0.7-0.6,0.9S85.2,14.1,84.7,14.1z M84.7,13.4c0.3,0,0.5-0.1,0.7-0.2c0.1-0.2,0.2-0.4,0.3-0.7
+                c0-0.3,0-0.6,0-1v-2c0-0.4,0-0.7,0-1c0-0.3-0.1-0.5-0.3-0.7c-0.1-0.2-0.4-0.2-0.7-0.2c-0.3,0-0.5,0.1-0.7,0.2
+                c-0.1,0.2-0.2,0.4-0.3,0.7c0,0.3-0.1,0.6-0.1,1v2c0,0.4,0,0.7,0.1,1c0,0.3,0.1,0.5,0.3,0.7C84.2,13.4,84.4,13.4,84.7,13.4z"
+              />
+              <path
+                d="M88.2,14V7.7h-0.9V7.1h0.9V6.3c0-0.3,0-0.6,0.1-0.9c0.1-0.3,0.2-0.5,0.4-0.6c0.2-0.2,0.5-0.2,0.8-0.2
+                c0.1,0,0.2,0,0.4,0c0.1,0,0.2,0,0.3,0.1v0.6c-0.1,0-0.2,0-0.2,0c-0.1,0-0.2,0-0.2,0c-0.3,0-0.4,0.1-0.5,0.2s-0.1,0.4-0.1,0.8v0.8
+                h1.1v0.6h-1.1V14H88.2z"
+              />
+              <path
+                d="M92.7,14.1c-0.3,0-0.6-0.1-0.8-0.2s-0.3-0.3-0.4-0.5c-0.1-0.2-0.1-0.5-0.1-0.8V7.6h-0.9V7.1h0.9V4.9h0.9v2.1
+                h1.2v0.6h-1.2v4.8c0,0.3,0,0.6,0.1,0.7c0.1,0.1,0.2,0.2,0.5,0.2c0.1,0,0.2,0,0.2,0s0.2,0,0.3,0V14c-0.1,0-0.2,0-0.4,0.1
+                C92.9,14.1,92.8,14.1,92.7,14.1z"
+              />
+            </g>
+          </svg>
         </div>
       </div>
     </div>
-    <div id="result-container">
-      <div id="result-content">
-        <div id="result-content-top">
-          <h3 style="margin: 0">Result</h3>
-          <button id="close-result-button" type="button">
-            <img alt="close" src="./resources/icons/close.svg" width="18px" height="18px" />
+    <div class="result-container">
+      <div class="result-header">
+        <div class="result-title">VIN Scan Results:</div>
+        <div class="result-restart">Restart ></div>
+      </div>
+      <div id="result-image-container"></div>
+      <div class="parsed-result-area">
+        <div class="parsed-result-main"></div>
+        <div class="result-btn-container">
+          <span class="copy-result-btn">Copy Result</span>
+          <span class="save-image-btn">Save Image</span>
+        </div>
+      </div>
+      <div class="restart-video">
+        <button class="btn-restart-video">Restart Video</button>
+      </div>
+    </div>
+    <div class="settings-modal">
+      <div class="settings-modal-content">
+        <div class="settings-modal-top">
+          <div style="margin: 0; text-align: left">Settings</div>
+          <button class="close-settings-btn" type="button">
+            <img alt="close" src="./assets/close.svg" width="18px" height="18px" />
           </button>
         </div>
-        <div id="result-image-container" style="padding-bottom: 1rem"></div>
-        <div id="results"></div>
-        <button id="save-image-button" type="button">Save Image</button>
-        <button id="copy-result-button" type="button">Copy Result</button>
+        <div class="settings-option-title">Scan Mode</div>
+        <div style="display: flex; gap: 1rem">
+          <button type="button" class="settings-option-btn" id="scan-both-btn">Scan Text & Barcode</button>
+          <button type="button" class="settings-option-btn" id="scan-text-btn">Scan Text Only</button>
+          <button type="button" class="settings-option-btn" id="scan-barcode-btn">Scan Barcode Only</button>
+        </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/dlr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
-    <script>
-      /** LICENSE ALERT - README
-       * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
-       */
-
-      Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
-
-      /**
-       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
-       * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
-       * LICENSE ALERT - THE END
-       */
-
-      // Dynamsoft Image Processing resource path optimized for VIN Scanning
-      Dynamsoft.Core.CoreModule.engineResourcePaths.dip =
-        "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407211855/dist";
-
-      // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
-      Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
-
-      // DOM Elements
-      const notification = document.getElementById("notification");
-      const cameraViewContainer = document.getElementById("camera-view-container");
-      const cameraDropdownContainer = document.getElementById("select-camera-dropdown");
-      const resultContainer = document.getElementById("result-container");
-      const resultImageContainer = document.getElementById("result-image-container");
-      const results = document.getElementById("results");
-      const settingsButton = document.getElementById("settings-button");
-      const settingsModal = document.getElementById("settings-modal");
-      const closeSettingsButton = document.getElementById("close-settings-button");
-      const scanTitle = document.getElementById("scan-title");
-      const saveImageButton = document.getElementById("save-image-button");
-      const copyResultButton = document.getElementById("copy-result-button");
-      const closeResultButton = document.getElementById("close-result-button");
-
-      // Custom UI to select camera and resolution
-      // Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo
-      const availableResolutions = ["Full HD", "HD"];
-      const resolutionDimentions = {
-        "Full HD": [1920, 1080],
-        HD: [1280, 720],
-      };
-
-      const SCAN_MODES = ["barcode", "text", "both"];
-      const SCAN_TEMPLATES = {
-        barcode: "ReadVINBarcode",
-        text: "ReadVINText",
-        both: "ReadVIN",
-      };
-      const SCAN_MODE_TITLES = {
-        barcode: "Scan by Barcode",
-        text: "Scan by Text",
-        both: "Scan Text and Barcode",
-      };
-      let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
-
-      let pInit; // promise of init
-      const init = async () => {
-        // [Optional] - Create custom UI for CameraView
-        // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/user-guide/index.html#customize-the-ui
-        const cameraView = await Dynamsoft.DCE.CameraView.createInstance(cameraViewContainer);
-        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView); // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance(); // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
-
-        cameraView.setVideoFit("cover");
-        await cameraEnhancer.setScanRegion({
-          x: 10,
-          y: 35,
-          width: 80,
-          height: 20,
-          isMeasuredInPercentage: true,
-        });
-
-        cvRouter.setInput(cameraEnhancer);
-
-        // Filter out unchecked and duplicate results.
-        const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
-        filter.enableResultCrossVerification("barcode", true); // Filter out unchecked barcodes.
-        filter.enableResultDeduplication("barcode", true); // Filter out duplicate barcodes within 3 seconds.
-        filter.enableResultCrossVerification("text_line", true); // Filter out unchecked text lines
-        filter.enableResultDeduplication("text_line", true); // Filter out duplicate text lines within 3 seconds
-        await cvRouter.addResultFilter(filter);
-
-        // Set parameters to read VIN through DLR, DBR, and DCP
-        await cvRouter.initSettings("./resources/VIN_Template.json");
-
-        const EnumCRIT = Dynamsoft.Core.EnumCapturedResultItemType;
-        // Define a callback for results.
-        cvRouter.addResultReceiver({
-          onCapturedResultReceived: async (result) => {
-            if (!result.items.length) return;
-
-            for (let item of result.items) {
-              // Skip non barcodes and non text line  results
-              if (item.type != EnumCRIT.CRIT_BARCODE && item.type != EnumCRIT.CRIT_TEXT_LINE) {
-                continue;
-              }
-
-              // Reset results
-              resultImageContainer.innerHTML = "";
-              results.textContent = "";
-
-              if (item.text) {
-                // Stop Capturing if result is found
-                await cvRouter.stopCapturing();
-                await cameraEnhancer.close();
-                await cameraView.clearAllInnerDrawingItems();
-
-                resultContainer.style.display = "flex";
-
-                const resultType = item.type === EnumCRIT.CRIT_BARCODE ? "barcode" : "text";
-                const parsedVIN = parseVinInfo(
-                  result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
-                ); // Parse Code from CodeParser
-
-                const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
-                results.innerText = resultContent;
-              }
-
-              // Get Scanned VIN Image and append to results container
-              const imageData = result.items.find((item) => item.type === EnumCRIT.CRIT_ORIGINAL_IMAGE)?.imageData;
-              if (imageData) {
-                const imageCanvas = imageData.toCanvas(); // Get Scanned VIN Image as a canvas
-                imageCanvas.style.width = "100%";
-                imageCanvas.style.height = "100%";
-                imageCanvas.style.objectFit = "contain";
-                resultImageContainer.append(imageCanvas);
-              }
-            }
-          },
-        });
-
-        await cameraEnhancer.open();
-
-        // Populate a list of cameras and the resolution
-        const cameraList = await cameraEnhancer.getAllCameras();
-        // Get current camera and current resolution to set as selected
-        const currentCamera = await cameraEnhancer.getSelectedCamera();
-        const currentResolution = await cameraEnhancer.getResolution();
-
-        cameraList.forEach((camera) => {
-          availableResolutions.forEach((resolution) => {
-            const option = document.createElement("option");
-            option.innerText = `${camera.label} (${resolution})`;
-            option.value = [camera.deviceId, resolution];
-
-            if (currentCamera.deviceId === camera.deviceId && judgeCurResolution(currentResolution) === resolution) {
-              option.selected = true;
-            }
-            cameraDropdownContainer.append(option);
-          });
-        });
-
-        return {
-          cameraEnhancer,
-          cameraView,
-          cvRouter,
-        };
-      };
-
-      // Create event listener for each scan modes
-      SCAN_MODES.forEach((mode) =>
-        document.getElementById(`scan-${mode}-button`).addEventListener("click", async (event) => {
-          try {
-            const { cameraEnhancer, cameraView, cvRouter } = await (pInit = pInit || init());
-            scanTitle.innerText = SCAN_MODE_TITLES[mode]; // Change Page Title
-
-            if (cameraEnhancer.isOpen()) {
-              await cvRouter.stopCapturing();
-              await cameraView.clearAllInnerDrawingItems();
-            }
-
-            await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
-            // By default, cameraEnhancer captures grayscale images to optimize performance.
-            // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
-            cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
-
-            // Update button styles to show selected and close modal
-            document.querySelectorAll(".settings-option-button").forEach((button) => {
-              button.classList.remove("selected");
-            });
-            document.getElementById(`scan-${mode}-button`).classList.add("selected");
-            settingsModal.style.display = "none";
-            showNotification(`Scan mode switched successfully`, "banner-success");
-
-            currentMode = mode;
-          } catch (ex) {
-            showError(ex);
-          }
-        })
-      );
-
-      // Return parsed VIN info as an object
-      function extractVinDetails(result) {
-        if (result.exception) return {};
-
-        return {
-          Region: result.getFieldValue("region"),
-          "Check Digit": result.getFieldValue("checkDigit"),
-          "Model Year": result.getFieldValue("modelYear"),
-          "Plant Code": result.getFieldValue("plantCode"),
-          VIS: result.getFieldValue("VIS"),
-        };
-      }
-
-      // Return formatted parsed VIN info as string
-      function parseVinInfo(result) {
-        const parsedDetails = extractVinDetails(result);
-        if (Object.keys(parsedDetails).length === 0) {
-          console.error("Parse Failed!");
-          return "";
-        }
-
-        return Object.entries(parsedDetails)
-          .map(([key, value]) => (value ? `${key}: ${value}` : ""))
-          .filter((x) => x) // Filter empty values
-          .join("\n");
-      }
-
-      // Trigger the default scan mode button click event once DOM is ready
-      document.addEventListener("DOMContentLoaded", () => {
-        scanTitle.innerText = SCAN_MODE_TITLES[currentMode];
-        document.getElementById(`scan-${currentMode}-button`).click();
-      });
-
-      // Toggle Settings Modal
-      settingsButton.addEventListener("click", () => (settingsModal.style.display = "flex"));
-      closeSettingsButton.addEventListener("click", () => (settingsModal.style.display = "none"));
-      window.onclick = (event) => {
-        if (event.target == settingsModal) settingsModal.style.display = "none";
-      };
-
-      // Copy result
-      copyResultButton.addEventListener("click", () => {
-        const resultText = results.innerText;
-
-        navigator.clipboard
-          .writeText(resultText)
-          .then(() => {
-            showNotification("Result copied succesfully!", "banner-success");
-            console.log("Result copied successfully!");
-          })
-          .catch(showError);
-      });
-
-      // Save Image
-      saveImageButton.addEventListener("click", () => {
-        const imageCanvas = document.querySelector("#result-image-container").querySelector("canvas");
-
-        imageCanvas.toBlob((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const download = document.createElement("a");
-          download.download = Date.now().toString();
-          download.href = url;
-          download.click();
-          download.remove();
-          showNotification("Image saved successfully!", "banner-success");
-        }, "image/png");
-      });
-
-      // Close Result Container
-      closeResultButton.addEventListener("click", async (event) => {
-        try {
-          const { cameraEnhancer, cvRouter } = await (pInit = pInit || init());
-          await cameraEnhancer.open();
-          await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
-          // By default, cameraEnhancer captures grayscale images to optimize performance.
-          // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
-          cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
-        } catch (ex) {
-          showError(ex);
-        } finally {
-          resultContainer.style.display = "none";
-        }
-      });
-
-      // Event Listener to change camera and resolution
-      cameraDropdownContainer.addEventListener("change", async (event) => {
-        // Get selected cameraID and resolution from chosen option
-        const { options, selectedIndex } = event.target;
-        const [selectedCameraId, selectedRes] = (options[selectedIndex].value || "").split(",");
-        const [width, height] = resolutionDimentions[selectedRes];
-
-        // Set the cameraId and resolution
-        try {
-          const { cameraEnhancer } = await (pInit = pInit || init());
-          await cameraEnhancer.selectCamera(selectedCameraId);
-          await cameraEnhancer.setResolution({ width, height });
-
-          // Confirm if camera/resolution switch is successful
-          const currentCamera = await cameraEnhancer.getSelectedCamera();
-          const currentResolution = await cameraEnhancer.getResolution();
-
-          // Show notification status for switching camera/resolution
-          if (currentCamera.deviceId !== selectedCameraId) {
-            showNotification("Camera switch failed!", "banner-error");
-          } else if (judgeCurResolution(currentResolution) !== selectedRes) {
-            showNotification("Resolution switch failed!", "banner-error");
-
-            // Update the selected camera to the current camera if the resolution is not supported by camera
-            for (let option of options) {
-              const [optionCamera, optionRes] = (option.value || "").split(",");
-              if (optionCamera === currentCamera.deviceId && optionRes === judgeCurResolution(currentResolution)) {
-                option.selected = true;
-                // Manually dispatch a change event to update to default camera
-                const changeEvent = new Event("change", { bubbles: true });
-                event.target.dispatchEvent(changeEvent);
-                break;
-              }
-            }
-          } else {
-            showNotification(`Switched to ${currentCamera.label} (${selectedRes}) successfully!`, "banner-success");
-          }
-
-          // On switch, close the settings modal
-          settingsModal.style.display = "none";
-        } catch (ex) {
-          showError(ex);
-        }
-      });
-
-      /** Check if current resolution is Full HD or HD
-       * Ref: https://github.com/Dynamsoft/barcode-reader-javascript-demo/blob/main/src/views/BarcodeScanner.vue
-       * @params {Object} currentResolution - an object with `width` and `height` to represent the current resolution of the camera
-       * @returns {string} Either "HD" or "Full HD" depending of the resolution of the screen
-       */
-      function judgeCurResolution({ width, height }) {
-        const [minValue, maxValue] = [Math.min(width, height), Math.max(width, height)];
-
-        if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
-          return "HD";
-        } else if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
-          return "Full HD";
-        }
-      }
-
-      /** Show notification banner to users
-       * @params {string} message - noficiation message
-       * @params {string} className - CSS class name to show notification status
-       */
-      function showNotification(message, className) {
-        notification.className = className;
-        notification.innerText = message;
-        notification.style.opacity = 1;
-        setTimeout(() => {
-          notification.style.opacity = 0;
-        }, 2000);
-      }
-
-      // Show error message to users
-      function showError(ex) {
-        const errMsg = ex.message || ex;
-        console.error(errMsg);
-        alert(errMsg);
-      }
-    </script>
+    <script src="./js/const.js"></script>
+    <script type="module" src="./js/init.js"></script>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
