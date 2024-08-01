@@ -57,6 +57,7 @@ export class VinScannerPage {
   }
 
   async navigateTo() {
+    await this.grantCameraPermission();
     await this.page.goto(URL);
     this.closeDialogIfPresent();
   }

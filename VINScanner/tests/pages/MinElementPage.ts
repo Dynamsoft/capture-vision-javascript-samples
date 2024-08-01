@@ -1,14 +1,22 @@
-import { Page } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 // TODO: Update the URL when we upload the page to live server.
 const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
 
 export class MinElementPage {
   private page: Page;
+  private selResolution: Locator;
+  private options: Locator[]; 
 
   constructor(page: Page) {
     this.page = page;
+    this.selResolution = this.page.locator('select.dce-sel-resolution');
   }
+
+  async initialize() {
+    this.options = await this.selResolution.locator('option').all();
+  }
+
   async grantCameraPermission() {
     await this.page.addScriptTag({
       content: `
@@ -28,7 +36,7 @@ export class MinElementPage {
   async navigateTo() {
     await this.grantCameraPermission();
     await this.page.goto(URL);
-    
+    await this.initialize();
   }
 
   async getTitle() {
@@ -71,5 +79,15 @@ export class MinElementPage {
       attempts++;
     }    
     return availableResolutions;
+  }
+
+  async getCurrentResolution() {
+    return this.selResolution.getAttribute
+  }
+  async selectResolution() {
+    for (const res of this.options) {
+      this.selResolution.click();
+      res.click();
+    }
   }
 }
