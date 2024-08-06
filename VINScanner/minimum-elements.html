@@ -3,26 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="description" content="Scan VINs instantly from a live camera stream with Dynamsoft Capture Vision." />
+    <meta
+      name="description"
+      content="Dynamsoft VIN Scanner accurately identifies a vehicle's unique VIN through its barcode and text lines, extracting the vehicle's information and converting it into human-readable fields."
+    />
     <meta name="keywords" content="vin, scan vin, read vin, ocr, barcode, camera, capture vision" />
-    <title>Dynamsoft Capture Vision - VIN Scanner</title>
+    <title>VIN Scanner - Minimum elements</title>
   </head>
   <body>
-    <h1>Hello World (Decode via Camera) - Scan VIN</h1>
+    <h1>Scan VIN - Minimum elements</h1>
     <h3 id="scan-title"></h3>
     <div style="margin-bottom: 2rem">
-      <button type="button" id="scan-both-button">Scan Text & Barcode</button>
-      <button type="button" id="scan-text-button">Scan Text Only</button>
-      <button type="button" id="scan-barcode-button">Scan Barcode Only</button>
+      <button type="button" id="scan-both-btn">Scan Text or Barcode</button>
+      <button type="button" id="scan-text-btn">Scan Text Only</button>
+      <button type="button" id="scan-barcode-btn">Scan Barcode Only</button>
     </div>
     <div id="camera-view-container" style="height: 40vh"></div>
     <br />
     Results:
     <div id="result-image-container"></div>
     <div id="results"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-barcode-reader-bundle@10.2.1000/dist/dbr.bundle.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/dlr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-code-parser@2.2.10/dist/dcp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.2.3000/dist/dcv.bundle.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -31,15 +32,17 @@
       Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9");
 
       /**
-       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=github&product=dbr&package=js to get your own trial license good for 30 days.
+       * You can visit https://www.dynamsoft.com/customer/license/trialLicense?utm_source=samples&product=dbr&package=js to get your own trial license good for 30 days.
        * Note that if you downloaded this sample from Dynamsoft while logged in, the above license key may already be your own 30-day trial license.
-       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=github#specify-the-license or contact support@dynamsoft.com.
+       * For more information, see https://www.dynamsoft.com/barcode-reader/programming/javascript/user-guide/?ver=10.2.10&utm_source=samples#specify-the-license or contact support@dynamsoft.com.
        * LICENSE ALERT - THE END
        */
 
-      // Dynamsoft Image Processing resource path optimized for VIN Scanning
+      // Dynamsoft Image Processing and Label Recognizer resource path optimized for VIN Scanning
       Dynamsoft.Core.CoreModule.engineResourcePaths.dip =
         "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407211855/dist";
+      Dynamsoft.Core.CoreModule.engineResourcePaths.dlr =
+        "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/";
 
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
@@ -64,6 +67,8 @@
         });
 
         cvRouter.setInput(cameraEnhancer);
+        // Set parameters to read VIN through DLR, DBR, and DCP
+        await cvRouter.initSettings("./VIN_Template.json");
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
@@ -73,55 +78,50 @@
         filter.enableResultDeduplication("text_line", true); // Filter out duplicate text lines within 3 seconds
         await cvRouter.addResultFilter(filter);
 
-        // Set parameters to read VIN through DLR, DBR, and DCP
-        await cvRouter.initSettings("./resources/VIN_Template.json");
+        // Define the result receiver for the solution
+        const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+        resultReceiver.onCapturedResultReceived = (result) => {
+          const textLineResult = result.textLineResultItems;
+          const barcodeResult = result.barcodeResultItems;
+          const parsedResults = result.parsedResultItems;
 
-        // Define a callback for results.
-        cvRouter.addResultReceiver({
-          onCapturedResultReceived: async (result) => {
-            if (!result.items.length) return;
+          if (textLineResult?.length || barcodeResult?.length) {
+            // Reset results
+            const resultImageContainer = document.getElementById("result-image-container");
+            const resultsContainer = document.querySelector("#results");
+            resultImageContainer.innerHTML = "";
+            resultsContainer.textContent = "";
 
-            for (let item of result.items) {
-              // Skip non barcodes and non text line  results
-              if (
-                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE &&
-                item.type != Dynamsoft.Core.EnumCapturedResultItemType.CRIT_TEXT_LINE
-              ) {
-                continue;
-              }
+            // Add result scan type to the output
+            const resultType = textLineResult?.length ? "Text" : "Barcode";
+            const vinString = resultType === "Text" ? textLineResult[0]?.text : barcodeResult[0]?.text;
+            // If a parsed result is obtained, use it to render the result page
+            if (parsedResults) {
+              const parsedVIN = formatVin(parsedResults[0]);
 
-              // Reset results
-              const resultImageContainer = document.getElementById("result-image-container");
-              const resultsContainer = document.querySelector("#results");
-              resultImageContainer.innerHTML = "";
-              resultsContainer.textContent = "";
-
-              const resultType =
-                item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_BARCODE ? "barcode" : "text";
-              // Parse Code from CodeParser
-              const parsedVIN = parseVinInfo(
-                result.parsedResultItems.find((x) => x.taskName === `dcp_vin_${resultType}`)
-              );
-
-              if (item.text) {
-                const resultContent = `Scanned by ${resultType}\nVIN: ${item.text}\n${parsedVIN}`;
-                resultsContainer.innerText = resultContent;
-              }
-
-              // Get Scanned VIN Image and append to results container
-              const imageData = result.items.find(
-                (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
-              )?.imageData;
-              if (imageData) {
-                const imageCanvas = imageData.toCanvas(); // Get Scanned VIN Image as a canvas
-                imageCanvas.style.width = "100%";
-                imageCanvas.style.height = "100%";
-                imageCanvas.style.objectFit = "contain";
-                resultImageContainer.append(imageCanvas);
-              }
+              const resultContent = `Scanned by ${resultType}\nVIN: ${vinString}\n${parsedVIN}`;
+              resultsContainer.innerText = resultContent;
+            } else {
+              alert(`Failed to parse the content.`);
+              const resultContent = `Scanned by ${resultType}\nVIN: ${vinString}`;
+              resultsContainer.innerText = resultContent;
             }
-          },
-        });
+
+            // Get scanned VIN Image and append to results container
+            // Note: scanned image is received by setting `OutputOriginalImage: 1` in `VIN_Template.json`
+            const imageData = result.items.find(
+              (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
+            )?.imageData;
+            if (imageData) {
+              const imageCanvas = imageData.toCanvas(); // Get Scanned VIN Image as a canvas
+              imageCanvas.style.width = "100%";
+              imageCanvas.style.height = "100%";
+              imageCanvas.style.objectFit = "contain";
+              resultImageContainer.append(imageCanvas);
+            }
+          }
+        };
+        await cvRouter.addResultReceiver(resultReceiver);
 
         return {
           cameraEnhancer,
@@ -141,12 +141,12 @@
       const SCAN_MODE_TITLES = {
         barcode: "Scan by Barcode",
         text: "Scan by Text",
-        both: "Scan Text and Barcode",
+        both: "Scan Text or Barcode",
       };
 
       // Create event listener for each scan modes
       SCAN_MODES.forEach((mode) =>
-        document.getElementById(`scan-${mode}-button`).addEventListener("click", async (event) => {
+        document.getElementById(`scan-${mode}-btn`).addEventListener("click", async (event) => {
           try {
             const { cameraEnhancer, cameraView, cvRouter } = await (pInit = pInit || init());
             scanTitle.innerText = SCAN_MODE_TITLES[mode];
@@ -172,18 +172,20 @@
       );
 
       function extractVinDetails(result) {
-        if (result.exception) return {};
+        const parseResultInfo = {};
 
-        return {
-          Region: result.getFieldValue("region"),
-          "Check Digit": result.getFieldValue("checkDigit"),
-          "Model Year": result.getFieldValue("modelYear"),
-          "Plant Code": result.getFieldValue("plantCode"),
-          VIS: result.getFieldValue("VIS"),
-        };
+        if (!result.exception) {
+          parseResultInfo["Region"] = result.getFieldValue("region");
+          parseResultInfo["Check Digit"] = result.getFieldValue("checkDigit");
+          parseResultInfo["Model Year"] = result.getFieldValue("modelYear");
+          parseResultInfo["Plant Code"] = result.getFieldValue("plantCode");
+          parseResultInfo["VIS"] = result.getFieldValue("VIS");
+        }
+
+        return parseResultInfo;
       }
 
-      function parseVinInfo(result) {
+      function formatVin(result) {
         const parsedDetails = extractVinDetails(result);
         if (Object.keys(parsedDetails).length === 0) {
           console.error("Parse Failed!");
@@ -199,7 +201,7 @@
       // Trigger "Scan Both" button click event once DOM is ready
       document.addEventListener("DOMContentLoaded", () => {
         scanTitle.innerText = SCAN_MODE_TITLES["both"];
-        document.getElementById("scan-both-button").click();
+        document.getElementById("scan-both-btn").click();
       });
     </script>
   </body>
