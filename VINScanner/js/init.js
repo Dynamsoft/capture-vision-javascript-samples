@@ -44,6 +44,7 @@ async function initDCE() {
       cameraEnhancer.selectCamera(camera);
 
       showNotification("Camera switched successfully!", "banner-success");
+      cameraSelector.click();
     });
     cameraListContainer.appendChild(cameraItem);
   }

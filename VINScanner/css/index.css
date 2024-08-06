@@ -463,15 +463,6 @@ img {
     font-size: 20px;
   }
 
-  .scanner-container .camera-view-container .scan-help-msg {
-    font-size: 12px;
-    top: -35%;
-  }
-  .scanner-container .camera-view-container .scan-mode-container {
-    bottom: -45%;
-    font-size: 12px;
-  }
-
   .scanner-container .camera-view-container .scan-mode-container .settings-btn {
     width: 16px;
     height: 16px;
@@ -482,7 +473,17 @@ img {
     height: 100%;
   }
 }
+@media screen and (max-width: 1300px) {
+  .scanner-container .camera-view-container .scan-help-msg {
+    font-size: 12px;
+    top: -35%;
+  }
 
+  .scanner-container .camera-view-container .scan-mode-container {
+    bottom: -45%;
+    font-size: 12px;
+  }
+}
 @media screen and (max-width: 800px) and (orientation: landscape) {
   .result-container .parsed-result-area .parsed-filed {
     font-size: 14px;
