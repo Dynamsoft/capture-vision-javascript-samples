@@ -2,9 +2,10 @@
 
 ## Samples
 
-| Sample Name   | Description                                                                          |
-| ------------  | ------------------------------------------------------------------------------------ |
-| `VIN Scanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
+| Sample Name           | Description                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| `VIN Scanner`         | Scan the VIN code from a barcode or a text line and extract the vehicle information. |
+| `General MRZ Scanner` | Recognizes MRZ code &amp; extracts data from ID-cards, passports, and visas. Supports TD-1, TD-2, TD-3, MRV-A, and MRV-B standards. |
 
 ## License
 
