@@ -63,7 +63,6 @@ export function checkOrientation() {
 
 export function getVisibleRegionOfVideo() {
   if (!cameraView || !cameraView.getVideoElement()) return;
-
   const video = cameraView.getVideoElement();
   const { videoWidth, videoHeight } = video;
   const objectFit = cameraView.getVideoFit();

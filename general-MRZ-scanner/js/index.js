@@ -53,9 +53,9 @@ const regionLeft = () => {
     let regionCssH = document.body.clientHeight * 0.75;
     regionCssW = regionCssH * MRZ_GUIDEBOX_ASPECT_RATIO;
   } else {
-    regionCssW = document.body.clientWidth * 0.8;
+    regionCssW = document.body.clientWidth * 0.9;
   }
-  regionCssW = Math.min(regionCssW, 800);
+  regionCssW = Math.min(regionCssW, 600);
 
   const regionWidthInPixel = (visibleRegionWidth / document.body.clientWidth) * regionCssW;
   const left = ((vw - regionWidthInPixel) / 2 / vw) * 100;
@@ -78,9 +78,8 @@ const regionTop = () => {
       : Math.min(currentResolution.width, currentResolution.height);
 
   const regionWidthInPixel = vw - (regionLeft() * 2 * vw) / 100;
-  const regionHeightInPixel = regionWidthInPixel / 2;
+  const regionHeightInPixel = regionWidthInPixel / 4;
   const top = ((vh - regionHeightInPixel) / 2 / vh) * 100;
-
   return Math.round(top);
 };
 

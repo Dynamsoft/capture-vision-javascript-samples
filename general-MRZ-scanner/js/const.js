@@ -11,7 +11,7 @@ let timer = null;
 const CVR_TEMPLATE = "ReadMRZ";
 
 // Aspect Ratio of MRZ Guide Box
-const MRZ_GUIDEBOX_ASPECT_RATIO = 1.77;
+const MRZ_GUIDEBOX_ASPECT_RATIO = 6.73;
 
 // Get the UI element
 const homePage = document.querySelector(".home-page");
