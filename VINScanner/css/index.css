@@ -263,6 +263,13 @@ img {
   z-index: 2;
 }
 
+.result-container .result-btn-container {
+  color: #fe8e14;
+  padding: 15px 15px 7.5px 30px;
+  display: flex;
+  gap: 2rem;
+}
+
 .result-container .result-header {
   width: 100%;
   height: 6%;
@@ -287,7 +294,7 @@ img {
 
 .result-container .parsed-result-area {
   width: 100%;
-  padding: 15px 15px 5px 30px;
+  padding: 15px 15px 0 30px;
   overflow: auto;
 }
 
@@ -305,11 +312,6 @@ img {
 }
 .result-container .parsed-result-area .code .field-value {
   font-family: monospace;
-}
-
-.result-container .parsed-result-area .result-btn-container {
-  display: flex;
-  gap: 2rem;
 }
 
 .result-container .parsed-result-area .copy-result-btn,
