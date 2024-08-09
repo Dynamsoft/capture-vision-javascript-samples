@@ -264,10 +264,16 @@ img {
 }
 
 .result-container .result-btn-container {
-  color: #fe8e14;
   padding: 15px 15px 7.5px 30px;
   display: flex;
   gap: 2rem;
+}
+
+.result-container .result-btn-container .copy-result-btn,
+.result-container .result-btn-container .save-image-btn {
+  color: #fe8e14;
+  user-select: none;
+  cursor: pointer;
 }
 
 .result-container .result-header {
@@ -312,13 +318,6 @@ img {
 }
 .result-container .parsed-result-area .code .field-value {
   font-family: monospace;
-}
-
-.result-container .parsed-result-area .copy-result-btn,
-.result-container .parsed-result-area .save-image-btn {
-  color: #fe8e14;
-  user-select: none;
-  cursor: pointer;
 }
 
 .result-container .restart-video {
