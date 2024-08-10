@@ -90,6 +90,14 @@ let init = (async function initCVR() {
       const resultTypeElement = resultToHTMLElement("Scanned by", resultType);
       parsedResultMain.appendChild(resultTypeElement);
 
+      // Add VIN code to the output
+      const vinElement = resultToHTMLElement(
+        "VIN",
+        resultType === "Text" ? textLineResult[0]?.text : barcodeResult[0]?.text
+      );
+      vinElement.classList.add("code");
+      parsedResultMain.appendChild(vinElement);
+
       // If a parsed result is obtained, use it to render the result page
       if (parsedResults) {
         const parseResultInfo = extractVinDetails(parsedResults[0]);
@@ -102,14 +110,6 @@ let init = (async function initCVR() {
         alert(`Failed to parse the content.`);
         parsedResultArea.style.justifyContent = "flex-start";
       }
-
-      // Add VIN code to the output
-      const vinElement = resultToHTMLElement(
-        "VIN",
-        resultType === "Text" ? textLineResult[0]?.text : barcodeResult[0]?.text
-      );
-      vinElement.classList.add("code");
-      parsedResultMain.appendChild(vinElement);
 
       // Get scanned VIN Image and append to results container
       // Note: scanned image is received by setting `OutputOriginalImage: 1` in `VIN_Template.json`
