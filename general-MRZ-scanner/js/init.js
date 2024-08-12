@@ -78,6 +78,12 @@ let init = (async () => {
       isSoundOn ? Dynamsoft.DCE.Feedback.beep() : null;
 
       parsedResultArea.innerText = "";
+
+      // Add MRZ Text to Result
+      const mrzElement = resultToHTMLElement("MRZ String", formatMRZ(recognizedResults[0]?.text));
+      mrzElement.classList.add("code");
+      parsedResultArea.appendChild(mrzElement);
+
       // If a parsed result is obtained, use it to render the result page
       if (parsedResults) {
         const parseResultInfo = extractDocumentFields(parsedResults[0]);
@@ -89,11 +95,6 @@ let init = (async () => {
         alert(`Failed to parse the content.`);
         parsedResultArea.style.justifyContent = "flex-start";
       }
-      // Add MRZ Text to Result
-      const mrzElement = resultToHTMLElement("MRZ String", formatMRZ(recognizedResults[0]?.text));
-      mrzElement.classList.add("code");
-      parsedResultArea.appendChild(mrzElement);
-
       resultContainer.style.display = "flex";
       cameraListContainer.style.display = "none";
       cvRouter.stopCapturing();
