@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "dev": "vite --host"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.45.3"
+    "@playwright/test": "^1.46.1",
+    "nyc": "^17.0.0",
+    "vite": "^4.4.0"
   }
 }
