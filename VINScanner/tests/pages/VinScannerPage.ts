@@ -1,13 +1,15 @@
 import { Page, Locator } from "@playwright/test";
 
 // TODO: Update the URL when we upload the page to live server.
-const URL = "https://tst.dynamsoft.com/temp/vin-scan-dlr-dbr/index.html";
+// const URL = "https://tst.dynamsoft.com/temp/vin-scan-dlr-dbr/index.html";
+const URL = 'https://192.168.0.18:5504/VINScanner/';
 
 export class VinScannerPage {
   private page: Page;
   private headerLabel: Locator;
   private settingsButton: Locator;
   private settingsModal: Locator;
+  private startButton: Locator;
   private scanBarcodeButton: Locator;
   private scanTextButton: Locator;
   private scanBothButton: Locator;
@@ -15,12 +17,13 @@ export class VinScannerPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.headerLabel = this.page.locator("#scan-title");
-    this.settingsButton = this.page.locator("#settings-button");
-    this.settingsModal = this.page.locator("#settings-modal-content");
-    this.scanBarcodeButton = this.page.locator("#scan-barcode-button");
-    this.scanTextButton = this.page.locator("#scan-text-button");
-    this.scanBothButton = this.page.locator("#scan-both-button");
+    this.headerLabel = this.page.locator(".scan-mode");
+    this.settingsButton = this.page.locator(".settings-btn");
+    this.settingsModal = this.page.locator(".settings-modal-content");
+    this.startButton = this.page.locator(".start-btn");
+    this.scanBarcodeButton = this.page.locator("#scan-barcode-btn");
+    this.scanTextButton = this.page.locator("#scan-text-btn");
+    this.scanBothButton = this.page.locator("#scan-both-btn");
     this.dialogCloseButton = this.page.locator("i.dls-license-icon-close");
   }
 
@@ -44,16 +47,14 @@ export class VinScannerPage {
    * Close the license related dialog if it shows.
    */
   async closeDialogIfPresent() {
-
-    await this.page.waitForFunction((dialogCloseButton) => 
-      {return this.dialogCloseButton.isVisible()}, 
-      this.dialogCloseButton, 
-      {timeout: 4000})
-      .catch(console.error);
+    // Wait for 2 seconds before checking for the dialog
+    await this.page.waitForTimeout(2000);
     const isDialogCloseButtonVisible = await this.dialogCloseButton.isVisible();
+    
     if (isDialogCloseButtonVisible) {
       await this.dialogCloseButton.click();
     }
+
   }
 
   async navigateTo() {
@@ -80,13 +81,17 @@ export class VinScannerPage {
   
     return await this.headerLabel.textContent();
   }
-    
+
   async openSettingsModal() {
     await this.settingsButton.click();
   }
 
   async waitForSettingsModal() {
     await this.settingsModal.waitFor({ state: "visible" });
+  }
+
+  async clickStartButton() {
+    await this.startButton.click();
   }
 
   async clickScanBarcodeButton() {
@@ -106,4 +111,6 @@ export class VinScannerPage {
     await this.waitForSettingsModal();
     // Add interactions with the settings modal here
   }
+
+  
 }

@@ -5,11 +5,11 @@ import { test, expect } from '@playwright/test';
 2. Test whether the cameraEnhancer is initialized and working properly
 3. Test whether the cameraView is initialized and working properly
 4. Test whether the cvRouter is initialized and working properly
-5. Test whether the result is initialized and working properly
+5. Test whether the result can be populated and copied //TODO
 */
 
 // const URL = 'http://localhost:5173/VINScanner';
-const URL = 'https://192.168.1.178:5504/VINScanner/';
+const URL = 'https://192.168.0.18:5504/VINScanner/'; // Update to your live server URL for testing
 
 test.beforeEach(async ({ page }) => {
   await page.goto(URL);
@@ -54,28 +54,3 @@ test('CVRouter is initialized and working', async ({ page }) => {
   expect(hasCVRouter).toBeTruthy();
 
 });
-
-// test('Result can be populated correctly', async ({ page }) => {
-//   //TODO: Parse a VIN to generate a result
-  
-//   // Check if result is displayed
-//   // const resultText = await page.locator('.parsed-result-main');
-//   // await expect(resultText).toContainText('');
-//   // await page.click('.start-btn');
-  
-//   // // Simulate a VIN scan result
-//   // await page.evaluate(() => {
-//   //   window.dispatchEvent(new CustomEvent('cvRouterResultReady', { 
-//   //     detail: { results: [{ text: 'WBAJB0C51JB084264' }] }
-//   //   }));
-//   // });
-  
-//   // // Check if copy result button is displayed and functional
-//   // const copyButton = await page.locator('.copy-result-btn');
-//   // await expect(copyButton).toBeVisible();
-//   // await copyButton.click();
-  
-//   // // Check if save image button is displayed
-//   // const saveButton = await page.locator('.save-image-btn');
-//   // await expect(saveButton).toBeVisible();
-// });
