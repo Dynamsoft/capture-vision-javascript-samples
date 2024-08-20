@@ -1,9 +1,13 @@
 import { Page, Locator } from "@playwright/test";
+import path = require("path");
 
 // TODO: Update the URL when we upload the page to live server.
 // const URL = "https://tst.dynamsoft.com/temp/vin-scan-dlr-dbr/index.html";
-const URL = 'https://192.168.0.18:5504/VINScanner/';
-
+// const URL = 'https://192.168.0.18:5504/VINScanner/';
+const URL = `file:${path.join(
+  __dirname,
+  "../../index.html"
+)}`
 export class VinScannerPage {
   private page: Page;
   private headerLabel: Locator;
@@ -47,8 +51,7 @@ export class VinScannerPage {
    * Close the license related dialog if it shows.
    */
   async closeDialogIfPresent() {
-    // Wait for 2 seconds before checking for the dialog
-    await this.page.waitForTimeout(2000);
+
     const isDialogCloseButtonVisible = await this.dialogCloseButton.isVisible();
     
     if (isDialogCloseButtonVisible) {
