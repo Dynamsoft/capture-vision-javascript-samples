@@ -1,4 +1,4 @@
-import { extractVinDetails, resultToHTMLElement, showNotification } from "./util.js";
+import { extractVinDetails, judgeCurResolution, resultToHTMLElement, showNotification } from "./util.js";
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
@@ -37,19 +37,37 @@ async function initDCE() {
       cameraItem.deviceId = camera.deviceId;
       cameraItem.resolution = res;
 
-      cameraItem.addEventListener("click", (e) => {
+      cameraItem.addEventListener("click", async (e) => {
         e.stopPropagation();
         for (let child of cameraListContainer.childNodes) {
           child.className = "camera-item";
         }
         cameraItem.className = "camera-item camera-selected";
-        cameraEnhancer.selectCamera(camera);
-        cameraEnhancer.setResolution({
+        await cameraEnhancer.selectCamera(camera);
+        await cameraEnhancer.setResolution({
           width: resolutions[res][0],
           height: resolutions[res][1],
         });
 
-        showNotification("Camera switched successfully!", "banner-success");
+        const currentCamera = await cameraEnhancer.getSelectedCamera();
+        const currentResolution = judgeCurResolution(await cameraEnhancer.getResolution());
+        if (currentCamera.deviceId === camera.deviceId && currentResolution === res) {
+          showNotification("Camera and resolution switched successfully!", "banner-success");
+        } else if (judgeCurResolution(currentResolution) !== res) {
+          showNotification(`Resolution switch failed! ${res} is not supported.`, "banner-default");
+
+          // Update resolution to the current resolution that is supported
+          for (let child of cameraListContainer.childNodes) {
+            child.className = "camera-item";
+            if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
+              child.className = "camera-item camera-selected";
+            }
+          }
+        } else {
+          showNotification(`Camera switch failed!`, "banner-error");
+        }
+
+        // Hide options after user clicks an option
         cameraSelector.click();
       });
       cameraListContainer.appendChild(cameraItem);
