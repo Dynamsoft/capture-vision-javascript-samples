@@ -22,6 +22,11 @@ let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
 let scanOrientation = "landscape";
 
+const resolutions = {
+  "Full HD": [1920, 1080], // Full HD
+  HD: [1280, 720], // HD
+};
+
 // Get the UI element
 const homePage = document.querySelector(".home-page");
 

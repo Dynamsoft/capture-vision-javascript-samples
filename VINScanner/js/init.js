@@ -30,23 +30,30 @@ async function initDCE() {
   // Get the camera information of the device and render the camera list
   cameraList = await cameraEnhancer.getAllCameras();
   for (let camera of cameraList) {
-    const cameraItem = document.createElement("div");
-    cameraItem.className = "camera-item";
-    cameraItem.innerText = camera.label;
-    cameraItem.deviceId = camera.deviceId;
+    for (let res of Object.keys(resolutions)) {
+      const cameraItem = document.createElement("div");
+      cameraItem.className = "camera-item";
+      cameraItem.innerText = `${camera.label} (${res})`;
+      cameraItem.deviceId = camera.deviceId;
+      cameraItem.resolution = res;
 
-    cameraItem.addEventListener("click", (e) => {
-      e.stopPropagation();
-      for (let child of cameraListContainer.childNodes) {
-        child.className = "camera-item";
-      }
-      cameraItem.className = "camera-item camera-selected";
-      cameraEnhancer.selectCamera(camera);
+      cameraItem.addEventListener("click", (e) => {
+        e.stopPropagation();
+        for (let child of cameraListContainer.childNodes) {
+          child.className = "camera-item";
+        }
+        cameraItem.className = "camera-item camera-selected";
+        cameraEnhancer.selectCamera(camera);
+        cameraEnhancer.setResolution({
+          width: resolutions[res][0],
+          height: resolutions[res][1],
+        });
 
-      showNotification("Camera switched successfully!", "banner-success");
-      cameraSelector.click();
-    });
-    cameraListContainer.appendChild(cameraItem);
+        showNotification("Camera switched successfully!", "banner-success");
+        cameraSelector.click();
+      });
+      cameraListContainer.appendChild(cameraItem);
+    }
   }
   cameraView.setVideoFit("cover");
   await cameraEnhancer.setResolution({ width: 1920, height: 1080 });
