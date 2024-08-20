@@ -1,7 +1,8 @@
 import { Page, Locator } from '@playwright/test';
 
 // TODO: Update the URL when we upload the page to live server.
-const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
+// const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
+const URL = "http://localhost:5173/minimum-elements.html";
 
 export class MinElementPage {
   private page: Page;
@@ -44,7 +45,7 @@ export class MinElementPage {
   }
 
   async hasCameraEnhancer() {
-    const camExists = await this.page.waitForFunction(() => typeof cameraEnhancer !== "undefined", { timeout: 5000 });
+    const camExists = await this.page.waitForFunction(() => typeof Dynamsoft.DCE.cameraEnhancer !== "undefined", { timeout: 5000 });
     return camExists;
   }
 

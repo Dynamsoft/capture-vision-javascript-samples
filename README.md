@@ -8,11 +8,7 @@
 
 ## Testing
 
-Ensure you have @types/node installed or simply run
-
-`npm i --save-dev @types/node` in your local environment
-
-Install playwright if you don't have it already
+Install dependencies
 
 ```
 cd VINScanner
@@ -20,7 +16,7 @@ cd VINScanner
 npm install
 ```
 
-Execute playwright test by simply run
+Execute playwright code coverage test by simply run
 
 ```
 npm test

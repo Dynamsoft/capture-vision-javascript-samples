@@ -22,7 +22,7 @@ test.describe('Minimum Element Page Tests', () => {
 
   test('should display the correct title', async ({ minElementPage }) => {
     const title = await minElementPage.getTitle();
-    expect(title).toBe("Dynamsoft Barcode Reader Sample - Hello World (Decode via Camera)");
+    expect(title).toBe("VIN Scanner - Minimum elements");
   });
 
   test('should have camera enhancer available', async ({ minElementPage }) => {

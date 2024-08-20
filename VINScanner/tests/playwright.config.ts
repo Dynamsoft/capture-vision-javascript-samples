@@ -27,6 +27,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
+    headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
@@ -47,6 +48,7 @@ export default defineConfig({
         contextOptions: {
           /* Camera permission */
           permissions: ['camera'],
+          ignoreHTTPSErrors: true
         },
       },
     },
