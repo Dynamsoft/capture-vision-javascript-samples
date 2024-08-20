@@ -17,15 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Steup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      - name: Change to VINScanner directory
+        run: cd VINScanner
+
       - name: Install dependencies
-        run:
-          cd VINScanner
-          npm install
+        run: npm install
 
       - name: Install Playwright browsers
         run: npx playwright install
@@ -42,6 +43,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          path: VINScanner/playwright-report
         env:
           HOME: /root
