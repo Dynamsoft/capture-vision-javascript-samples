@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
 
 /*
 1. Test whether the license is valid
@@ -9,7 +10,8 @@ import { test, expect } from '@playwright/test';
 */
 
 // const URL = 'http://localhost:5173/VINScanner';
-const URL = 'https://192.168.0.18:5504/VINScanner/'; // Update to your live server URL for testing
+// const URL = 'https://192.168.0.18:5504/VINScanner/'; 
+const URL = `file:${path.join(__dirname, "../../index.html")}`;
 
 test.beforeEach(async ({ page }) => {
   await page.goto(URL);

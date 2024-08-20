@@ -21,14 +21,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          
-      - name: Navigate to VINScanner folder
-        run: |
-          cd VINScanner
-          echo "Current directory: $(pwd)"
 
       - name: Install dependencies
-        run: npm install
+        run:
+          cd VINScanner
+          npm install
 
       - name: Install Playwright browsers
         run: npx playwright install
