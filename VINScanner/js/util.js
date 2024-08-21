@@ -118,3 +118,13 @@ export function showNotification(message, className) {
     notification.style.display = "none";
   }, 2000);
 }
+
+/**
+ * Checks if we should show the switch scan orientation button
+ * @returns true if screen is portrait and current mode is scanning barcode, false otherwise
+ */
+export function shouldShowScanOrientation() {
+  const isScreenPortrait = window.innerHeight > window.innerWidth;
+  const isScanningBarcode = currentMode === "barcode";
+  return isScreenPortrait && isScanningBarcode;
+}

@@ -1,5 +1,5 @@
 import { init } from "./init.js";
-import { checkOrientation, getVisibleRegionOfVideo, showNotification } from "./util.js";
+import { checkOrientation, getVisibleRegionOfVideo, shouldShowScanOrientation, showNotification } from "./util.js";
 
 // Create event listener for each scan modes
 SCAN_MODES.forEach((mode) =>
@@ -8,7 +8,6 @@ SCAN_MODES.forEach((mode) =>
       (async () => {
         homePage.style.display = "none";
         scannerContainer.style.display = "block";
-        scanMode.innerText = SCAN_MODE_TITLES[mode];
 
         pInit = pInit || (await init);
 
@@ -20,28 +19,30 @@ SCAN_MODES.forEach((mode) =>
           await cameraEnhancer.open();
         }
 
+        // Highlight the selected camera in the camera list container
         const currentCamera = cameraEnhancer.getSelectedCamera();
-        for (let child of cameraListContainer.childNodes) {
+        cameraListContainer.childNodes.forEach((child) => {
           if (currentCamera.deviceId === child.deviceId) {
             child.className = "camera-item camera-selected";
           }
-        }
-        cameraEnhancer.setScanRegion(region());
+        });
 
+        // Start capturing based on the selected scan mode template
         await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
         // By default, cameraEnhancer captures grayscale images to optimize performance.
         // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
         cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
 
-        // Update button styles to show selected and close modal
-        document.querySelectorAll(".settings-option-btn").forEach((button) => {
+        // Update button styles to show selected scan mode
+        document.querySelectorAll(".scan-option-btn").forEach((button) => {
           button.classList.remove("selected");
         });
         document.querySelector(`#scan-${mode}-btn`).classList.add("selected");
-        settingsModal.style.display = "none";
         showNotification(`Scan mode switched successfully`, "banner-success");
 
+        // Update the current mode to the newly selected mode and set scan orientation based on current mode
         currentMode = mode;
+        setScanOrientation();
       })();
     } catch (ex) {
       let errMsg = ex.message || ex;
@@ -103,24 +104,26 @@ const regionTop = () => {
 };
 
 const region = () => {
-  let region = {
-    left: regionLeft(),
-    right: 100 - regionLeft(),
-    top: regionTop(),
-    bottom: 100 - regionTop(),
-    isMeasuredInPercentage: true,
-  };
+  let region =
+    scanOrientation === "landscape"
+      ? {
+          left: regionLeft(),
+          right: 100 - regionLeft(),
+          top: regionTop(),
+          bottom: 100 - regionTop(),
+          isMeasuredInPercentage: true,
+        }
+      : {
+          left: regionTop() - 10,
+          right: 100 - regionTop() + 10,
+          top: regionLeft(),
+          bottom: 75 - regionLeft(),
+          isMeasuredInPercentage: true,
+        };
+  console.log(region);
   return region;
 };
 // -----------Logic for calculating scan region ↑------------
-
-const restartVideo = async () => {
-  resultContainer.style.display = "none";
-  await cvRouter.startCapturing(SCAN_TEMPLATES[currentMode]);
-  // By default, cameraEnhancer captures grayscale images to optimize performance.
-  // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
-  cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
-};
 
 window.addEventListener("click", () => {
   cameraListContainer.style.display = "none";
@@ -132,7 +135,7 @@ window.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
-    cameraEnhancer.setScanRegion(region());
+    setScanOrientation();
   }, 500);
 });
 
@@ -141,9 +144,16 @@ startScanningBtn.addEventListener("click", () => {
   // On start, start with Scan Both template
   scanBothBtn.click();
 });
+
+// On click restart video button
+const restartVideo = async () => {
+  resultContainer.style.display = "none";
+  document.querySelector(`#scan-${currentMode}-btn`).click();
+};
 restartVideoBtn.addEventListener("click", restartVideo);
 resultRestartBtn.addEventListener("click", restartVideo);
 
+// On click camera selector
 cameraSelector.addEventListener("click", (e) => {
   e.stopPropagation();
   const isShow = cameraListContainer.style.display === "block";
@@ -152,13 +162,13 @@ cameraSelector.addEventListener("click", (e) => {
   down.style.display = isShow ? "inline-block" : "none";
 });
 
+// On click sound button
 playSoundBtn.addEventListener("click", () => {
   playSoundBtn.style.display = "none";
   closeSoundBtn.style.display = "block";
   isSoundOn = false;
   showNotification("Sound feedback off", "banner-default");
 });
-
 closeSoundBtn.addEventListener("click", () => {
   playSoundBtn.style.display = "block";
   closeSoundBtn.style.display = "none";
@@ -166,6 +176,7 @@ closeSoundBtn.addEventListener("click", () => {
   isSoundOn = true;
 });
 
+// On click copy button
 copyResultBtn.addEventListener("click", () => {
   const resultText = parsedResultMain.innerText;
 
@@ -182,6 +193,7 @@ copyResultBtn.addEventListener("click", () => {
     });
 });
 
+// On click save image button
 saveImageBtn.addEventListener("click", () => {
   const imageCanvas = resultImageContainer.querySelector("canvas");
   imageCanvas.toBlob((blob) => {
@@ -195,9 +207,48 @@ saveImageBtn.addEventListener("click", () => {
   }, "image/png");
 });
 
-// Toggle Settings Modal
-scanModeContainer.addEventListener("click", () => (settingsModal.style.display = "flex"));
-closeSettingsBtn.addEventListener("click", () => (settingsModal.style.display = "none"));
-window.onclick = (event) => {
-  if (event.target == settingsModal) settingsModal.style.display = "none";
-};
+// Toggle scan orientation
+scanOrientationBtn.addEventListener("click", () => {
+  // Only allow switch on portrait devices and scan mode is barcode
+  if (shouldShowScanOrientation()) {
+    scanOrientation = scanOrientation === "portrait" ? "landscape" : "portrait";
+    updateScanOrientationStyles();
+  } else {
+    scanOrientation = "landscape";
+  }
+  // Update camera region
+  cameraEnhancer.setScanRegion(region());
+});
+
+/**
+ * If current scan mode is "barcode", show scan orientation button
+ * Else, reset the camera scan region and hide the scan orientation button
+ */
+function setScanOrientation() {
+  scanModeContainer.style.display = "flex";
+  if (shouldShowScanOrientation()) {
+    scanOrientationBtn.style.display = "flex";
+  } else {
+    scanOrientationBtn.style.display = "none";
+    scanOrientationBtn.click(); // Ensure orientation reset
+  }
+}
+
+// Update scan orientation button styles
+function updateScanOrientationStyles() {
+  if (scanOrientation === "portrait") {
+    // Set background color for portrait orientation
+    scanOrientationBtn.style.backgroundColor = "#fe8e14";
+    // Set icon color for portrait orientation
+    scanOrientationIcon.style.filter = "invert(0)";
+    // Hide the scan help message in portrait orientation
+    scanHelpMsg.style.display = "none";
+  } else {
+    // Set background color for landscape orientation
+    scanOrientationBtn.style.backgroundColor = "rgb(34,34,34)";
+    // Set icon color for landscape orientation
+    scanOrientationIcon.style.filter = "invert(0.4)";
+    // Show the scan help message in landscape orientation
+    scanHelpMsg.style.display = "block";
+  }
+}
