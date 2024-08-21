@@ -1,12 +1,11 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 
-
-
-const URL = `file:${path.join(__dirname, "../../minimum-elements.html")}`;
+// const URL = `file:${path.join(__dirname, "../../minimum-elements.html")}`;
+const HTML_FILE = path.join(__dirname, '../../minimum-elements.html');
 
 test.beforeEach(async ({ page }) => {
-    await page.goto(URL);
+    await page.goto(`file://${HTML_FILE}`);
   });
   
 
