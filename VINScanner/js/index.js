@@ -1,14 +1,5 @@
 import { init } from "./init.js";
-import {
-  checkOrientation,
-  getVisibleRegionOfVideo,
-  resetScanOrientation,
-  shouldShowScanModeContainer,
-  shouldShowScanOrientation,
-  showNotification,
-  toggleScanOrientation,
-  judgeCurResolution,
-} from "./util.js";
+import { checkOrientation, getVisibleRegionOfVideo, shouldShowScanOrientation, showNotification } from "./util.js";
 
 // Create event listener for each scan modes
 SCAN_MODES.forEach((mode) =>
@@ -29,15 +20,16 @@ SCAN_MODES.forEach((mode) =>
         }
 
         // Highlight the selected camera in the camera list container
+        // Highlight the selected camera in the camera list container
         const currentCamera = cameraEnhancer.getSelectedCamera();
-
-        const currentResolution = judgeCurResolution(cameraEnhancer.getResolution());
         cameraListContainer.childNodes.forEach((child) => {
-          if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
+          if (currentCamera.deviceId === child.deviceId) {
             child.className = "camera-item camera-selected";
           }
         });
+        });
 
+        // Start capturing based on the selected scan mode template
         // Start capturing based on the selected scan mode template
         await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
         // By default, cameraEnhancer captures grayscale images to optimize performance.
@@ -46,14 +38,17 @@ SCAN_MODES.forEach((mode) =>
 
         // Update button styles to show selected scan mode
         document.querySelectorAll(".scan-option-btn").forEach((button) => {
+        // Update button styles to show selected scan mode
+        document.querySelectorAll(".scan-option-btn").forEach((button) => {
           button.classList.remove("selected");
         });
         document.querySelector(`#scan-${mode}-btn`).classList.add("selected");
         showNotification(`Scan mode switched successfully`, "banner-success");
 
         // Update the current mode to the newly selected mode and set scan orientation based on current mode
+        // Update the current mode to the newly selected mode and set scan orientation based on current mode
         currentMode = mode;
-        configureScanOrientation();
+        setScanOrientation();
       })();
     } catch (ex) {
       let errMsg = ex.message || ex;
@@ -127,10 +122,11 @@ const region = () => {
       : {
           left: regionTop() - 10,
           right: 100 - regionTop() + 10,
-          top: Math.max(5, regionLeft()),
+          top: regionLeft(),
           bottom: 75 - regionLeft(),
           isMeasuredInPercentage: true,
         };
+  console.log(region);
   return region;
 };
 // -----------Logic for calculating scan region ↑------------
@@ -145,7 +141,7 @@ window.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
-    configureScanOrientation();
+    setScanOrientation();
   }, 500);
 });
 
@@ -160,8 +156,16 @@ const restartVideo = async () => {
   resultContainer.style.display = "none";
   document.querySelector(`#scan-${currentMode}-btn`).click();
 };
-restartVideoBtn.addEventListener("click", restartVideo);
 
+// On click restart video button
+const restartVideo = async () => {
+  resultContainer.style.display = "none";
+  document.querySelector(`#scan-${currentMode}-btn`).click();
+};
+restartVideoBtn.addEventListener("click", restartVideo);
+resultRestartBtn.addEventListener("click", restartVideo);
+
+// On click camera selector
 // On click camera selector
 cameraSelector.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -171,6 +175,7 @@ cameraSelector.addEventListener("click", (e) => {
   down.style.display = isShow ? "inline-block" : "none";
 });
 
+// On click sound button
 // On click sound button
 playSoundBtn.addEventListener("click", () => {
   playSoundBtn.style.display = "none";
@@ -185,6 +190,7 @@ closeSoundBtn.addEventListener("click", () => {
   isSoundOn = true;
 });
 
+// On click copy button
 // On click copy button
 copyResultBtn.addEventListener("click", () => {
   const resultText = parsedResultMain.innerText;
@@ -203,6 +209,7 @@ copyResultBtn.addEventListener("click", () => {
 });
 
 // On click save image button
+// On click save image button
 saveImageBtn.addEventListener("click", () => {
   const imageCanvas = resultImageContainer.querySelector("canvas");
   imageCanvas.toBlob((blob) => {
@@ -216,47 +223,48 @@ saveImageBtn.addEventListener("click", () => {
   }, "image/png");
 });
 
+// Toggle scan orientation
+scanOrientationBtn.addEventListener("click", () => {
+  // Only allow switch on portrait devices and scan mode is barcode
+  if (shouldShowScanOrientation()) {
+    scanOrientation = scanOrientation === "portrait" ? "landscape" : "portrait";
+    updateScanOrientationStyles();
+  } else {
+    scanOrientation = "landscape";
+  }
+  // Update camera region
+  cameraEnhancer.setScanRegion(region());
+});
+
 /**
- * Sets up the scan orientation button visibility and resets the camera region
- * based on the current scan mode and device orientation
+ * If current scan mode is "barcode", show scan orientation button
+ * Else, reset the camera scan region and hide the scan orientation button
  */
-function configureScanOrientation() {
-  shouldShowScanModeContainer();
+function setScanOrientation() {
+  scanModeContainer.style.display = "flex";
   if (shouldShowScanOrientation()) {
     scanOrientationBtn.style.display = "flex";
   } else {
     scanOrientationBtn.style.display = "none";
-    resetScanOrientation(); // Reset scan orientation to landscape
+    scanOrientationBtn.click(); // Ensure orientation reset
   }
-  cameraEnhancer.setScanRegion(region()); // Update cameraEnhancer scan region
-  updateScanOrientationStyles(); // update scan orientation button styles
 }
 
-/**
- * Applies the UI styles for the scan orientation button and scan help message
- * based on the current scan orientation.
- */
+// Update scan orientation button styles
 function updateScanOrientationStyles() {
   if (scanOrientation === "portrait") {
+    // Set background color for portrait orientation
     scanOrientationBtn.style.backgroundColor = "#fe8e14";
+    // Set icon color for portrait orientation
     scanOrientationIcon.style.filter = "invert(0)";
-    scanHelpMsg.style.display = "none"; // Hide the scan help message in portrait orientation
+    // Hide the scan help message in portrait orientation
+    scanHelpMsg.style.display = "none";
   } else {
+    // Set background color for landscape orientation
     scanOrientationBtn.style.backgroundColor = "rgb(34,34,34)";
+    // Set icon color for landscape orientation
     scanOrientationIcon.style.filter = "invert(0.4)";
-    scanHelpMsg.style.display = "block"; // Show the scan help message in landscape orientation
+    // Show the scan help message in landscape orientation
+    scanHelpMsg.style.display = "block";
   }
 }
-
-// On click scan orientation button
-scanOrientationBtn.addEventListener("click", () => {
-  // Only allow switch on portrait devices and scan mode is barcode
-  if (shouldShowScanOrientation()) {
-    toggleScanOrientation();
-  } else {
-    resetScanOrientation();
-  }
-  // Update camera region
-  cameraEnhancer.setScanRegion(region());
-  updateScanOrientationStyles();
-});

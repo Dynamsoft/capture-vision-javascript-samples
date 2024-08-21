@@ -18,11 +18,6 @@ let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
 let scanOrientation = "landscape";
 
-const resolutions = {
-  "Full HD": [1920, 1080], // Full HD
-  HD: [1280, 720], // HD
-};
-
 // Get the UI element
 const homePage = document.querySelector(".home-page");
 
@@ -36,6 +31,7 @@ const cameraSelector = document.querySelector(".camera-selector");
 const scannerContainer = document.querySelector(".scanner-container");
 const startScanningBtn = document.querySelector(".start-btn");
 
+const scanHelpMsg = document.querySelector(".scan-help-msg");
 const scanHelpMsg = document.querySelector(".scan-help-msg");
 const scanModeContainer = document.querySelector(".scan-mode-container");
 
@@ -55,6 +51,9 @@ const down = document.querySelector(".down");
 const up = document.querySelector(".up");
 
 const notification = document.querySelector("#notification");
+
+const scanOrientationBtn = document.querySelector(".scan-orientation-btn");
+const scanOrientationIcon = document.querySelector(".scan-orientation-icon");
 
 const scanOrientationBtn = document.querySelector(".scan-orientation-btn");
 const scanOrientationIcon = document.querySelector(".scan-orientation-icon");
