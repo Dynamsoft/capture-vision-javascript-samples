@@ -1,5 +1,4 @@
 import { test, expect } from '../fixtures';
-import { MinElementPage } from '../pages/MinElementPage';
 
 // available resolutions
 const availableResolutions:{width: number, height: number}[] = [
