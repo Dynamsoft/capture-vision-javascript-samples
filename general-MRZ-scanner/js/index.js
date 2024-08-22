@@ -1,4 +1,5 @@
 import { init, pDataLoad } from "./init.js";
+import { judgeCurResolution } from "./util.js";
 import { checkOrientation, getVisibleRegionOfVideo } from "./util.js";
 
 function startCapturing(mode) {
@@ -21,8 +22,9 @@ function startCapturing(mode) {
 
       // Highlight the selected camera in the camera list container
       const currentCamera = cameraEnhancer.getSelectedCamera();
+      const currentResolution = judgeCurResolution(cameraEnhancer.getResolution());
       cameraListContainer.childNodes.forEach((child) => {
-        if (currentCamera.deviceId === child.deviceId) {
+        if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
           child.className = "camera-item camera-selected";
         }
       });

@@ -158,3 +158,19 @@ export function formatMRZ(mrzString = "") {
 
   return formattedMRZ;
 }
+
+/** Check if current resolution is Full HD or HD
+ * @params {Object} currentResolution - an object with `width` and `height` to represent the current resolution of the camera
+ * @returns {string} Either "HD" or "Full HD" depending of the resolution of the screen
+ */
+export const judgeCurResolution = (currentResolution) => {
+  const { width, height } = currentResolution;
+  const minValue = Math.min(width, height);
+  const maxValue = Math.max(width, height);
+
+  if (minValue > 480 && minValue < 960 && maxValue > 960 && maxValue < 1440) {
+    return "HD";
+  } else if (minValue > 900 && minValue < 1440 && maxValue > 1400 && maxValue < 2160) {
+    return "Full HD";
+  }
+};

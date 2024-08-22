@@ -15,6 +15,11 @@ const SCAN_TEMPLATES = {
 };
 let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
+const resolutions = {
+  "Full HD": [1920, 1080], // Full HD
+  HD: [1280, 720], // HD
+};
+
 // Aspect Ratio of MRZ Guide Box
 const MRZ_GUIDEBOX_ASPECT_RATIO = 6.73;
 
