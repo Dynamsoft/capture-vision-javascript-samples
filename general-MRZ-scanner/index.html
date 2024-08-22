@@ -3,12 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>General MRZ Scanner</title>
-    <meta
-      name="description"
-      content="Recognizes MRZ code and extracts data instantly  with Dynamsoft Capture Vision."
-    />
-    <meta name="keywords" content="scan mrz, read mrz, scan passport, scan visa, read passport, read visa" />
+    <title>Dynamsoft MRZ Scanner</title>
+    <meta name="description" content="Recognizes MRZ code and extracts data instantly with Dynamsoft Capture Vision." />
+    <meta name="keywords" content="scan mrz, read mrz, scan passport, scan visa, read passport, read visa, scan id," />
     <link rel="stylesheet" href="./css/index.css" />
     <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.2.3000/dist/dcv.bundle.js"></script>
   </head>
@@ -16,12 +13,12 @@
     <div class="home-page">
       <img class="logo" src="./assets/logo-dynamsoft-blackBg-190x47.png" alt="dynamsoft" />
       <div class="description">
-        <div class="title">General MRZ Scanner</div>
+        <div class="title">MRZ Scanner</div>
         <div class="content">
-          Recognizes MRZ code &amp; extracts data from ID-cards, passports, and visas. Supports TD-1, TD-2, TD-3, MRV-A,
-          and MRV-B standards.
+          Dynamsoft MRZ Scanner recognizes the Machine-Readable Zone (MRZ) on a passport or ID card and converts the
+          encoded strings into human-readable fields
         </div>
-        <button type="button" class="start-btn">Start Scan</button>
+        <button type="button" class="start-btn">Scan an MRZ</button>
       </div>
       <div class="powered-by-msg">Powered by Dynamsoft</div>
     </div>
@@ -267,6 +264,13 @@
       <div class="parsed-result-area"></div>
       <div class="restart-video">
         <button class="btn-restart-video">Restart Video</button>
+      </div>
+    </div>
+    <div class="scan-mode-container">
+      <div class="scan-mode-content">
+        <button type="button" class="scan-option-btn" id="scan-id-btn">ID</button>
+        <button type="button" class="scan-option-btn" id="scan-passport-btn">Passport</button>
+        <button type="button" class="scan-option-btn" id="scan-both-btn">Both</button>
       </div>
     </div>
     <script src="./js/const.js"></script>

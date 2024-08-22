@@ -97,6 +97,8 @@ let init = (async () => {
       }
       resultContainer.style.display = "flex";
       cameraListContainer.style.display = "none";
+      scanModeContainer.style.display = "none";
+
       cvRouter.stopCapturing();
       cameraView.clearAllInnerDrawingItems();
     }

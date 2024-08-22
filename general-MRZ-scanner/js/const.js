@@ -7,8 +7,13 @@ let pInit = null; // Promise of init
 let isSoundOn = true;
 let timer = null;
 
-// CaptureVisionRouter Template
-const CVR_TEMPLATE = "ReadMRZ";
+const SCAN_MODES = ["id", "passport", "both"];
+const SCAN_TEMPLATES = {
+  id: "ReadId",
+  passport: "ReadPassport",
+  both: "ReadPassportAndId",
+};
+let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
 // Aspect Ratio of MRZ Guide Box
 const MRZ_GUIDEBOX_ASPECT_RATIO = 6.73;
@@ -29,6 +34,9 @@ const resultContainer = document.querySelector(".result-container");
 const parsedResultArea = document.querySelector(".parsed-result-area");
 
 const startScaningBtn = document.querySelector(".start-btn");
+
+const scanModeContainer = document.querySelector(".scan-mode-container");
+const scanBothBtn = document.querySelector("#scan-both-btn");
 
 const resultRestartBtn = document.querySelector(".result-restart");
 const restartVideoBtn = document.querySelector(".btn-restart-video");

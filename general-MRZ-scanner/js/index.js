@@ -1,40 +1,58 @@
 import { init, pDataLoad } from "./init.js";
 import { checkOrientation, getVisibleRegionOfVideo } from "./util.js";
 
-async function startCapturing() {
+function startCapturing(mode) {
   try {
-    await (pInit =
-      pInit ||
-      (async () => {
-        homePage.style.display = "none";
-        scannerContainer.style.display = "block";
+    (async () => {
+      homePage.style.display = "none";
+      scannerContainer.style.display = "block";
 
-        // Open the camera after the model and .wasm files have loaded
-        await init;
-        await pDataLoad.promise;
+      // Open the camera after the model and .wasm files have loaded
+      pInit = pInit || (await init);
+      await pDataLoad.promise;
 
-        // Starts streaming the video
+      // Starts streaming the video
+      if (cameraEnhancer.isOpen()) {
+        await cvRouter.stopCapturing();
+        await cameraView.clearAllInnerDrawingItems();
+      } else {
         await cameraEnhancer.open();
-        const currentCamera = cameraEnhancer.getSelectedCamera();
-        for (let child of cameraListContainer.childNodes) {
-          if (currentCamera.deviceId === child.deviceId) {
-            child.className = "camera-item camera-selected";
-          }
+      }
+
+      // Highlight the selected camera in the camera list container
+      const currentCamera = cameraEnhancer.getSelectedCamera();
+      cameraListContainer.childNodes.forEach((child) => {
+        if (currentCamera.deviceId === child.deviceId) {
+          child.className = "camera-item camera-selected";
         }
-        cameraEnhancer.setScanRegion(region());
-        cameraView.setScanRegionMaskVisible(false);
+      });
+      cameraEnhancer.setScanRegion(region());
+      cameraView.setScanRegionMaskVisible(false);
 
-        // Show MRZ guide frame
-        mrzGuideFrame.style.display = "inline-block";
+      // Show MRZ guide frame
+      mrzGuideFrame.style.display = "inline-block";
 
-        await cvRouter.startCapturing(CVR_TEMPLATE);
-      })());
+      await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
+
+      // Update button styles to show selected scan mode
+      document.querySelectorAll(".scan-option-btn").forEach((button) => {
+        button.classList.remove("selected");
+      });
+      document.querySelector(`#scan-${mode}-btn`).classList.add("selected");
+
+      currentMode = mode;
+      scanModeContainer.style.display = "flex";
+    })();
   } catch (ex) {
     let errMsg = ex.message || ex;
     console.error(errMsg);
     alert(errMsg);
   }
 }
+
+SCAN_MODES.forEach((mode) =>
+  document.querySelector(`#scan-${mode}-btn`).addEventListener("click", () => startCapturing(mode))
+);
 
 // -----------Logic for calculating scan region ↓------------
 const regionLeft = () => {
@@ -97,7 +115,7 @@ const region = () => {
 
 const restartVideo = async () => {
   resultContainer.style.display = "none";
-  await cvRouter.startCapturing(CVR_TEMPLATE);
+  document.querySelector(`#scan-${currentMode}-btn`).click();
 };
 
 window.addEventListener("click", () => {
@@ -118,7 +136,7 @@ window.addEventListener("resize", () => {
 });
 
 // Add click events to buttons
-startScaningBtn.addEventListener("click", startCapturing);
+startScaningBtn.addEventListener("click", () => scanBothBtn.click());
 restartVideoBtn.addEventListener("click", restartVideo);
 resultRestartBtn.addEventListener("click", restartVideo);
 
