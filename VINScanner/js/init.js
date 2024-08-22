@@ -102,8 +102,10 @@ let init = (async function initCVR() {
         const parseResultInfo = extractVinDetails(parsedResults[0]);
 
         Object.entries(parseResultInfo).map(([field, value]) => {
-          const resultElement = resultToHTMLElement(field, value);
-          parsedResultMain.appendChild(resultElement);
+          if (value) {
+            const resultElement = resultToHTMLElement(field, value);
+            parsedResultMain.appendChild(resultElement);
+          }
         });
       } else {
         alert(`Failed to parse the content.`);
