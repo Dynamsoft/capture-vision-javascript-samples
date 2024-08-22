@@ -1,5 +1,12 @@
 import { init } from "./init.js";
-import { checkOrientation, getVisibleRegionOfVideo, shouldShowScanOrientation, showNotification } from "./util.js";
+import {
+  checkOrientation,
+  getVisibleRegionOfVideo,
+  resetScanOrientation,
+  shouldShowScanOrientation,
+  showNotification,
+  toggleScanOrientation,
+} from "./util.js";
 
 // Create event listener for each scan modes
 SCAN_MODES.forEach((mode) =>
@@ -48,7 +55,7 @@ SCAN_MODES.forEach((mode) =>
         // Update the current mode to the newly selected mode and set scan orientation based on current mode
         // Update the current mode to the newly selected mode and set scan orientation based on current mode
         currentMode = mode;
-        setScanOrientation();
+        configureScanOrientation();
       })();
     } catch (ex) {
       let errMsg = ex.message || ex;
@@ -122,11 +129,10 @@ const region = () => {
       : {
           left: regionTop() - 10,
           right: 100 - regionTop() + 10,
-          top: regionLeft(),
+          top: Math.max(5, regionLeft()),
           bottom: 75 - regionLeft(),
           isMeasuredInPercentage: true,
         };
-  console.log(region);
   return region;
 };
 // -----------Logic for calculating scan region ↑------------
@@ -141,7 +147,7 @@ window.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
-    setScanOrientation();
+    configureScanOrientation();
   }, 500);
 });
 
@@ -223,48 +229,47 @@ saveImageBtn.addEventListener("click", () => {
   }, "image/png");
 });
 
-// Toggle scan orientation
-scanOrientationBtn.addEventListener("click", () => {
-  // Only allow switch on portrait devices and scan mode is barcode
-  if (shouldShowScanOrientation()) {
-    scanOrientation = scanOrientation === "portrait" ? "landscape" : "portrait";
-    updateScanOrientationStyles();
-  } else {
-    scanOrientation = "landscape";
-  }
-  // Update camera region
-  cameraEnhancer.setScanRegion(region());
-});
-
 /**
- * If current scan mode is "barcode", show scan orientation button
- * Else, reset the camera scan region and hide the scan orientation button
+ * Sets up the scan orientation button visibility and resets the camera region
+ * based on the current scan mode and device orientation
  */
-function setScanOrientation() {
+function configureScanOrientation() {
   scanModeContainer.style.display = "flex";
   if (shouldShowScanOrientation()) {
     scanOrientationBtn.style.display = "flex";
   } else {
     scanOrientationBtn.style.display = "none";
-    scanOrientationBtn.click(); // Ensure orientation reset
+    resetScanOrientation(); // Reset scan orientation to landscape
+  }
+  cameraEnhancer.setScanRegion(region()); // Update cameraEnhancer scan region
+  updateScanOrientationStyles(); // update scan orientation button styles
+}
+
+/**
+ * Applies the UI styles for the scan orientation button and scan help message
+ * based on the current scan orientation.
+ */
+function updateScanOrientationStyles() {
+  if (scanOrientation === "portrait") {
+    scanOrientationBtn.style.backgroundColor = "#fe8e14";
+    scanOrientationIcon.style.filter = "invert(0)";
+    scanHelpMsg.style.display = "none"; // Hide the scan help message in portrait orientation
+  } else {
+    scanOrientationBtn.style.backgroundColor = "rgb(34,34,34)";
+    scanOrientationIcon.style.filter = "invert(0.4)";
+    scanHelpMsg.style.display = "block"; // Show the scan help message in landscape orientation
   }
 }
 
-// Update scan orientation button styles
-function updateScanOrientationStyles() {
-  if (scanOrientation === "portrait") {
-    // Set background color for portrait orientation
-    scanOrientationBtn.style.backgroundColor = "#fe8e14";
-    // Set icon color for portrait orientation
-    scanOrientationIcon.style.filter = "invert(0)";
-    // Hide the scan help message in portrait orientation
-    scanHelpMsg.style.display = "none";
+// On click scan orientation button
+scanOrientationBtn.addEventListener("click", () => {
+  // Only allow switch on portrait devices and scan mode is barcode
+  if (shouldShowScanOrientation()) {
+    toggleScanOrientation();
   } else {
-    // Set background color for landscape orientation
-    scanOrientationBtn.style.backgroundColor = "rgb(34,34,34)";
-    // Set icon color for landscape orientation
-    scanOrientationIcon.style.filter = "invert(0.4)";
-    // Show the scan help message in landscape orientation
-    scanHelpMsg.style.display = "block";
+    resetScanOrientation();
   }
-}
+  // Update camera region
+  cameraEnhancer.setScanRegion(region());
+  updateScanOrientationStyles();
+});
