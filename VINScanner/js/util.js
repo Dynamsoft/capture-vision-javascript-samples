@@ -120,6 +120,20 @@ export function showNotification(message, className) {
 }
 
 /**
+ * Toggles the scan roientation between 'portrait' and 'landscape'
+ */
+export function toggleScanOrientation() {
+  scanOrientation = scanOrientation === "portrait" ? "landscape" : "portrait";
+}
+
+/**
+ * Reset scan orientation to 'landscape'
+ */
+export function resetScanOrientation() {
+  scanOrientation = "landscape";
+}
+
+/**
  * Checks if we should show the switch scan orientation button
  * @returns true if screen is portrait and current mode is scanning barcode, false otherwise
  */
