@@ -113,11 +113,6 @@ const region = () => {
 };
 // -----------Logic for calculating scan region ↑------------
 
-const restartVideo = async () => {
-  resultContainer.style.display = "none";
-  document.querySelector(`#scan-${currentMode}-btn`).click();
-};
-
 window.addEventListener("click", () => {
   cameraListContainer.style.display = "none";
   up.style.display = "none";
@@ -137,8 +132,11 @@ window.addEventListener("resize", () => {
 
 // Add click events to buttons
 startScaningBtn.addEventListener("click", () => scanBothBtn.click());
+const restartVideo = async () => {
+  resultContainer.style.display = "none";
+  document.querySelector(`#scan-${currentMode}-btn`).click();
+};
 restartVideoBtn.addEventListener("click", restartVideo);
-resultRestartBtn.addEventListener("click", restartVideo);
 
 cameraSelector.addEventListener("click", (e) => {
   e.stopPropagation();

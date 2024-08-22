@@ -38,7 +38,6 @@ const startScaningBtn = document.querySelector(".start-btn");
 const scanModeContainer = document.querySelector(".scan-mode-container");
 const scanBothBtn = document.querySelector("#scan-both-btn");
 
-const resultRestartBtn = document.querySelector(".result-restart");
 const restartVideoBtn = document.querySelector(".btn-restart-video");
 
 const playSoundBtn = document.querySelector(".music");
