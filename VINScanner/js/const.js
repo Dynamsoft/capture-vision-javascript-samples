@@ -46,7 +46,6 @@ const resultImageContainer = document.querySelector("#result-image-container");
 const copyResultBtn = document.querySelector(".copy-result-btn");
 const saveImageBtn = document.querySelector(".save-image-btn");
 
-const resultRestartBtn = document.querySelector(".result-restart");
 const restartVideoBtn = document.querySelector(".btn-restart-video");
 
 const playSoundBtn = document.querySelector(".music");

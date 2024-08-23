@@ -158,7 +158,6 @@ const restartVideo = async () => {
   document.querySelector(`#scan-${currentMode}-btn`).click();
 };
 restartVideoBtn.addEventListener("click", restartVideo);
-resultRestartBtn.addEventListener("click", restartVideo);
 
 // On click camera selector
 cameraSelector.addEventListener("click", (e) => {
