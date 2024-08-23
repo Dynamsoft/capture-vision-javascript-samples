@@ -174,3 +174,13 @@ export const judgeCurResolution = (currentResolution) => {
     return "Full HD";
   }
 };
+
+/**
+ * Checks if we should show the switch scan mode buttons
+ * @returns true if cameraEnhancer is open, false otherwise
+ */
+export function shouldShowScanModeContainer() {
+  const isHomepageClosed = homePage.style.display === "none";
+  const isResultClosed = resultContainer.style.display === "none" || resultContainer.style.display === "";
+  scanModeContainer.style.display = isHomepageClosed && isResultClosed ? "flex" : "none";
+}

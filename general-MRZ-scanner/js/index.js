@@ -1,5 +1,5 @@
 import { init, pDataLoad } from "./init.js";
-import { judgeCurResolution } from "./util.js";
+import { judgeCurResolution, shouldShowScanModeContainer } from "./util.js";
 import { checkOrientation, getVisibleRegionOfVideo } from "./util.js";
 
 function startCapturing(mode) {
@@ -126,6 +126,7 @@ window.addEventListener("resize", () => {
   mrzGuideFrame.style.display = "none";
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
+    shouldShowScanModeContainer();
     mrzGuideFrame.style.display = "inline-block";
     cameraEnhancer.setScanRegion(region());
     cameraView.setScanRegionMaskVisible(false);
