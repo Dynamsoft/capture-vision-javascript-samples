@@ -149,6 +149,6 @@ export function shouldShowScanOrientation() {
  */
 export function shouldShowScanModeContainer() {
   const isHomepageClosed = homePage.style.display === "none";
-  const isResultClosed = resultContainer.style.display === "none";
+  const isResultClosed = resultContainer.style.display === "none" || resultContainer.style.display === "";
   scanModeContainer.style.display = isHomepageClosed && isResultClosed ? "flex" : "none";
 }
