@@ -142,3 +142,13 @@ export function shouldShowScanOrientation() {
   const isScanningBarcode = currentMode === "barcode";
   return isScreenPortrait && isScanningBarcode;
 }
+
+/**
+ * Checks if we should show the switch scan mode buttons
+ * @returns true if cameraEnhancer is open, false otherwise
+ */
+export function shouldShowScanModeContainer() {
+  const isHomepageClosed = homePage.style.display === "none";
+  const isResultClosed = resultContainer.style.display === "none";
+  scanModeContainer.style.display = isHomepageClosed && isResultClosed ? "flex" : "none";
+}
