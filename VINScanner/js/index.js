@@ -3,6 +3,7 @@ import {
   checkOrientation,
   getVisibleRegionOfVideo,
   resetScanOrientation,
+  shouldShowScanModeContainer,
   shouldShowScanOrientation,
   showNotification,
   toggleScanOrientation,
@@ -234,7 +235,7 @@ saveImageBtn.addEventListener("click", () => {
  * based on the current scan mode and device orientation
  */
 function configureScanOrientation() {
-  scanModeContainer.style.display = "flex";
+  shouldShowScanModeContainer();
   if (shouldShowScanOrientation()) {
     scanOrientationBtn.style.display = "flex";
   } else {
