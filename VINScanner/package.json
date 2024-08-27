@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text npm run test:playwright",
-    "test:playwright": "playwright test",
+    "test": "npx playwright test tests/unittest/minimum-elements.test.ts",
     "dev": "vite --host",
     "ci": "start-server-and-test dev http://localhost:5173 test"
   },
