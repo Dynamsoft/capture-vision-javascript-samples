@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install playright browsers
+RUN npx playwright install --with-deps
+
 # Install http-server globally
 RUN npm install -g http-server
 
@@ -23,7 +26,7 @@ RUN openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/CN
 COPY . .
 
 # Run http-server with SSL
-RUN http-server -S -C server.cert -K server.key -p 8080
+# RUN http-server -S -C server.cert -K server.key -p 8080
 
 # Define the command to run the tests
 CMD ["npm", "run", "test"]
