@@ -32,11 +32,15 @@ jobs:
       #   run: npx playwright install
 
       - name: Start local server
-        run: npm run dev
+        run: npm run dev &
         continue-on-error: true
 
+      - name: Wait for server to be ready
+        run: |
+          npx wait-on http://localhost:5173/minimum-elements.html
+
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --base-url=http://localhost:5173
       
       - name: Upload test results
         if: always()
