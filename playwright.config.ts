@@ -33,8 +33,7 @@ export default defineConfig({
   /* Configure projects */
   projects: [
     {
-      name: "VINScanner",
-      testDir: "./VINScanner/tests",
+      name: "chrome",
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: {
@@ -53,8 +52,7 @@ export default defineConfig({
       },
     },
     {
-      name: "VINScanner",
-      testDir: "./VINScanner/tests",
+      name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
         launchOptions: {
@@ -67,8 +65,7 @@ export default defineConfig({
       },
     },
     {
-      name: "VINScanner",
-      testDir: "./VINScanner/tests",
+      name: "webkit",
       use: {
         ...devices["Desktop Safari"],
         launchOptions: {
