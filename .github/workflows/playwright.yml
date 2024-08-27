@@ -19,8 +19,6 @@ jobs:
       run: npx playwright install --with-deps
     - name: Install http-server to run web browser
       run: npm install -g http-server
-    - name: Install openssl
-      run: apt-get update && apt-get install -y openssl
     - name: Generate SSL Certificate and key
       run: openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/CN=localhost"
     - name: Run Playwright tests
