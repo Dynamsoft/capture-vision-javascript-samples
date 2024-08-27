@@ -1,4 +1,4 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -11,7 +11,6 @@ import { defineConfig } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -34,8 +33,48 @@ export default defineConfig({
   /* Configure projects */
   projects: [
     {
-      name: "VINScanner",
+      name: "VINScanner-chromium",
       testDir: "./VINScanner/tests",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          args: [
+            "--disable-web-security",
+            "--enable-web-rtc",
+            "--use-fake-ui-for-media-stream",
+            "--use-fake-device-for-media-stream",
+          ],
+        },
+        contextOptions: {
+          /* Camera permission */
+          permissions: ["camera"],
+          ignoreHTTPSErrors: true,
+        },
+      },
+    },
+    {
+      name: "VINScanner-firefox",
+      testDir: "./VINScanner/tests",
+      use: {
+        ...devices["Desktop Firefox"],
+        launchOptions: {
+          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"],
+          firefoxUserPrefs: {
+            "permissions.default.camera": 1, // Allow camera access automatically
+            "media.navigator.streams.fake": true, // Use fake streams if needed
+          },
+        },
+      },
+    },
+    {
+      name: "VINScanner-webkit",
+      testDir: "./VINScanner/tests",
+      use: {
+        ...devices["Desktop Safari"],
+        launchOptions: {
+          args: ["--disable-web-security", "--enable-web-rtc"],
+        },
+      },
     },
   ],
 
