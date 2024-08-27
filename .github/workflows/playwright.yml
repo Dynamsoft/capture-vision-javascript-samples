@@ -17,10 +17,6 @@ jobs:
       run: npm i
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Install http-server to run web browser
-      run: npm install -g http-server
-    - name: Generate SSL Certificate and key
-      run: openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj "/CN=localhost"
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
