@@ -36,8 +36,7 @@ jobs:
         continue-on-error: true
 
       - name: Wait for server to be ready
-        run: |
-          npx wait-on http://localhost:5173/
+        run: npx wait-on http://127.0.0.1:5173/ -t 30000
 
       - name: Run Playwright tests
         run: npx playwright test
