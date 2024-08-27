@@ -37,10 +37,10 @@ jobs:
 
       - name: Wait for server to be ready
         run: |
-          npx wait-on http://localhost:5173/minimum-elements.html
+          npx wait-on http://localhost:5173/
 
       - name: Run Playwright tests
-        run: npx playwright test --base-url=http://localhost:5173
+        run: npx playwright test
       
       - name: Upload test results
         if: always()
