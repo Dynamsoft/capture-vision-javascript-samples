@@ -18,7 +18,7 @@ test("get started link", async ({ page }) => {
 });
 
 test("load local page", async ({ page }) => {
-  await page.goto("https://localhost:8080/VINScanner/index.html");
+  await page.goto("/VINScanner/index.html");
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.title()).toContain("VIN Scanner");
