@@ -26,14 +26,14 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install
+      # - name: Install Playwright browsers
+      #   run: npx playwright install
 
-      # - name: Start local server
-      #   run: npx http-server . -p 8080
-      #   continue-on-error: true
+      - name: Start local server
+        run: npm run dev
+        continue-on-error: true
 
       - name: Run Playwright tests
         run: npx playwright test
