@@ -4,7 +4,7 @@
   "description": "| Sample Name   | Description                                                                          |\r | ------------  | ------------------------------------------------------------------------------------ |\r | `VIN Scanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |",
   "main": "index.js",
   "scripts": {
-    "start": "vite",
+    "start": "vite --port 3000",
     "test": "playwright test"
   },
   "keywords": [],
