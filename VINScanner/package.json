@@ -5,7 +5,8 @@
   "scripts": {
     "test": "nyc --reporter=html --reporter=text npm run test:playwright",
     "test:playwright": "playwright test",
-    "dev": "vite --host"
+    "dev": "vite --host",
+    "ci": "start-server-and-test dev http://localhost:5173 test"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "nyc": "^17.0.0",
     "playwright": "^1.46.1",
     "source-map-support": "^0.5.21",
+    "start-server-and-test": "^2.0.5",
     "ts-node": "^10.9.2",
     "vite": "^4.4.0",
     "wait-on": "^8.0.0"
