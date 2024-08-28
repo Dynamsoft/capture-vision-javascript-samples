@@ -38,12 +38,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: {
-          args: [
-            "--disable-web-security",
-            "--enable-web-rtc",
-            "--use-fake-ui-for-media-stream",
-            "--use-fake-device-for-media-stream",
-          ],
+          args: ["--enable-web-rtc", "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],
         },
         contextOptions: {
           /* Camera permission */
@@ -70,7 +65,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Safari"],
         launchOptions: {
-          args: ["--disable-web-security", "--enable-web-rtc"],
+          args: ["--enable-web-rtc"],
         },
       },
     },
