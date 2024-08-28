@@ -9,9 +9,7 @@ import path from 'path';
 5. Test whether the result can be populated and copied //TODO
 */
 
-// const URL = 'http://localhost:5173/VINScanner';
-// const URL = 'https://192.168.0.18:5504/VINScanner/'; 
-const URL = `file:${path.join(__dirname, "../../index.html")}`;
+const URL = '/VINScanner/index.html';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(URL);

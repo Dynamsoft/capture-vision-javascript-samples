@@ -1,4 +1,4 @@
-import { test, expect } from "./../fixtures";
+import { test, expect } from '../fixtures';
 
 test.describe("Verify the VIN Scanner Page title and veirfy user can select different settings", () => {
   test.beforeEach(async ({ vinScannerPage }) => {

@@ -2,7 +2,8 @@ import { Page, Locator } from '@playwright/test';
 
 // TODO: Update the URL when we upload the page to live server.
 // const URL = "https://demo.dynamsoft.com/Samples/DBR/JS/hello-world/hello-world.html";
-const URL = "http://localhost:5173/minimum-elements.html";
+// const URL = "http://localhost:5173/minimum-elements.html";
+const URL = '/VINScanner/minimum-elements.html';
 
 export class MinElementPage {
   private page: Page;
