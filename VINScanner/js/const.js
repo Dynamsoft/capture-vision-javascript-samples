@@ -20,6 +20,8 @@ const SCAN_MODE_TITLES = {
 };
 let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
+let scanOrientation = "landscape";
+
 // Get the UI element
 const homePage = document.querySelector(".home-page");
 
@@ -33,10 +35,8 @@ const cameraSelector = document.querySelector(".camera-selector");
 const scannerContainer = document.querySelector(".scanner-container");
 const startScanningBtn = document.querySelector(".start-btn");
 
+const scanHelpMsg = document.querySelector(".scan-help-msg");
 const scanModeContainer = document.querySelector(".scan-mode-container");
-const scanMode = document.querySelector(".scan-mode");
-const settingsModal = document.querySelector(".settings-modal");
-const closeSettingsBtn = document.querySelector(".close-settings-btn");
 
 const resultContainer = document.querySelector(".result-container");
 const parsedResultArea = document.querySelector(".parsed-result-area");
@@ -46,7 +46,6 @@ const resultImageContainer = document.querySelector("#result-image-container");
 const copyResultBtn = document.querySelector(".copy-result-btn");
 const saveImageBtn = document.querySelector(".save-image-btn");
 
-const resultRestartBtn = document.querySelector(".result-restart");
 const restartVideoBtn = document.querySelector(".btn-restart-video");
 
 const playSoundBtn = document.querySelector(".music");
@@ -55,3 +54,6 @@ const down = document.querySelector(".down");
 const up = document.querySelector(".up");
 
 const notification = document.querySelector("#notification");
+
+const scanOrientationBtn = document.querySelector(".scan-orientation-btn");
+const scanOrientationIcon = document.querySelector(".scan-orientation-icon");

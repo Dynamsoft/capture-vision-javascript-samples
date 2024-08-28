@@ -226,32 +226,6 @@ img {
   z-index: 1;
 }
 
-.scanner-container .camera-view-container .scan-mode-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: -55%;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  cursor: pointer;
-  gap: 0.5rem;
-  font-size: 24px;
-  font-family: OpenSans-Regular;
-  color: #ffffff;
-  user-select: none;
-}
-
-.scanner-container .camera-view-container .scan-mode-container:hover {
-  opacity: 0.8;
-}
-
-.scanner-container .camera-view-container .scan-mode-container .settings-btn {
-  width: 24px;
-  height: 24px;
-}
-
 .result-container {
   position: absolute;
   width: 100%;
@@ -300,6 +274,10 @@ img {
   cursor: pointer;
 }
 
+.result-container #result-image-container {
+  display: flex;
+  justify-content: center;
+}
 .result-container .parsed-result-area {
   width: 100%;
   padding: 15px 15px 0 30px;
@@ -344,44 +322,32 @@ img {
   font-family: "Oswald-Regular";
 }
 
-.settings-modal {
+.scan-mode-container {
   display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 2;
   justify-content: center;
   align-items: center;
+  position: fixed;
+  bottom: 15%;
+  left: 5%;
+  right: 5%;
+  z-index: 2;
 }
 
-.settings-modal-content {
-  background-color: #323234;
-  padding: 1rem 2rem 2rem;
-  color: #ffffff;
-  font-family: Oswald-Light;
-  font-size: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.settings-modal-top {
+.scan-mode-container .scan-mode-content {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.settings-option-title {
-  font-family: Oswald-Regular;
-  margin: 0;
-  margin-bottom: 0.5rem;
-  font-weight: normal;
-}
-
-.settings-option-btn {
   background-color: rgb(34, 34, 34);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem;
+  width: max-content;
+  opacity: 0.8;
+}
+
+.scan-option-btn {
+  background-color: transparent;
   padding: 0.5rem;
   font-family: OpenSans-Regular;
   color: white;
@@ -389,14 +355,28 @@ img {
 
 .selected {
   background-color: #fe8e14;
+  color: white;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.close-settings-btn {
-  display: flex;
+.scan-orientation-btn {
+  position: absolute;
+  top: -90%;
+  right: 0;
+  padding: 0.5rem;
+  display: none;
   justify-content: center;
   align-items: center;
-  background: transparent;
+  border-radius: 8px;
+  opacity: 0.8;
+  background-color: rgb(34, 34, 34);
+}
+
+.scan-orientation-btn .scan-orientation-icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(0.4);
 }
 
 #notification {
@@ -443,15 +423,6 @@ img {
   }
 }
 
-@keyframes dce-scanlight {
-  from {
-    top: 0;
-  }
-  to {
-    top: 97%;
-  }
-}
-
 @media screen and (max-width: 800px) {
   html,
   body {
@@ -469,26 +440,11 @@ img {
   .home-page .description .start-btn {
     font-size: 20px;
   }
-
-  .scanner-container .camera-view-container .scan-mode-container .settings-btn {
-    width: 16px;
-    height: 16px;
-  }
-
-  .settings-modal-content {
-    width: 100%;
-    height: 100%;
-  }
 }
 @media screen and (max-width: 1300px) {
   .scanner-container .camera-view-container .scan-help-msg {
     font-size: 12px;
     top: -35%;
-  }
-
-  .scanner-container .camera-view-container .scan-mode-container {
-    bottom: -45%;
-    font-size: 12px;
   }
 }
 @media screen and (max-width: 800px) and (orientation: landscape) {

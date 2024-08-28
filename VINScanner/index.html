@@ -123,24 +123,6 @@
           style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden"
         >
           <div class="scan-help-msg">Align the frame within the VIN number and start scanning</div>
-          <div class="scan-mode-container">
-            <span class="scan-mode"></span>
-            <img class="settings-btn" src="./assets/settings.svg" alt="no-music" />
-          </div>
-          <div
-            class="dce-scanlight"
-            hidden
-            style="
-              width: 100%;
-              display: none;
-              height: 10px;
-              position: absolute;
-              animation: 3s infinite dce-scanlight;
-              background-image: linear-gradient(#ffffff00, #ffb668);
-              border-bottom: 2px solid #ffb668;
-              user-select: none;
-            "
-          ></div>
         </div>
         <!-- The "Powered by Dynamsoft" logo can be easily removed by eliminating the following line. -->
         <div
@@ -262,7 +244,6 @@
     <div class="result-container">
       <div class="result-header">
         <div class="result-title">VIN Scan Results:</div>
-        <div class="result-restart">Restart ></div>
       </div>
       <div id="result-image-container"></div>
       <div class="result-btn-container">
@@ -276,20 +257,14 @@
         <button class="btn-restart-video">Restart Video</button>
       </div>
     </div>
-    <div class="settings-modal">
-      <div class="settings-modal-content">
-        <div class="settings-modal-top">
-          <div style="margin: 0; text-align: left">Settings</div>
-          <button class="close-settings-btn" type="button">
-            <img alt="close" src="./assets/close.svg" width="18px" height="18px" />
-          </button>
-        </div>
-        <div class="settings-option-title">Scan Mode</div>
-        <div style="display: flex; gap: 1rem">
-          <button type="button" class="settings-option-btn" id="scan-both-btn">Scan Text & Barcode</button>
-          <button type="button" class="settings-option-btn" id="scan-text-btn">Scan Text Only</button>
-          <button type="button" class="settings-option-btn" id="scan-barcode-btn">Scan Barcode Only</button>
-        </div>
+    <div class="scan-mode-container">
+      <div class="scan-mode-content">
+        <button type="button" class="scan-orientation-btn">
+          <img src="assets/phone-rotate.svg" alt="Rotate" class="scan-orientation-icon" />
+        </button>
+        <button type="button" class="scan-option-btn" id="scan-both-btn">Scan Text & Barcode</button>
+        <button type="button" class="scan-option-btn" id="scan-text-btn">Scan Text Only</button>
+        <button type="button" class="scan-option-btn" id="scan-barcode-btn">Scan Barcode Only</button>
       </div>
     </div>
     <script src="./js/const.js"></script>
