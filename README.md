@@ -41,7 +41,6 @@ npx playwright install --with-deps # installs playwright browsers
 
 ```bash
 npx playwright test # or `npm test`
-npx playwright test --project=VINScanner # Run tests for a specific project
 ```
 
 ### View Test Reports

@@ -1,4 +1,4 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -34,8 +34,45 @@ export default defineConfig({
   /* Configure projects */
   projects: [
     {
-      name: "VINScanner",
-      testDir: "./VINScanner/tests",
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          args: [
+            "--disable-web-security",
+            "--enable-web-rtc",
+            "--use-fake-ui-for-media-stream",
+            "--use-fake-device-for-media-stream",
+          ],
+        },
+        contextOptions: {
+          /* Camera permission */
+          permissions: ["camera"],
+          ignoreHTTPSErrors: true,
+        },
+      },
+    },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        launchOptions: {
+          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"],
+          firefoxUserPrefs: {
+            "permissions.default.camera": 1, // Allow camera access automatically
+            "media.navigator.streams.fake": true, // Use fake streams if needed
+          },
+        },
+      },
+    },
+    {
+      name: "webkit",
+      use: {
+        ...devices["Desktop Safari"],
+        launchOptions: {
+          args: ["--disable-web-security", "--enable-web-rtc"],
+        },
+      },
     },
   ],
 

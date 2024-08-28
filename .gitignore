@@ -35,7 +35,6 @@ __pycache__
 ~~*
 --*
 ==*
-package-lock.json
 yarn.lock
 .git
 .npmrc
@@ -51,7 +50,6 @@ yarn.lock
 
 !bower.json
 !composer.json
-!package.js
 /test-results/
 /playwright-report/
 /blob-report/
