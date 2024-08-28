@@ -46,7 +46,7 @@ export class MinElementPage {
   }
 
   async hasCameraEnhancer() {
-    const camExists = await this.page.waitForFunction(() => typeof Dynamsoft.DCE.cameraEnhancer !== "undefined", { timeout: 5000 });
+    const camExists = await this.page.waitForFunction(() => cameraEnhancer !== undefined, { timeout: 5000 });
     return camExists;
   }
 
@@ -67,7 +67,7 @@ export class MinElementPage {
 
     while (attempts < maxAttempts && !availableResolutions) {
       availableResolutions = await this.page.evaluate(async () => {
-        if (typeof cameraEnhancer !== "undefined" && typeof cameraEnhancer.getAvailableResolutions === "function") {
+        if (typeof cameraEnhancer !== undefined && typeof cameraEnhancer.getAvailableResolutions === "function") {
           const resolutions = await cameraEnhancer.getAvailableResolutions();
           return resolutions && resolutions.length > 0 ? resolutions : null;
         }
