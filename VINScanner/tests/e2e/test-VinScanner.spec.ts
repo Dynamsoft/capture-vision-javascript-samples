@@ -20,28 +20,28 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
 
   test('should click "Scan Text and Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
-    await vinScannerPage.interactWithSettingsModal();
+
     await vinScannerPage.clickScanBothButton();
-    const header = await vinScannerPage.getHeaderLabel();
-    expect(header).toBe('Scan Text or Barcode'); 
+    const selectedBtn = await vinScannerPage.getSelectedButton();
+    expect(selectedBtn).toHaveText('Scan Text & Barcode');
 
   });
 
   test('should click "Scan by Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
-    await vinScannerPage.interactWithSettingsModal();
+    
     await vinScannerPage.clickScanBarcodeButton();
-    const header = await vinScannerPage.getHeaderLabel();
-    expect(header).toBe('Scan by Barcode');
+    const selectedBtn = await vinScannerPage.getSelectedButton();
+    expect(selectedBtn).toHaveText('Scan Barcode Only');
 
   });
 
   test('should click "Scan by Text" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
-    await vinScannerPage.interactWithSettingsModal();
+    
     await vinScannerPage.clickScanTextButton();
-    const header = await vinScannerPage.getHeaderLabel();
-    expect(header).toBe('Scan by Text'); 
+    const selectedBtn = await vinScannerPage.getSelectedButton();
+    expect(selectedBtn).toHaveText('Scan Text Only');
 
   });
 
