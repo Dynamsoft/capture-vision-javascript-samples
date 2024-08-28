@@ -67,15 +67,15 @@ export default defineConfig({
         },
       },
     },
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        launchOptions: {
-          args: ["--disable-web-security", "--enable-web-rtc"],
-        },
-      },
-    },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     launchOptions: {
+    //       args: ["--disable-web-security", "--enable-web-rtc"],
+    //     },
+    //   },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */
