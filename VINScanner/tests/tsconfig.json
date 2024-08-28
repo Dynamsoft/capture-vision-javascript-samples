@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      // Your existing options
+      "lib": ["dom", "es2015"]
     },
     "include": [
       "./*.ts", // or the relevant directory if placed elsewhere
