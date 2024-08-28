@@ -7,8 +7,8 @@ const URL = '/VINScanner/index.html';
 export class VinScannerPage {
   private page: Page;
   private headerLabel: Locator;
-  private settingsButton: Locator;
   private settingsModal: Locator;
+  private scanModeContainer: Locator;
   private startButton: Locator;
   private scanBarcodeButton: Locator;
   private scanTextButton: Locator;
@@ -18,9 +18,9 @@ export class VinScannerPage {
   constructor(page: Page) {
     this.page = page;
     this.headerLabel = this.page.locator(".scan-mode");
-    this.settingsButton = this.page.locator(".settings-btn");
     this.settingsModal = this.page.locator(".settings-modal-content");
     this.startButton = this.page.locator(".start-btn");
+    this.scanModeContainer = this.page.locator(".scan-mode-container");
     this.scanBarcodeButton = this.page.locator("#scan-barcode-btn");
     this.scanTextButton = this.page.locator("#scan-text-btn");
     this.scanBothButton = this.page.locator("#scan-both-btn");
@@ -48,22 +48,23 @@ export class VinScannerPage {
    */
   async closeDialogIfPresent() {
 
-    const isDialogCloseButtonVisible = await this.dialogCloseButton.isVisible();
+    this.dialogCloseButton.waitFor({ state: "visible", timeout: 5000 });
+    await this.dialogCloseButton.click();    
     
-    if (isDialogCloseButtonVisible) {
-      await this.dialogCloseButton.click();
-    }
-
   }
 
   async navigateTo() {
     await this.grantCameraPermission();
     await this.page.goto(URL);
-    this.closeDialogIfPresent();
+    await this.closeDialogIfPresent();
   }
 
   async getTitle() {
     return await this.page.title();
+  }
+
+  async getSelectedButton() {
+    return await this.page.locator("button.scan-option-btn.selected");
   }
 
   async getHeaderLabel(expectedText?: string) {
@@ -81,35 +82,36 @@ export class VinScannerPage {
     return await this.headerLabel.textContent();
   }
 
-  async openSettingsModal() {
-    await this.settingsButton.click();
-  }
-
   async waitForSettingsModal() {
     await this.settingsModal.waitFor({ state: "visible" });
   }
 
+  async waitForPageLoad() {
+    await this.scanModeContainer.waitFor({ state: 'visible', timeout: 5000});
+    await this.page.waitForFunction(() => {
+      return (typeof cameraEnhancer !== undefined);
+    }, { timeout: 10000 });
+    
+  }
+
   async clickStartButton() {
     await this.startButton.click();
+    await this.waitForPageLoad();
   }
 
   async clickScanBarcodeButton() {
     await this.scanBarcodeButton.click();
+    await this.page.waitForTimeout(2000);
   }
 
   async clickScanTextButton() {
     await this.scanTextButton.click();
+    await this.page.waitForTimeout(2000);
   }
 
   async clickScanBothButton() {
     await this.scanBothButton.click();
+    await this.page.waitForTimeout(2000);
   }
-
-  async interactWithSettingsModal() {
-    await this.openSettingsModal();
-    await this.waitForSettingsModal();
-    // Add interactions with the settings modal here
-  }
-
   
 }
