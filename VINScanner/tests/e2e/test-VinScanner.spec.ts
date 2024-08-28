@@ -11,7 +11,6 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   });
 
   test("should display the correct title", async ({ vinScannerPage }) => {
-    
     // Validate the page title
     const title = await vinScannerPage.getTitle();
     await expect(title).toContain("VIN Scanner");

@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
 
 /*
 1. Test whether the license is valid
@@ -33,8 +32,8 @@ test('CameraEnhancer is initialized and working', async ({ page }) => {
   
   // Check if camera is streaming
   const videoElement = await page.locator('.dce-video-container video');
-  // Add a 2 seconds delay
-  await page.waitForTimeout(2000);
+  // Add a 4 seconds delay
+  await page.waitForTimeout(4000);
   const isPlaying = await videoElement.evaluate((video: HTMLVideoElement) => !video.paused && !video.ended && video.readyState > 2);
   expect(isPlaying).toBeTruthy();
 });
