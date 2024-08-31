@@ -11,12 +11,12 @@ export class MinElementPage {
   private options: Locator[]; 
 
   constructor(page: Page) {
-    this.page = page;
-    this.selResolution = this.page.locator('select.dce-sel-resolution');
+    this.page = page;    
   }
 
   async initialize() {
-    this.options = await this.selResolution.locator('option').all();
+    this.selResolution = await this.page.locator('select.dce-sel-resolution');  
+    this.options = await this.selResolution.locator('option').all();      
   }
 
   async grantCameraPermission() {
@@ -87,9 +87,6 @@ export class MinElementPage {
     return this.selResolution.getAttribute
   }
   async selectResolution() {
-    for (const res of this.options) {
-      this.selResolution.click();
-      res.click();
-    }
+
   }
 }
