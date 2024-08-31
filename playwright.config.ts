@@ -42,8 +42,6 @@ export default defineConfig({
           args: [
             "--disable-web-security",
             "--enable-web-rtc",
-            "--use-fake-ui-for-media-stream",
-            "--use-fake-device-for-media-stream",
             "--headless=chrome"
           ],
         },
@@ -59,10 +57,15 @@ export default defineConfig({
       use: {
         ...devices["Desktop Firefox"],
         launchOptions: {
-          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream", "--headless=firefox"],
+          args: [
+            // "--use-fake-device-for-media-stream", 
+            // "--use-fake-ui-for-media-stream", 
+            "--headless=firefox",
+            "--disable-web-security",
+            "--enable-web-rtc"],
           firefoxUserPrefs: {
-            "permissions.default.camera": 1, // Allow camera access automatically
-            "media.navigator.streams.fake": true, // Use fake streams if needed
+            "permissions.default.camera": 1 // Allow camera access automatically
+            // "media.navigator.streams.fake": true, // Use fake streams if needed
           },
         },
       },
