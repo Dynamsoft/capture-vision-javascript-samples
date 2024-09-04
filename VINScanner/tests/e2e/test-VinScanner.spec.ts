@@ -23,6 +23,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   test('should click "Scan Text and Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
 
+    await expect(vinScannerPage.scanModeContainer).toBeVisible(); 
     await vinScannerPage.clickScanBothButton();
     const selectedBtn = await vinScannerPage.getSelectedButton();
     expect(selectedBtn).toHaveText('Scan Text & Barcode');
@@ -32,6 +33,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   test('should click "Scan by Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
     
+    await expect(vinScannerPage.scanModeContainer).toBeVisible(); 
     await vinScannerPage.clickScanBarcodeButton();
     const selectedBtn = await vinScannerPage.getSelectedButton();
     expect(selectedBtn).toHaveText('Scan Barcode Only');
@@ -41,6 +43,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   test('should click "Scan by Text" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
     
+    await expect(vinScannerPage.scanModeContainer).toBeVisible(); 
     await vinScannerPage.clickScanTextButton();
     const selectedBtn = await vinScannerPage.getSelectedButton();
     expect(selectedBtn).toHaveText('Scan Text Only');
