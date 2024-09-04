@@ -17,7 +17,15 @@ test.beforeEach(async ({ page }) => {
 test('License is valid', async ({ page }) => {
   // Check if license error is displayed
   const licenseError = await page.evaluate(() => {
-    return cameraEnhancer === undefined;
+    try {
+      const intermediateResultManager = cvRouter.getIntermediateResultManager();
+      // If we get here without an error, the license supports intermediate results
+      return false;
+    } catch (error) {
+      // Check if the error message matches the expected one
+      return error.message === "The current license does not support the use of intermediate results.";
+    }
+    // return cameraEnhancer === undefined;
   });
   
   expect(licenseError).toBeFalsy();

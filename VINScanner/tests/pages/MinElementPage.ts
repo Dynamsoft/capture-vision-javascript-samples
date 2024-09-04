@@ -67,9 +67,17 @@ export class MinElementPage {
 
     while (attempts < maxAttempts && !availableResolutions) {
       availableResolutions = await this.page.evaluate(async () => {
-        if (typeof cameraEnhancer !== undefined && typeof cameraEnhancer.getAvailableResolutions === "function") {
-          const resolutions = await cameraEnhancer.getAvailableResolutions();
-          return resolutions && resolutions.length > 0 ? resolutions : null;
+        if (typeof cameraEnhancer !== 'undefined' && typeof cameraEnhancer.getAvailableResolutions === "function") {
+          try {
+            const resolutions = await cameraEnhancer.getAvailableResolutions();
+            return resolutions && resolutions.length > 0 ? resolutions : null;
+          } catch (error) {
+            if (error instanceof OverconstrainedError) {
+              console.error('OverconstrainedError: Source failed to restart');
+              return null;
+            }
+            throw error;
+          }
         }
         return null;
       });

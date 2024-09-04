@@ -14,6 +14,8 @@ const availableResolutions:{width: number, height: number}[] = [
   { width: 3840, height: 2160 },
 ];
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Minimum Element Page Tests', () => {
   test.beforeEach(async ({ minElementPage }) => {
     await minElementPage.navigateTo();
