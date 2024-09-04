@@ -8,7 +8,7 @@ export class VinScannerPage {
   private page: Page;
   private headerLabel: Locator;
   private settingsModal: Locator;
-  private scanModeContainer: Locator;
+  public scanModeContainer: Locator;
   private startButton: Locator;
   private scanBarcodeButton: Locator;
   private scanTextButton: Locator;
@@ -20,7 +20,7 @@ export class VinScannerPage {
     this.headerLabel = this.page.locator(".scan-mode");
     this.settingsModal = this.page.locator(".settings-modal-content");
     this.startButton = this.page.locator(".start-btn");
-    this.scanModeContainer = this.page.locator(".scan-mode-container");
+    this.scanModeContainer = this.page.locator(".scan-mode-content");
     this.scanBarcodeButton = this.page.locator("#scan-barcode-btn");
     this.scanTextButton = this.page.locator("#scan-text-btn");
     this.scanBothButton = this.page.locator("#scan-both-btn");
@@ -87,7 +87,6 @@ export class VinScannerPage {
   }
 
   async waitForPageLoad() {
-    await this.scanModeContainer.waitFor({ state: 'visible', timeout: 5000});
     await this.page.waitForFunction(() => {
       return (typeof cameraEnhancer !== undefined);
     }, { timeout: 10000 });
