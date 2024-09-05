@@ -148,7 +148,6 @@ img {
 }
 
 .scanner-container .header .camera-list {
-  width: 165px;
   position: absolute;
   top: 46px;
   left: 0;
@@ -352,6 +351,7 @@ img {
   padding: 0.5rem;
   font-family: OpenSans-Regular;
   color: white;
+  width: 5rem;
 }
 
 .selected {
