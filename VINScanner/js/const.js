@@ -13,10 +13,12 @@ const SCAN_TEMPLATES = {
   text: "ReadVINText",
   both: "ReadVIN",
 };
-
+const SCAN_MODE_TITLES = {
+  barcode: "Scan by Barcode",
+  text: "Scan by Text",
+  both: "Scan Text or Barcode",
+};
 let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
-
-let scanOrientation = "landscape";
 
 let scanOrientation = "landscape";
 
@@ -33,7 +35,6 @@ const cameraSelector = document.querySelector(".camera-selector");
 const scannerContainer = document.querySelector(".scanner-container");
 const startScanningBtn = document.querySelector(".start-btn");
 
-const scanHelpMsg = document.querySelector(".scan-help-msg");
 const scanHelpMsg = document.querySelector(".scan-help-msg");
 const scanModeContainer = document.querySelector(".scan-mode-container");
 
@@ -53,9 +54,6 @@ const down = document.querySelector(".down");
 const up = document.querySelector(".up");
 
 const notification = document.querySelector("#notification");
-
-const scanOrientationBtn = document.querySelector(".scan-orientation-btn");
-const scanOrientationIcon = document.querySelector(".scan-orientation-icon");
 
 const scanOrientationBtn = document.querySelector(".scan-orientation-btn");
 const scanOrientationIcon = document.querySelector(".scan-orientation-icon");

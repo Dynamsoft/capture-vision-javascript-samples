@@ -148,6 +148,7 @@ img {
 }
 
 .scanner-container .header .camera-list {
+  width: 165px;
   position: absolute;
   top: 46px;
   left: 0;
@@ -277,10 +278,6 @@ img {
   display: flex;
   justify-content: center;
 }
-.result-container #result-image-container {
-  display: flex;
-  justify-content: center;
-}
 .result-container .parsed-result-area {
   width: 100%;
   padding: 15px 15px 0 30px;
@@ -327,7 +324,6 @@ img {
 }
 
 .scan-mode-container {
-.scan-mode-container {
   display: none;
   justify-content: center;
   align-items: center;
@@ -336,31 +332,14 @@ img {
   left: 5%;
   right: 5%;
   z-index: 2;
-  position: fixed;
-  bottom: 15%;
-  left: 5%;
-  right: 5%;
-  z-index: 2;
 }
 
-.scan-mode-container .scan-mode-content {
-  position: relative;
 .scan-mode-container .scan-mode-content {
   position: relative;
   display: flex;
   justify-content: center;
-  justify-content: center;
   align-items: center;
   background-color: rgb(34, 34, 34);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 0.5rem;
-  width: max-content;
-  opacity: 0.8;
-}
-
-.scan-option-btn {
-  background-color: transparent;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 0.5rem;
@@ -373,13 +352,10 @@ img {
   padding: 0.5rem;
   font-family: OpenSans-Regular;
   color: white;
-  width: 5rem;
 }
 
 .selected {
   background-color: #fe8e14;
-  color: white;
-  border-radius: 8px;
   color: white;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -391,23 +367,8 @@ img {
   right: 0;
   padding: 0.5rem;
   display: none;
-.scan-orientation-btn {
-  position: absolute;
-  top: -90%;
-  right: 0;
-  padding: 0.5rem;
-  display: none;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
-  opacity: 0.8;
-  background-color: rgb(34, 34, 34);
-}
-
-.scan-orientation-btn .scan-orientation-icon {
-  width: 24px;
-  height: 24px;
-  filter: invert(0.4);
   border-radius: 8px;
   opacity: 0.8;
   background-color: rgb(34, 34, 34);
