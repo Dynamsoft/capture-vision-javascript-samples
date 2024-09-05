@@ -47,20 +47,19 @@
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
 
+      let cameraView, cameraEnhancer, cvRouter; // Global variables for easy debugging
       const init = async () => {
         // [Optional] - Create custom UI for CameraView
         // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/user-guide/index.html#customize-the-ui
-        const cameraView = await Dynamsoft.DCE.CameraView.createInstance(
-          document.getElementById("camera-view-container")
-        );
-        const cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView); // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
-        const cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance(); // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
+        cameraView = await Dynamsoft.DCE.CameraView.createInstance(document.getElementById("camera-view-container"));
+        cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView); // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance(); // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
 
         cameraView.setVideoFit("cover");
         cameraView.setScanLaserVisible(true);
         await cameraEnhancer.setScanRegion({
           x: 10,
-          y: 35,
+          y: 40,
           width: 80,
           height: 20,
           isMeasuredInPercentage: true,

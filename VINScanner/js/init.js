@@ -81,7 +81,6 @@ let init = (async function initCVR() {
       isSoundOn ? Dynamsoft.DCE.Feedback.beep() : null;
 
       // Reset results
-      settingsModal.style.display = "none";
       resultImageContainer.innerHTML = "";
       parsedResultMain.innerText = "";
 
@@ -103,8 +102,10 @@ let init = (async function initCVR() {
         const parseResultInfo = extractVinDetails(parsedResults[0]);
 
         Object.entries(parseResultInfo).map(([field, value]) => {
-          const resultElement = resultToHTMLElement(field, value);
-          parsedResultMain.appendChild(resultElement);
+          if (value) {
+            const resultElement = resultToHTMLElement(field, value);
+            parsedResultMain.appendChild(resultElement);
+          }
         });
       } else {
         alert(`Failed to parse the content.`);
@@ -117,15 +118,25 @@ let init = (async function initCVR() {
         (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
       )?.imageData;
       if (imageData) {
-        const imageCanvas = imageData.toCanvas(); // Get scanned VIN Image as a canvas
-        imageCanvas.style.width = "100%";
-        imageCanvas.style.height = "100%";
+        // Get scanned VIN Image as a canvas
+        const imageCanvas = imageData.toCanvas();
+
+        // If scanOrientation is portrait, set the max height of the image canvas to 200px;
+        if (scanOrientation === "portrait") {
+          imageCanvas.style.width = "100%";
+          imageCanvas.style.height = "200px";
+        } else {
+          imageCanvas.style.width = "100%";
+          imageCanvas.style.height = "100%";
+        }
         imageCanvas.style.objectFit = "contain";
         resultImageContainer.append(imageCanvas);
       }
 
       resultContainer.style.display = "flex";
       cameraListContainer.style.display = "none";
+      scanModeContainer.style.display = "none";
+
       cvRouter.stopCapturing();
       cameraView.clearAllInnerDrawingItems();
     }
