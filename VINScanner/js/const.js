@@ -18,6 +18,8 @@ let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
 let scanOrientation = "landscape";
 
+let scanOrientation = "landscape";
+
 // Get the UI element
 const homePage = document.querySelector(".home-page");
 
