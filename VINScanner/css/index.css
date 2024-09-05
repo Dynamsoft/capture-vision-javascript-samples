@@ -351,6 +351,7 @@ img {
   padding: 0.5rem;
   font-family: OpenSans-Regular;
   color: white;
+  width: 5rem;
 }
 
 .selected {

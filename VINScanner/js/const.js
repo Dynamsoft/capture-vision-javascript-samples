@@ -13,11 +13,7 @@ const SCAN_TEMPLATES = {
   text: "ReadVINText",
   both: "ReadVIN",
 };
-const SCAN_MODE_TITLES = {
-  barcode: "Scan by Barcode",
-  text: "Scan by Text",
-  both: "Scan Text or Barcode",
-};
+
 let currentMode = SCAN_MODES[2]; // Set scan mode as "Scan Both" by default
 
 let scanOrientation = "landscape";
