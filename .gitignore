@@ -12,6 +12,7 @@ CaptureImageModal
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+CaptureImageModal
 
 # Editor directories and files
 .idea
@@ -26,7 +27,6 @@ __pycache__
 ~~*
 --*
 ==*
-package-lock.json
 yarn.lock
 .git
 .npmrc
@@ -35,7 +35,6 @@ yarn.lock
 /*.exe
 /*.jar
 /*.md
-/*.json
 /*.js
 /*.txt
 /.gitattributes
@@ -43,4 +42,7 @@ yarn.lock
 
 !bower.json
 !composer.json
-!package.js
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
