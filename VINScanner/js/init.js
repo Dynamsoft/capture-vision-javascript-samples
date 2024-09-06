@@ -1,4 +1,4 @@
-import { extractVinDetails, resultToHTMLElement, showNotification } from "./util.js";
+import { extractVinDetails, judgeCurResolution, resultToHTMLElement, showNotification } from "./util.js";
 
 /** LICENSE ALERT - README
  * To use the library, you need to first specify a license key using the API "initLicense" as shown below.
@@ -30,23 +30,48 @@ async function initDCE() {
   // Get the camera information of the device and render the camera list
   cameraList = await cameraEnhancer.getAllCameras();
   for (let camera of cameraList) {
-    const cameraItem = document.createElement("div");
-    cameraItem.className = "camera-item";
-    cameraItem.innerText = camera.label;
-    cameraItem.deviceId = camera.deviceId;
+    for (let res of Object.keys(resolutions)) {
+      const cameraItem = document.createElement("div");
+      cameraItem.className = "camera-item";
+      cameraItem.innerText = `${camera.label} (${res})`;
+      cameraItem.deviceId = camera.deviceId;
+      cameraItem.resolution = res;
 
-    cameraItem.addEventListener("click", (e) => {
-      e.stopPropagation();
-      for (let child of cameraListContainer.childNodes) {
-        child.className = "camera-item";
-      }
-      cameraItem.className = "camera-item camera-selected";
-      cameraEnhancer.selectCamera(camera);
+      cameraItem.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        for (let child of cameraListContainer.childNodes) {
+          child.className = "camera-item";
+        }
+        cameraItem.className = "camera-item camera-selected";
+        await cameraEnhancer.selectCamera(camera);
+        await cameraEnhancer.setResolution({
+          width: resolutions[res][0],
+          height: resolutions[res][1],
+        });
 
-      showNotification("Camera switched successfully!", "banner-success");
-      cameraSelector.click();
-    });
-    cameraListContainer.appendChild(cameraItem);
+        const currentCamera = await cameraEnhancer.getSelectedCamera();
+        const currentResolution = judgeCurResolution(await cameraEnhancer.getResolution());
+        if (currentCamera.deviceId === camera.deviceId && currentResolution === res) {
+          showNotification("Camera and resolution switched successfully!", "banner-success");
+        } else if (judgeCurResolution(currentResolution) !== res) {
+          showNotification(`Resolution switch failed! ${res} is not supported.`, "banner-default");
+
+          // Update resolution to the current resolution that is supported
+          for (let child of cameraListContainer.childNodes) {
+            child.className = "camera-item";
+            if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
+              child.className = "camera-item camera-selected";
+            }
+          }
+        } else {
+          showNotification(`Camera switch failed!`, "banner-error");
+        }
+
+        // Hide options after user clicks an option
+        cameraSelector.click();
+      });
+      cameraListContainer.appendChild(cameraItem);
+    }
   }
   cameraView.setVideoFit("cover");
   await cameraEnhancer.setResolution({ width: 1920, height: 1080 });
@@ -81,7 +106,6 @@ let init = (async function initCVR() {
       isSoundOn ? Dynamsoft.DCE.Feedback.beep() : null;
 
       // Reset results
-      settingsModal.style.display = "none";
       resultImageContainer.innerHTML = "";
       parsedResultMain.innerText = "";
 
@@ -103,8 +127,10 @@ let init = (async function initCVR() {
         const parseResultInfo = extractVinDetails(parsedResults[0]);
 
         Object.entries(parseResultInfo).map(([field, value]) => {
-          const resultElement = resultToHTMLElement(field, value);
-          parsedResultMain.appendChild(resultElement);
+          if (value) {
+            const resultElement = resultToHTMLElement(field, value);
+            parsedResultMain.appendChild(resultElement);
+          }
         });
       } else {
         alert(`Failed to parse the content.`);
@@ -117,15 +143,25 @@ let init = (async function initCVR() {
         (item) => item.type === Dynamsoft.Core.EnumCapturedResultItemType.CRIT_ORIGINAL_IMAGE
       )?.imageData;
       if (imageData) {
-        const imageCanvas = imageData.toCanvas(); // Get scanned VIN Image as a canvas
-        imageCanvas.style.width = "100%";
-        imageCanvas.style.height = "100%";
+        // Get scanned VIN Image as a canvas
+        const imageCanvas = imageData.toCanvas();
+
+        // If scanOrientation is portrait, set the max height of the image canvas to 200px;
+        if (scanOrientation === "portrait") {
+          imageCanvas.style.width = "100%";
+          imageCanvas.style.height = "200px";
+        } else {
+          imageCanvas.style.width = "100%";
+          imageCanvas.style.height = "100%";
+        }
         imageCanvas.style.objectFit = "contain";
         resultImageContainer.append(imageCanvas);
       }
 
       resultContainer.style.display = "flex";
       cameraListContainer.style.display = "none";
+      scanModeContainer.style.display = "none";
+
       cvRouter.stopCapturing();
       cameraView.clearAllInnerDrawingItems();
     }

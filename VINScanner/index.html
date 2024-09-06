@@ -64,6 +64,49 @@
           <img class="music" src="./assets/music-selected.svg" alt="music" />
           <img class="no-music" src="./assets/music-unselected.svg" alt="no-music" />
         </div>
+        <a
+          class="get-demo-code"
+          href="https://github.com/Dynamsoft/capture-vision-javascript-samples/tree/main/VINScanner"
+          target="_blank"
+        >
+          GET DEMO CODE
+          <svg data-v-8dc7cce2="" viewBox="0 0 18 18" class="dbr-download-code-icon" data-v-20358a6b="">
+            <g data-v-8dc7cce2="" transform="translate(-519 -1339)" data-v-20358a6b="">
+              <g data-v-8dc7cce2="" transform="translate(520 1340)" data-v-20358a6b="">
+                <path
+                  data-v-8dc7cce2=""
+                  d="M528,1356a8,8,0,1,0-8-8A8,8,0,0,0,528,1356Z"
+                  transform="translate(-520 -1340)"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  data-v-20358a6b=""
+                ></path>
+                <path
+                  data-v-8dc7cce2=""
+                  d="M531,1352.274V1344.5"
+                  transform="translate(-523 -1340.387)"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  data-v-20358a6b=""
+                ></path>
+                <path
+                  data-v-8dc7cce2=""
+                  d="M533.554,1352l-4.027,5.027L525.5,1352"
+                  transform="translate(-521.527 -1344.02)"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  data-v-20358a6b=""
+                ></path>
+              </g>
+            </g>
+          </svg>
+        </a>
         <span id="notification"></span>
       </div>
       <div
@@ -75,6 +118,7 @@
           min-width: 100px;
           min-height: 100px;
           background: #6f6f6f;
+          overflow-y: hidden;
         "
       >
         <svg
@@ -123,24 +167,6 @@
           style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden"
         >
           <div class="scan-help-msg">Align the frame within the VIN number and start scanning</div>
-          <div class="scan-mode-container">
-            <span class="scan-mode"></span>
-            <img class="settings-btn" src="./assets/settings.svg" alt="no-music" />
-          </div>
-          <div
-            class="dce-scanlight"
-            hidden
-            style="
-              width: 100%;
-              display: none;
-              height: 10px;
-              position: absolute;
-              animation: 3s infinite dce-scanlight;
-              background-image: linear-gradient(#ffffff00, #ffb668);
-              border-bottom: 2px solid #ffb668;
-              user-select: none;
-            "
-          ></div>
         </div>
         <!-- The "Powered by Dynamsoft" logo can be easily removed by eliminating the following line. -->
         <div
@@ -262,7 +288,6 @@
     <div class="result-container">
       <div class="result-header">
         <div class="result-title">VIN Scan Results:</div>
-        <div class="result-restart">Restart ></div>
       </div>
       <div id="result-image-container"></div>
       <div class="result-btn-container">
@@ -276,20 +301,14 @@
         <button class="btn-restart-video">Restart Video</button>
       </div>
     </div>
-    <div class="settings-modal">
-      <div class="settings-modal-content">
-        <div class="settings-modal-top">
-          <div style="margin: 0; text-align: left">Settings</div>
-          <button class="close-settings-btn" type="button">
-            <img alt="close" src="./assets/close.svg" width="18px" height="18px" />
-          </button>
-        </div>
-        <div class="settings-option-title">Scan Mode</div>
-        <div style="display: flex; gap: 1rem">
-          <button type="button" class="settings-option-btn" id="scan-both-btn">Scan Text & Barcode</button>
-          <button type="button" class="settings-option-btn" id="scan-text-btn">Scan Text Only</button>
-          <button type="button" class="settings-option-btn" id="scan-barcode-btn">Scan Barcode Only</button>
-        </div>
+    <div class="scan-mode-container">
+      <div class="scan-mode-content">
+        <button type="button" class="scan-orientation-btn">
+          <img src="assets/phone-rotate.svg" alt="Rotate" class="scan-orientation-icon" />
+        </button>
+        <button type="button" class="scan-option-btn" id="scan-text-btn">Text</button>
+        <button type="button" class="scan-option-btn" id="scan-barcode-btn">Barcode</button>
+        <button type="button" class="scan-option-btn" id="scan-both-btn">Both</button>
       </div>
     </div>
     <script src="./js/const.js"></script>
