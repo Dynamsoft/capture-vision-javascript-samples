@@ -11,7 +11,7 @@ import { defineConfig, devices } from "@playwright/test";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./",
+  testDir: "./VINScanner/tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -26,9 +26,11 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
-
+    /* Enable headless mode by default */
+    headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    ignoreHTTPSErrors: true,
   },
 
   /* Configure projects */
@@ -38,7 +40,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: {
-          args: ["--enable-web-rtc", "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],
+          args: ["--disable-web-security", "--enable-web-rtc", "--headless=chrome"],
         },
         contextOptions: {
           /* Camera permission */
@@ -52,20 +54,29 @@ export default defineConfig({
       use: {
         ...devices["Desktop Firefox"],
         launchOptions: {
-          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"],
+          args: [
+            // "--use-fake-device-for-media-stream",
+            // "--use-fake-ui-for-media-stream",
+            "--headless=firefox",
+            "--disable-web-security",
+            "--enable-web-rtc",
+          ],
           firefoxUserPrefs: {
             "permissions.default.camera": 1, // Allow camera access automatically
-            "media.navigator.streams.fake": true, // Use fake streams if needed
+            // "media.navigator.streams.fake": true, // Use fake streams if needed
           },
         },
       },
     },
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-      },
-    },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     launchOptions: {
+    //       args: ["--disable-web-security", "--enable-web-rtc"],
+    //     },
+    //   },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */
