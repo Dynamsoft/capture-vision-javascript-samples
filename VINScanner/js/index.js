@@ -14,47 +14,45 @@ import {
 SCAN_MODES.forEach((mode) =>
   document.querySelector(`#scan-${mode}-btn`).addEventListener("click", async () => {
     try {
-      (async () => {
-        homePage.style.display = "none";
-        scannerContainer.style.display = "block";
+      homePage.style.display = "none";
+      scannerContainer.style.display = "block";
 
-        pInit = pInit || (await init);
+      pInit = pInit || (await init);
 
-        // Starts streaming the video
-        if (cameraEnhancer.isOpen()) {
-          await cvRouter.stopCapturing();
-          await cameraView.clearAllInnerDrawingItems();
-        } else {
-          await cameraEnhancer.open();
+      // Starts streaming the video
+      if (cameraEnhancer.isOpen()) {
+        await cvRouter.stopCapturing();
+        await cameraView.clearAllInnerDrawingItems();
+      } else {
+        await cameraEnhancer.open();
+      }
+
+      // Highlight the selected camera in the camera list container
+      const currentCamera = cameraEnhancer.getSelectedCamera();
+
+      const currentResolution = judgeCurResolution(cameraEnhancer.getResolution());
+      cameraListContainer.childNodes.forEach((child) => {
+        if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
+          child.className = "camera-item camera-selected";
         }
+      });
 
-        // Highlight the selected camera in the camera list container
-        const currentCamera = cameraEnhancer.getSelectedCamera();
+      // Start capturing based on the selected scan mode template
+      await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
+      // By default, cameraEnhancer captures grayscale images to optimize performance.
+      // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
+      cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
 
-        const currentResolution = judgeCurResolution(cameraEnhancer.getResolution());
-        cameraListContainer.childNodes.forEach((child) => {
-          if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
-            child.className = "camera-item camera-selected";
-          }
-        });
+      // Update button styles to show selected scan mode
+      document.querySelectorAll(".scan-option-btn").forEach((button) => {
+        button.classList.remove("selected");
+      });
+      document.querySelector(`#scan-${mode}-btn`).classList.add("selected");
+      showNotification(`Scan mode switched successfully`, "banner-success");
 
-        // Start capturing based on the selected scan mode template
-        await cvRouter.startCapturing(SCAN_TEMPLATES[mode]);
-        // By default, cameraEnhancer captures grayscale images to optimize performance.
-        // To capture RGB Images, we set the Pixel Format to EnumImagePixelFormat.IPF_ABGR_8888
-        cameraEnhancer.setPixelFormat(Dynamsoft.Core.EnumImagePixelFormat.IPF_ABGR_8888);
-
-        // Update button styles to show selected scan mode
-        document.querySelectorAll(".scan-option-btn").forEach((button) => {
-          button.classList.remove("selected");
-        });
-        document.querySelector(`#scan-${mode}-btn`).classList.add("selected");
-        showNotification(`Scan mode switched successfully`, "banner-success");
-
-        // Update the current mode to the newly selected mode and set scan orientation based on current mode
-        currentMode = mode;
-        configureScanOrientation();
-      })();
+      // Update the current mode to the newly selected mode and set scan orientation based on current mode
+      currentMode = mode;
+      configureScanOrientation();
     } catch (ex) {
       let errMsg = ex.message || ex;
       console.error(errMsg);
