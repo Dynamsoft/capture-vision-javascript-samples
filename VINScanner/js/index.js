@@ -55,8 +55,8 @@ SCAN_MODES.forEach((mode) =>
       configureScanOrientation();
     } catch (ex) {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
-      alert(errMsg);
+      console.error(`An error occurred: ${errMsg}`);
+      alert(`An error occurred: ${errMsg}`);
     }
   })
 );
@@ -195,8 +195,8 @@ copyResultBtn.addEventListener("click", () => {
     })
     .catch((ex) => {
       let errMsg = ex.message || ex;
-      console.error(errMsg);
-      alert(errMsg);
+      console.error(`An error occured: ${errMsg}`);
+      alert(`An error occured: ${errMsg}`);
     });
 });
 
