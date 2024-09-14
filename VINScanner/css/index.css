@@ -370,14 +370,13 @@ img {
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  opacity: 0.8;
   background-color: rgb(34, 34, 34);
 }
 
 .scan-orientation-btn .scan-orientation-icon {
   width: 24px;
   height: 24px;
-  filter: invert(0.4);
+  filter: invert(1);
 }
 
 #notification {
