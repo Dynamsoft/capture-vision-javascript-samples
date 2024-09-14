@@ -241,7 +241,7 @@ function updateScanOrientationStyles() {
     scanHelpMsg.style.display = "none"; // Hide the scan help message in portrait orientation
   } else {
     scanOrientationBtn.style.backgroundColor = "rgb(34,34,34)";
-    scanOrientationIcon.style.filter = "invert(0.4)";
+    scanOrientationIcon.style.filter = "invert(1)";
     scanHelpMsg.style.display = "block"; // Show the scan help message in landscape orientation
   }
 }
