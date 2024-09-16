@@ -7,6 +7,7 @@ import {
   shouldShowScanOrientation,
   showNotification,
   toggleScanOrientation,
+  judgeCurResolution,
 } from "./util.js";
 
 // Create event listener for each scan modes
@@ -29,8 +30,10 @@ SCAN_MODES.forEach((mode) =>
 
         // Highlight the selected camera in the camera list container
         const currentCamera = cameraEnhancer.getSelectedCamera();
+
+        const currentResolution = judgeCurResolution(cameraEnhancer.getResolution());
         cameraListContainer.childNodes.forEach((child) => {
-          if (currentCamera.deviceId === child.deviceId) {
+          if (currentCamera.deviceId === child.deviceId && currentResolution === child.resolution) {
             child.className = "camera-item camera-selected";
           }
         });
