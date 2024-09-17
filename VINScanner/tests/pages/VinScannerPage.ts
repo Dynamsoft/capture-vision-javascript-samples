@@ -20,7 +20,7 @@ export class VinScannerPage {
     this.headerLabel = this.page.locator(".scan-mode");
     this.settingsModal = this.page.locator(".settings-modal-content");
     this.startButton = this.page.locator(".start-btn");
-    this.scanModeContainer = this.page.locator(".scan-mode-container");
+    this.scanModeContainer = this.page.locator(".scan-mode-content");
     this.scanBarcodeButton = this.page.locator("#scan-barcode-btn");
     this.scanTextButton = this.page.locator("#scan-text-btn");
     this.scanBothButton = this.page.locator("#scan-both-btn");
@@ -87,11 +87,10 @@ export class VinScannerPage {
   }
 
   async waitForPageLoad() {
-    await this.scanModeContainer.waitFor({ timeout: 10000 });
     await this.page.waitForFunction(() => {
       return (typeof cameraEnhancer !== undefined);
     }, { timeout: 10000 });
-    
+    await this.scanModeContainer.waitFor({ timeout: 10000 });
   }
 
   async clickStartButton() {

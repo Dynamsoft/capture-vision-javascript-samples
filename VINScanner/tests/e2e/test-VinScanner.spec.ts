@@ -1,8 +1,14 @@
 import { test, expect } from '../fixtures';
 
+// Adding userAgent to avoid firefox headless mode to block the script as it is being detected as bot.
+const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"; 
+
+
 test.describe.configure({ mode: 'serial' });
 
 test.describe("Verify the VIN Scanner Page title and veirfy user can select different settings", () => {
+  test.use({userAgent});
+
   test.beforeEach(async ({ vinScannerPage }) => {
     
     // Mock the camera
@@ -25,7 +31,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
 
     await vinScannerPage.clickScanBothButton();
     const selectedBtn = await vinScannerPage.getSelectedButton();
-    expect(selectedBtn).toHaveText('Scan Text & Barcode');
+    expect(selectedBtn).toHaveText('Both');
 
   });
 
@@ -34,7 +40,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   
     await vinScannerPage.clickScanBarcodeButton();
     const selectedBtn = await vinScannerPage.getSelectedButton();
-    expect(selectedBtn).toHaveText('Scan Barcode Only');
+    expect(selectedBtn).toHaveText('Barcode');
 
   });
 
@@ -44,7 +50,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
     await vinScannerPage.clickScanTextButton();
     
     const selectedBtn = await vinScannerPage.getSelectedButton(); 
-    expect(selectedBtn).toHaveText('Scan Text Only');
+    expect(selectedBtn).toHaveText('Text');
 
   });
 
