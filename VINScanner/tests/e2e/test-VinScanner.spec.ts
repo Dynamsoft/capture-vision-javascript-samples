@@ -26,7 +26,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
   });
 
 
-  test('should click "Scan Text and Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
+  test('should click "Both" button on the page and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
 
     await vinScannerPage.clickScanBothButton();
@@ -35,7 +35,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
 
   });
 
-  test('should click "Scan by Barcode" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
+  test('should click "Barcode" button on the page and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
   
     await vinScannerPage.clickScanBarcodeButton();
@@ -44,7 +44,7 @@ test.describe("Verify the VIN Scanner Page title and veirfy user can select diff
 
   });
 
-  test('should click "Scan by Text" button in the settings modal and validate the header label text', async ({ vinScannerPage }) => {
+  test('should click "Text" button on the page and validate the header label text', async ({ vinScannerPage }) => {
     await vinScannerPage.clickStartButton();
     
     await vinScannerPage.clickScanTextButton();

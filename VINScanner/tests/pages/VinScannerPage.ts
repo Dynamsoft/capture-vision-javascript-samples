@@ -41,6 +41,10 @@ export class VinScannerPage {
         };
       `,
     });
+
+    await this.page.setExtraHTTPHeaders({
+      "sec-ch-ua": '"Chromium";v="91", " Not;A Brand";v="99"'
+    });
   }
 
   /**
@@ -95,7 +99,9 @@ export class VinScannerPage {
 
   async clickStartButton() {
     await this.startButton.click();
-    await this.waitForPageLoad();
+    // await this.waitForPageLoad();
+    await this.page.waitForLoadState('networkidle', {timeout: 30000});
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   async clickScanBarcodeButton() {

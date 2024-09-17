@@ -36,7 +36,7 @@ export class MinElementPage {
   }
 
   async navigateTo() {
-    await this.grantCameraPermission();
+    // await this.grantCameraPermission();
     await this.page.goto(URL);
     await this.initialize();
   }
@@ -59,6 +59,7 @@ export class MinElementPage {
   }
 
   async getAllResolutions() {
+    await this.page.waitForLoadState('domcontentloaded');
     await this.hasCameraEnhancer();
     let availableResolutions: { width: number; height: number; }[] | null = null;
     const maxAttempts = 10;
