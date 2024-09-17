@@ -22,7 +22,7 @@ test.describe.configure({ mode: 'serial' });
 
 test.describe('Minimum Element Page Tests', () => {
   test.use({userAgent});
-  
+
   test.beforeEach(async ({ minElementPage }) => {
     await minElementPage.navigateTo();
   });
@@ -45,8 +45,7 @@ test.describe('Minimum Element Page Tests', () => {
   test('should get all available resolutions', async ({ minElementPage }) => {
     const resolutions = await minElementPage.getAllResolutions();
     if (resolutions !== null) {
-      // This fails because we're comparing objects incorrectly
-      // We need to compare each property of the objects instead
+
       let isFound = availableResolutions.some(ai => 
         resolutions.some(res => res.width === ai.width && res.height === ai.height)
       );

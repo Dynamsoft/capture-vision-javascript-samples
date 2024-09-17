@@ -8,35 +8,16 @@ const URL = '/VINScanner/minimum-elements.html';
 export class MinElementPage {
   private page: Page;
   private selResolution: Locator;
-  private options: Locator[]; 
 
   constructor(page: Page) {
     this.page = page;    
   }
 
   async initialize() {
-    this.selResolution = await this.page.locator('select.dce-sel-resolution');  
-    this.options = await this.selResolution.locator('option').all();      
-  }
-
-  async grantCameraPermission() {
-    await this.page.addScriptTag({
-      content: `
-        navigator.mediaDevices.getUserMedia = async () => {
-          return {
-            getVideoTracks: () => [{
-              applyConstraints: () => {},
-              stop: () => {},
-            }],
-            getAudioTracks: () => [],
-          };
-        };
-      `,
-    });
+    this.selResolution = await this.page.locator('select.dce-sel-resolution');     
   }
 
   async navigateTo() {
-    // await this.grantCameraPermission();
     await this.page.goto(URL);
     await this.initialize();
   }
