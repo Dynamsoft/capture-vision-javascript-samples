@@ -43,7 +43,9 @@ export default defineConfig({
           args: [
             "--disable-web-security",
             "--enable-web-rtc",
-            "--headless=chrome"
+            "--headless=chrome",
+            "--use-fake-device-for-media-stream",
+            "--use-fake-ui-for-media-stream"
           ],
         },
         contextOptions: {
@@ -58,6 +60,8 @@ export default defineConfig({
       use: {
         ...devices["Desktop Firefox"],
         launchOptions: {
+          "devtools": true,
+          "headless": false,
           args: [
             // "--use-fake-device-for-media-stream", 
             // "--use-fake-ui-for-media-stream", 
