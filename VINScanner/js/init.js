@@ -83,7 +83,7 @@ async function initDCE() {
 let init = (async function initCVR() {
   await initDCE();
   cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance();
-  await cvRouter.initSettings("./VIN_Template.json");
+  await cvRouter.initSettings("./template.json");
   cvRouter.setInput(cameraEnhancer);
 
   /* Filter out unchecked and duplicate results. */

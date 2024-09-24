@@ -67,7 +67,7 @@
 
         cvRouter.setInput(cameraEnhancer);
         // Set parameters to read VIN through DLR, DBR, and DCP
-        await cvRouter.initSettings("./VIN_Template.json");
+        await cvRouter.initSettings("./template.json");
 
         // Filter out unchecked and duplicate results.
         const filter = new Dynamsoft.Utility.MultiFrameResultCrossFilter();
