@@ -1,5 +1,15 @@
 import { test, expect } from '../fixtures';
 
+
+/*
+1. Test whether the page title is correct
+2. Test whether the cameraEnhancer is initialized and working properly
+3. Test whether a resolution is selected
+4. Test whether all available resolutions exist
+5. Test if selecting a different resolution works
+*/
+
+
 // available resolutions
 const availableResolutions:{width: number, height: number}[] = [
   { width: 160, height: 120 },

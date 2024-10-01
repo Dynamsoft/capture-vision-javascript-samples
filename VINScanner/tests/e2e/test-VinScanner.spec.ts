@@ -1,5 +1,12 @@
 import { test, expect } from "./../fixtures";
 
+/*
+1. Test whether the title is correct
+2. Test selecting 'Scan Text and Barcode' option
+3. Test selecting 'Scan by Barcode' option
+4. Test selecting 'Scan by Text' option
+*/
+
 test.describe("Verify the VIN Scanner Page title and veirfy user can select different settings", () => {
   test.beforeEach(async ({ vinScannerPage }) => {
     

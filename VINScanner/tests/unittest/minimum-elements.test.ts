@@ -1,7 +1,14 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 
-// const URL = `file:${path.join(__dirname, "../../minimum-elements.html")}`;
+/*
+1. Test whether the page title is valid
+2. Test whether the main heading is correct
+3. Test all scan type buttons exist and visible
+4. Test whether the cameraView is initialized and working properly
+5. Test if the result container is initialized and visible
+*/
+
 const HTML_FILE = path.join(__dirname, '../../minimum-elements.html');
 
 test.beforeEach(async ({ page }) => {
@@ -51,36 +58,3 @@ test('should have result containers', async ({ page }) => {
     expect(resultImageContainer).not.toBeNull();
     expect(resultsContainer).not.toBeNull();
 });
-
-
-
-// test('should have SCAN_MODES array defined', async () => {
-//     const scanModes = document.getElementById('scan-modes');
-//     expect(window.SCAN_MODES).toEqual(['barcode', 'text', 'both']);
-// });
-
-// test('should have SCAN_TEMPLATES object defined', async () => {
-//     expect(typeof dom.window.SCAN_TEMPLATES).toBe('object');
-//     expect(dom.window.SCAN_TEMPLATES).toEqual({
-//         barcode: 'ReadVINBarcode',
-//         text: 'ReadVINText',
-//         both: 'ReadVIN',
-//     });
-// });
-
-// test('should have SCAN_MODE_TITLES object defined', async () => {
-//     expect(typeof dom.window.SCAN_MODE_TITLES).toBe('object');
-//     expect(dom.window.SCAN_MODE_TITLES).toEqual({
-//         barcode: 'Scan by Barcode',
-//         text: 'Scan by Text',
-//         both: 'Scan Text or Barcode',
-//     });
-// });
-
-// test('should have extractVinDetails function defined', async () => {
-//     expect(typeof dom.window.extractVinDetails).toBe('function');
-//     });
-
-//     test('should have formatVin function defined', async () => {
-//     expect(typeof dom.window.formatVin).toBe('function');
-// });

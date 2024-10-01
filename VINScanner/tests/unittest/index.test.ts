@@ -6,11 +6,9 @@ import path from 'path';
 2. Test whether the cameraEnhancer is initialized and working properly
 3. Test whether the cameraView is initialized and working properly
 4. Test whether the cvRouter is initialized and working properly
-5. Test whether the result can be populated and copied //TODO
 */
 
-// const URL = 'http://localhost:5173/VINScanner';
-// const URL = 'https://192.168.0.18:5504/VINScanner/'; 
+
 const URL = `file:${path.join(__dirname, "../../index.html")}`;
 
 test.beforeEach(async ({ page }) => {
