@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  playwright:
+  test:
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container: 
@@ -17,30 +17,26 @@ jobs:
       run:
         working-directory: VINScanner
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: lts/*
 
-      - name: Install dependencies
+      - name: Install dependencies (clean install)
         run: npm ci
 
-      # - name: Install Playwright browsers
-      #   run: npx playwright install
-      - name: Start Server & Run Tests
-        run: npm run ci
-      # - name: Start local server
-      #   run: npm run dev &
-      #   continue-on-error: true
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+        
+      - name: Start local server
+        run: npm run dev &
+        continue-on-error: true
 
-      # - name: Wait for server to be ready
-      #   run: npx wait-on http://127.0.0.1:5173/ -t 30000
+      - name: Wait for server to be ready
+        run: npx wait-on http://127.0.0.1:5173/ -t 30000
 
-      # - name: Run Playwright tests
-      #   run: npx playwright test
+      - name: Run Playwright tests
+        run: npx playwright test
       
       - name: Upload test results
         if: always()

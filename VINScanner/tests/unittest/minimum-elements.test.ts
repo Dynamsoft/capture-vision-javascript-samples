@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
+
 
 /*
 1. Test whether the page title is valid
@@ -9,11 +9,11 @@ import path from 'path';
 5. Test if the result container is initialized and visible
 */
 
-const HTML_FILE = path.join(__dirname, '../../minimum-elements.html');
+const URL = '/minimum-elements.html';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto(`file://${HTML_FILE}`);
-  });
+    await page.goto(URL);
+});
   
 
 test('should have correct title', async ({ page }) => {
@@ -32,7 +32,7 @@ test('should have scan title element', async ({ page }) => {
     expect(scanTitle).not.toBeNull();
 });
 
-test('should have correct scan type butotns', async ({ page }) => {
+test('should have correct scan type buttons', async ({ page }) => {
     const scanBothBtn = await page.locator('#scan-both-btn');
     const scanTextBtn = await page.locator('#scan-text-btn');
     const scanBarcodeBtn = await page.locator('#scan-barcode-btn');

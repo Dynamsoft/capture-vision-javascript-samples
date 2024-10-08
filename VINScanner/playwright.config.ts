@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./",
+  testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -15,9 +15,9 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:3000',
 
-    headless: true,
+    headless: false,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -32,8 +32,9 @@ export default defineConfig({
           args: [
             "--disable-web-security",
             "--enable-web-rtc",
-            "--use-fake-ui-for-media-stream",
+            // "--headless=chrome",
             "--use-fake-device-for-media-stream",
+            "--use-fake-ui-for-media-stream"
           ],
         },
         contextOptions: {
@@ -48,22 +49,37 @@ export default defineConfig({
       use: {
         ...devices["Desktop Firefox"],
         launchOptions: {
-          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"],
+          "devtools": true,
+          "headless": false,
+          args: [
+            "--use-fake-device-for-media-stream", 
+            "--use-fake-ui-for-media-stream", 
+            "--headless=firefox",
+            "--disable-web-security",
+            "--enable-web-rtc"],
           firefoxUserPrefs: {
             "permissions.default.camera": 1, // Allow camera access automatically
             "media.navigator.streams.fake": true, // Use fake streams if needed
+            "devtools.debugger.remote-enabled": true,
+            "devtools.debugger.prompt-connection": false,
+            "devtools.chrome.enabled": true,
+            "datareporting.policy.firstRunURL": ""
           },
         },
       },
     },
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        launchOptions: {
-          args: ["--disable-web-security", "--enable-web-rtc"],
-        },
-      },
-    },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     launchOptions: {
+    //       args: ["--disable-web-security", "--enable-web-rtc"],
+    //     },
+    //   },
+    // },
   ],
+  /* Run your local dev server before starting the tests */
+  webServer: {
+    command: "npm run start",
+  },
 });

@@ -1,10 +1,6 @@
 import { Page, Locator } from "@playwright/test";
-import path = require("path");
 
-// TODO: Update the URL when we upload the page to live server.
-// const URL = "https://tst.dynamsoft.com/temp/vin-scan-dlr-dbr/index.html";
-// const URL = 'https://192.168.0.18:5504/VINScanner/';
-const URL = `file:${path.join(__dirname, "../../index.html")}`;
+const URL = '/VINScanner/index.html';
 
 export class VinScannerPage {
   private page: Page;

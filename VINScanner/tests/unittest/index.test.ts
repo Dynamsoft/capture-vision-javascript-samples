@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
 
 /*
 1. Test whether the license is valid
@@ -9,7 +8,7 @@ import path from 'path';
 */
 
 
-const URL = `file:${path.join(__dirname, "../../index.html")}`;
+const URL = '/VINScanner/index.html';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(URL);
