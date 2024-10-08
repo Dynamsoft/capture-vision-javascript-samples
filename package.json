@@ -1,0 +1,21 @@
+{
+  "name": "capture-vision-javascript-samples",
+  "version": "1.0.0",
+  "description": "| Sample Name   | Description                                                                          |\r | ------------  | ------------------------------------------------------------------------------------ |\r | `VIN Scanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite --port 3000",
+    "test": "npx playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.5.0"
+  },
+  "dependencies": {
+    "playwright": "^1.46.1",
+    "vite": "^5.4.2"
+  }
+}
