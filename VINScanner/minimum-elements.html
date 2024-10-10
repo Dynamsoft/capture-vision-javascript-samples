@@ -23,7 +23,7 @@
     Results:
     <div id="result-image-container"></div>
     <div id="results"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.2.3000/dist/dcv.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.4.2000/dist/dcv.bundle.min.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -38,12 +38,6 @@
        * LICENSE ALERT - THE END
        */
 
-      // Dynamsoft Image Processing and Label Recognizer resource path optimized for VIN Scanning
-      Dynamsoft.Core.CoreModule.engineResourcePaths.dip =
-        "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407211855/dist";
-      Dynamsoft.Core.CoreModule.engineResourcePaths.dlr =
-        "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/";
-
       // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
       Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
 
@@ -51,8 +45,10 @@
       const init = async () => {
         // [Optional] - Create custom UI for CameraView
         // Ref: https://www.dynamsoft.com/camera-enhancer/docs/web/programming/javascript/user-guide/index.html#customize-the-ui
-        cameraView = await Dynamsoft.DCE.CameraView.createInstance(document.getElementById("camera-view-container"));
+        cameraView = await Dynamsoft.DCE.CameraView.createInstance();
         cameraEnhancer = await Dynamsoft.DCE.CameraEnhancer.createInstance(cameraView); // Create a `CameraEnhancer` instance for camera control and a `CameraView` instance for UI control.
+        document.getElementById("camera-view-container").append(cameraView.getUIElement());
+
         cvRouter = await Dynamsoft.CVR.CaptureVisionRouter.createInstance(); // Create a `CaptureVisionRouter` instance and set `CameraEnhancer` instance as its image source.
 
         cameraView.setVideoFit("cover");
