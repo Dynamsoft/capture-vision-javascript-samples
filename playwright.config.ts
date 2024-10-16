@@ -21,7 +21,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
     /* Enable headless mode by default */
-    headless: false, // Change to `false` to see the browser during testing
+    headless: true, // Change to `false` to see the browser during testing
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -36,7 +36,7 @@ export default defineConfig({
           args: [
             "--disable-web-security",
             "--enable-web-rtc",
-            // "--headless=chrome", // Comment to see the browser during testing
+            "--headless=chrome", // Comment to see the browser during testing
             "--use-fake-device-for-media-stream",
             // "--use-fake-ui-for-media-stream",
             `--use-file-for-fake-video-capture=${path.join(__dirname, "./e2e/assets/sample.y4m")}`,
