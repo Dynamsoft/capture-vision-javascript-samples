@@ -11,12 +11,6 @@ Dynamsoft.License.LicenseManager.initLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMD
  * LICENSE ALERT - THE END
  */
 
-// Dynamsoft Image Processing and Label Recognizer resource path optimized for VIN Scanning
-Dynamsoft.Core.CoreModule.engineResourcePaths.dip =
-  "https://cdn.jsdelivr.net/npm/dynamsoft-image-processing@2.2.30-iv-202407211855/dist";
-Dynamsoft.Core.CoreModule.engineResourcePaths.dlr =
-  "https://cdn.jsdelivr.net/npm/dynamsoft-label-recognizer@3.2.30-iv-202407182011/dist/";
-
 // Optional. Used to load wasm resources in advance, reducing latency between video playing and barcode decoding.
 Dynamsoft.Core.CoreModule.loadWasm(["DBR", "DLR", "DCP"]);
 

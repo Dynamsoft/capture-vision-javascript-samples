@@ -2,9 +2,9 @@ import { Page, Locator } from "@playwright/test";
 
 // TODO: Update the URL when we upload the page to live server.
 
-const URL = '/VINScanner/index.html';
+const URL = "/VINScanner/index.html";
 
-export class VinScannerPage {
+export class VINScannerPage {
   private page: Page;
   private headerLabel: Locator;
   private settingsModal: Locator;
@@ -19,7 +19,7 @@ export class VinScannerPage {
     this.headerLabel = this.page.locator(".scan-mode");
     this.settingsModal = this.page.locator(".settings-modal-content");
     this.startButton = this.page.locator(".start-btn");
-    
+
     this.scanBarcodeButton = this.page.locator("#scan-barcode-btn");
     this.scanTextButton = this.page.locator("#scan-text-btn");
     this.scanBothButton = this.page.locator("#scan-both-btn");
@@ -42,7 +42,7 @@ export class VinScannerPage {
     });
 
     await this.page.setExtraHTTPHeaders({
-      "sec-ch-ua": '"Chromium";v="91", " Not;A Brand";v="99"'
+      "sec-ch-ua": '"Chromium";v="91", " Not;A Brand";v="99"',
     });
   }
 
@@ -50,10 +50,8 @@ export class VinScannerPage {
    * Close the license related dialog if it shows.
    */
   async closeDialogIfPresent() {
-
     this.dialogCloseButton.waitFor({ state: "visible", timeout: 5000 });
-    await this.dialogCloseButton.click();    
-    
+    await this.dialogCloseButton.click();
   }
 
   async navigateTo() {
@@ -72,16 +70,15 @@ export class VinScannerPage {
 
   async getHeaderLabel(expectedText?: string) {
     await this.page.waitForTimeout(3000);
-    
+
     // If expectedText is provided, wait for it to appear
     if (expectedText) {
-      await this.headerLabel.waitFor({ state: 'visible', timeout: 5000});
-      await this.page.waitForFunction((expectedText) => { 
+      await this.headerLabel.waitFor({ state: "visible", timeout: 5000 });
+      await this.page.waitForFunction((expectedText) => {
         this.headerLabel.textContent().then.toString().match(expectedText);
-      },
-      expectedText);
+      }, expectedText);
     }
-  
+
     return await this.headerLabel.textContent();
   }
 
@@ -91,10 +88,10 @@ export class VinScannerPage {
 
   async clickStartButton() {
     await this.startButton.click();
-    
+
     // Ensuring the page is loaded after clicked on the Start button
-    await this.page.waitForLoadState('networkidle', {timeout: 30000});
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState("networkidle", { timeout: 30000 });
+    await this.page.waitForLoadState("domcontentloaded");
   }
 
   async clickScanBarcodeButton() {
@@ -111,5 +108,4 @@ export class VinScannerPage {
     await this.scanBothButton.click();
     await this.page.waitForTimeout(2000);
   }
-  
 }

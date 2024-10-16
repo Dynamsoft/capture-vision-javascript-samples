@@ -1,17 +1,17 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator } from "@playwright/test";
 
-const URL = '/VINScanner/minimum-elements.html';
+const URL = "/VINScanner/minimum-elements.html";
 
-export class MinElementPage {
+export class MinElementsPage {
   private page: Page;
   private selResolution: Locator;
 
   constructor(page: Page) {
-    this.page = page;    
+    this.page = page;
   }
 
   async initialize() {
-    this.selResolution = await this.page.locator('select.dce-sel-resolution');     
+    this.selResolution = await this.page.locator("select.dce-sel-resolution");
   }
 
   async navigateTo() {
@@ -37,22 +37,22 @@ export class MinElementPage {
   }
 
   async getAllResolutions() {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState("domcontentloaded");
     await this.hasCameraEnhancer();
-    let availableResolutions: { width: number; height: number; }[] | null = null;
+    let availableResolutions: { width: number; height: number }[] | null = null;
     const maxAttempts = 10;
     let attempts = 0;
     const delay = 500;
 
     while (attempts < maxAttempts && !availableResolutions) {
       availableResolutions = await this.page.evaluate(async () => {
-        if (typeof cameraEnhancer !== 'undefined' && typeof cameraEnhancer.getAvailableResolutions === "function") {
+        if (typeof cameraEnhancer !== "undefined" && typeof cameraEnhancer.getAvailableResolutions === "function") {
           try {
             const resolutions = await cameraEnhancer.getAvailableResolutions();
             return resolutions && resolutions.length > 0 ? resolutions : null;
           } catch (error) {
             if (error instanceof OverconstrainedError) {
-              console.error('OverconstrainedError: Source failed to restart');
+              console.error("OverconstrainedError: Source failed to restart");
               return null;
             }
             throw error;
@@ -62,18 +62,16 @@ export class MinElementPage {
       });
 
       if (!availableResolutions) {
-        await new Promise(resolve => setTimeout(resolve, delay));
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
 
       attempts++;
-    }    
+    }
     return availableResolutions;
   }
 
   async getCurrentResolution() {
-    return this.selResolution.getAttribute
+    return this.selResolution.getAttribute;
   }
-  async selectResolution() {
-
-  }
+  async selectResolution() {}
 }

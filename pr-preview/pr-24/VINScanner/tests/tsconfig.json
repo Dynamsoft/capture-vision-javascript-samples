@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-      // Your existing options
-    },
-    "include": [
-      "./*.ts", // or the relevant directory if placed elsewhere
-      "./global.d.ts"   // Ensure this path matches where your global.d.ts is
-    ]
-  }

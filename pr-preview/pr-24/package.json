@@ -1,7 +1,7 @@
 {
   "name": "capture-vision-javascript-samples",
   "version": "1.0.0",
-  "description": "| Sample Name   | Description                                                                          |\r | ------------  | ------------------------------------------------------------------------------------ |\r | `VIN Scanner` | Scan the VIN code from a barcode or a text line and extract the vehicle information. |",
+  "description": "Dynamsoft Capture Vision JavaScript samples",
   "main": "index.js",
   "scripts": {
     "start": "vite --port 3000",
