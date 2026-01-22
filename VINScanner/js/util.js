@@ -9,7 +9,7 @@ export function extractVinDetails(result) {
   if (!result.exception) {
     parseResultInfo["Region"] = result.getFieldValue("region");
     parseResultInfo["Check Digit"] = result.getFieldValue("checkDigit");
-    parseResultInfo["Model Year"] = undefined?.split(",")?.join(" | ");
+    parseResultInfo["Model Year"] = result.getFieldValue("modelYear")?.split(",")?.join(" | ");
     parseResultInfo["Plant Code"] = result.getFieldValue("plantCode");
     parseResultInfo["VIS"] = result.getFieldValue("VIS");
   }

@@ -210,8 +210,8 @@
             "GrayscaleEnhancementModesIndex": -1,
             "Mode": "BM_LOCAL_BLOCK",
             "MorphOperation": "Close",
-            "MorphOperationKernelSizeX": -1,
-            "MorphOperationKernelSizeY": -1,
+            "MorphOperationKernelSizeX": 0,
+            "MorphOperationKernelSizeY": 0,
             "MorphShape": "Rectangle",
             "ThresholdCompensation": 10
           },
@@ -338,7 +338,7 @@
         "ExcludeChars": ["O", "Q", "I"]
       },
       "DirectoryPath": "",
-      "Name": "VIN"
+      "Name": "VINCharRecognition"
     }
   ],
   "CodeParserTaskSettingOptions": [
@@ -363,8 +363,8 @@
           "GrayscaleEnhancementModesIndex": -1,
           "Mode": "BM_LOCAL_BLOCK",
           "MorphOperation": "Erode",
-          "MorphOperationKernelSizeX": -1,
-          "MorphOperationKernelSizeY": -1,
+          "MorphOperationKernelSizeX": 0,
+          "MorphOperationKernelSizeY": 0,
           "MorphShape": "Rectangle",
           "ThresholdCompensation": 10
         }
@@ -451,8 +451,8 @@
           "GrayscaleEnhancementModesIndex": -1,
           "Mode": "BM_LOCAL_BLOCK",
           "MorphOperation": "Close",
-          "MorphOperationKernelSizeX": -1,
-          "MorphOperationKernelSizeY": -1,
+          "MorphOperationKernelSizeX": 0,
+          "MorphOperationKernelSizeY": 0,
           "MorphShape": "Rectangle",
           "ThresholdCompensation": 10
         }
@@ -536,8 +536,8 @@
           "GrayscaleEnhancementModesIndex": -1,
           "Mode": "BM_LOCAL_BLOCK",
           "MorphOperation": "Close",
-          "MorphOperationKernelSizeX": -1,
-          "MorphOperationKernelSizeY": -1,
+          "MorphOperationKernelSizeX": 0,
+          "MorphOperationKernelSizeY": 0,
           "MorphShape": "Rectangle",
           "ThresholdCompensation": 10
         }
@@ -738,14 +738,14 @@
           "GrayscaleEnhancementModesIndex": -1,
           "Mode": "BM_LOCAL_BLOCK",
           "MorphOperation": "Erode",
-          "MorphOperationKernelSizeX": -1,
-          "MorphOperationKernelSizeY": -1,
+          "MorphOperationKernelSizeX": 0,
+          "MorphOperationKernelSizeY": 0,
           "MorphShape": "Rectangle",
           "ThresholdCompensation": 10
         }
       ],
       "CharHeightRange": [5, 1000, 1],
-      "CharacterModelName": "VIN",
+      "CharacterModelName": "VINCharRecognition",
       "CharacterNormalizationModes": [
         {
           "Mode": "CNM_AUTO",
@@ -760,11 +760,11 @@
       "GrayscaleEnhancementModes": [
         {
           "Mode": "GEM_GENERAL",
-          "Sensitivity": -1,
-          "SharpenBlockSizeX": -1,
-          "SharpenBlockSizeY": -1,
-          "SmoothBlockSizeX": -1,
-          "SmoothBlockSizeY": -1
+          "Sensitivity": 5,
+          "SharpenBlockSizeX": 3,
+          "SharpenBlockSizeY": 3,
+          "SmoothBlockSizeX": 3,
+          "SmoothBlockSizeY": 3
         }
       ],
       "Name": "tls_vin_text",

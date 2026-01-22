@@ -23,7 +23,7 @@
     Results:
     <div id="result-image-container"></div>
     <div id="results"></div>
-    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@2.4.2100/dist/dcv.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-capture-vision-bundle@3.2.5000/dist/dcv.bundle.min.js"></script>
     <script>
       /** LICENSE ALERT - README
        * To use the library, you need to first specify a license key using the API "initLicense()" as shown below.
@@ -76,9 +76,9 @@
         // Define the result receiver for the solution
         const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
         resultReceiver.onCapturedResultReceived = (result) => {
-          const textLineResult = result.textLineResultItems;
-          const barcodeResult = result.barcodeResultItems;
-          const parsedResults = result.parsedResultItems;
+          const textLineResult = result.recognizedTextLinesResult?.textLineResultItems;
+          const barcodeResult = result.decodedBarcodesResult?.barcodeResultItems;
+          const parsedResults = result.parsedResult?.parsedResultItems;
 
           if (textLineResult?.length || barcodeResult?.length) {
             // Reset results
