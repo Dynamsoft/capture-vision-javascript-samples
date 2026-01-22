@@ -185,7 +185,17 @@
           "Mode": "BCM_SKIP"
         }
       ],
-      "BarcodeFormatIds": ["BF_CODE_39_EXTENDED", "BF_QR_CODE", "BF_DATAMATRIX"],
+      "BarcodeFormatIds": [
+        "BF_CODE_39",
+        "BF_CODE_128",
+        "BF_CODE_93",
+        "BF_CODABAR",
+        "BF_ITF",
+        "BF_INDUSTRIAL_25",
+        "BF_CODE_39_EXTENDED",
+        "BF_QR_CODE",
+        "BF_DATAMATRIX"
+      ],
       "BarcodeFormatSpecificationNameArray": [
         "bf_vin_code_39_extended",
         "bf_vin_qr_dm",
@@ -199,7 +209,17 @@
           "Mode": "DPMCRM_SKIP"
         }
       ],
-      "DeblurModes": null,
+      "DeblurModes": [
+        {
+          "Mode": "DM_BASED_ON_LOC_BIN"
+        },
+        {
+          "Mode": "DM_THRESHOLD_BINARIZATION"
+        },
+        {
+          "Mode": "DM_DEEP_ANALYSIS"
+        }
+      ],
       "DeformationResistingModes": [
         {
           "BinarizationMode": {
@@ -526,7 +546,7 @@
       ]
     },
     {
-      "BaseImageParameterName": "",
+      "Name": "ip_recognize_text",
       "BinarizationModes": [
         {
           "BinarizationThreshold": -1,
@@ -570,7 +590,6 @@
         }
       ],
       "IfEraseTextZone": 0,
-      "Name": "ip_recognize_text",
       "RegionPredetectionModes": [
         {
           "AspectRatioRange": "[]",
@@ -616,19 +635,8 @@
   ],
   "LabelRecognizerTaskSettingOptions": [
     {
-      "BaseLabelRecognizerTaskSettingName": "",
-      "ClusterSamplesCountThreshold": 0,
-      "ConfusableCharactersPath": "",
-      "DictionaryCorrectionThresholds": [
-        {
-          "MaxWordLength": 256,
-          "MinWordLength": 3,
-          "Threshold": 1
-        }
-      ],
-      "DictionaryPath": "",
-      "MaxThreadsInOneTask": 4,
       "Name": "task_vin_text",
+      "TextLineSpecificationNameArray": ["tls_vin_text"],
       "SectionImageParameterArray": [
         {
           "ContinueWhenPartialResultsGenerated": 1,
@@ -645,15 +653,7 @@
           "ImageParameterName": "ip_recognize_text",
           "Section": "ST_TEXT_LINE_RECOGNITION"
         }
-      ],
-      "StartSection": "ST_REGION_PREDETECTION",
-      "StringLengthRange": [3, 200],
-      "StringRegExPattern": "",
-      "TerminateSetting": {
-        "Section": "ST_NULL",
-        "Stage": "IRUT_NULL"
-      },
-      "TextLineSpecificationNameArray": ["tls_vin_text"]
+      ]
     }
   ],
   "SemanticProcessingOptions": [
@@ -729,6 +729,13 @@
   ],
   "TextLineSpecificationOptions": [
     {
+      "Name": "tls_vin_text",
+      "CharacterModelName": "VINCharRecognition",
+      "CharHeightRange": [5, 1000, 1],
+      "StringLengthRange": [17, 17],
+      "StringRegExPattern": "[0-9A-HJ-NPR-Z]{9}[1-9A-HJ-NPR-TV-Y][0-9A-HJ-NPR-Z]{2}[0-9]{5}",
+      "ExpectedGroupsCount": 1,
+      "TextLinesCount": 1,
       "BinarizationModes": [
         {
           "BinarizationThreshold": -1,
@@ -744,8 +751,6 @@
           "ThresholdCompensation": 10
         }
       ],
-      "CharHeightRange": [5, 1000, 1],
-      "CharacterModelName": "VINCharRecognition",
       "CharacterNormalizationModes": [
         {
           "Mode": "CNM_AUTO",
@@ -753,10 +758,6 @@
           "MorphOperation": "Close"
         }
       ],
-      "ConcatResults": 0,
-      "ConcatSeparator": "\n",
-      "ConcatStringLengthRange": [3, 200],
-      "ExpectedGroupsCount": 1,
       "GrayscaleEnhancementModes": [
         {
           "Mode": "GEM_GENERAL",
@@ -767,12 +768,11 @@
           "SmoothBlockSizeY": 3
         }
       ],
-      "Name": "tls_vin_text",
+      "ConcatResults": 0,
+      "ConcatSeparator": "\n",
+      "ConcatStringLengthRange": [3, 200],
       "OutputResults": 1,
-      "StringLengthRange": [17, 17],
-      "StringRegExPattern": "[0-9A-HJ-NPR-Z]{9}[1-9A-HJ-NPR-TV-Y][0-9A-HJ-NPR-Z]{2}[0-9]{5}",
-      "SubGroups": null,
-      "TextLinesCount": 1
+      "SubGroups": null
     }
   ]
 }
