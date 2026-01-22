@@ -90,10 +90,11 @@ let init = (async function initCVR() {
 
   /* Defines the result receiver for the solution.*/
   const resultReceiver = new Dynamsoft.CVR.CapturedResultReceiver();
+
   resultReceiver.onCapturedResultReceived = (result) => {
-    const textLineResult = result.textLineResultItems;
-    const barcodeResult = result.barcodeResultItems;
-    const parsedResults = result.parsedResultItems;
+    const textLineResult = result.recognizedTextLinesResult?.textLineResultItems;
+    const barcodeResult = result.decodedBarcodesResult?.barcodeResultItems;
+    const parsedResults = result.parsedResult?.parsedResultItems;
 
     if (textLineResult?.length || barcodeResult?.length) {
       // Play sound feedback if enabled
