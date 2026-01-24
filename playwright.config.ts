@@ -1,17 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import * as path from "path";
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: "./",
+  testDir: "./e2e",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -26,7 +20,8 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
-
+    /* Enable headless mode by default */
+    headless: true, // Change to `false` to see the browser during testing
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -38,7 +33,14 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         launchOptions: {
-          args: ["--enable-web-rtc", "--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"],
+          args: [
+            "--disable-web-security",
+            "--enable-web-rtc",
+            "--headless=chrome", // Comment to see the browser during testing
+            "--use-fake-device-for-media-stream",
+            // "--use-fake-ui-for-media-stream",
+            `--use-file-for-fake-video-capture=${path.join(__dirname, "./e2e/assets/sample.y4m")}`,
+          ],
         },
         contextOptions: {
           /* Camera permission */
@@ -47,25 +49,39 @@ export default defineConfig({
         },
       },
     },
-    {
-      name: "firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        launchOptions: {
-          args: ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"],
-          firefoxUserPrefs: {
-            "permissions.default.camera": 1, // Allow camera access automatically
-            "media.navigator.streams.fake": true, // Use fake streams if needed
-          },
-        },
-      },
-    },
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-      },
-    },
+    // {
+    //   name: "firefox",
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //     launchOptions: {
+    //       "devtools": true,
+    //       "headless": true,
+    //       args: [
+    //         "--use-fake-device-for-media-stream",
+    //         "--use-fake-ui-for-media-stream",
+    //         "--headless=firefox",
+    //         "--disable-web-security",
+    //         "--enable-web-rtc"],
+    //       firefoxUserPrefs: {
+    //         "permissions.default.camera": 1, // Allow camera access automatically
+    //         "media.navigator.streams.fake": true, // Use fake streams if needed
+    //         "devtools.debugger.remote-enabled": true,
+    //         "devtools.debugger.prompt-connection": false,
+    //         "devtools.chrome.enabled": true,
+    //         "datareporting.policy.firstRunURL": ""
+    //       },
+    //     },
+    //   },
+    // },
+    // {
+    //   name: "webkit",
+    //   use: {
+    //     ...devices["Desktop Safari"],
+    //     launchOptions: {
+    //       args: ["--disable-web-security", "--enable-web-rtc"],
+    //     },
+    //   },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */
